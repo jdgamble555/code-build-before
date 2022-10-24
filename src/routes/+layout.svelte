@@ -2,7 +2,6 @@
 	import SubHeader from './../components/nav/sub-header.svelte';
 	import { darkMode } from '$lib/stores';
 	import Header from '@components/nav/header.svelte';
-	//import Content from '@components/nav/content.svelte';
 	import Leftnav from '@components/nav/leftnav.svelte';
 	import Rightnav from '@components/nav/rightnav.svelte';
 	import Footer from '@components/nav/footer.svelte';
@@ -18,7 +17,7 @@
 			<Rightnav />
 		</aside>
 		<article class="content">
-			<slot />
+			<slot></slot>
 		</article>
 		<nav class="leftnav">
 			<Leftnav />
