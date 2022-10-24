@@ -1,4 +1,5 @@
 <script lang="ts">
+	import SubHeader from './../components/nav/sub-header.svelte';
 	import { darkMode } from '$lib/stores';
 	import Header from '@components/nav/header.svelte';
 	//import Content from '@components/nav/content.svelte';
@@ -7,27 +8,30 @@
 	import Footer from '@components/nav/footer.svelte';
 </script>
 
-<div class="wrapper {$darkMode ? 'dark' : 'light'}-theme">
-	<header class="header">
-		<Header />
-	</header>
-	<aside class="rightnav">
-		<Rightnav />
-	</aside>
-	<article class="content">
-		<slot />
-	</article>
-	<nav class="leftnav">
-		<Leftnav />
-	</nav>
-	<footer class="footer">
-		<Footer />
-	</footer>
-</div>
+<main class="{$darkMode ? 'dark' : 'light'}-theme">
+	<Header />
+	<div class="wrapper">
+		<header class="sub-header">
+			<SubHeader />
+		</header>
+		<aside class="rightnav">
+			<Rightnav />
+		</aside>
+		<article class="content">
+			<slot />
+		</article>
+		<nav class="leftnav">
+			<Leftnav />
+		</nav>
+		<footer class="footer">
+			<Footer />
+		</footer>
+	</div>
+</main>
 
 <style>
-	.header {
-		grid-area: header;
+	.sub-header {
+		grid-area: sub-header;
 	}
 	.content {
 		grid-area: content;
@@ -45,10 +49,17 @@
 		text-align: center;
 	}
 	.wrapper {
+		margin-top: 20px;
+		max-width: 995px;
+		width: 100%;
+		background-color: transparent !important;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
 		display: grid;
 		gap: 20px;
 		grid-template-areas:
-			'header'
+			'sub-header'
 			'rightnav'
 			'content'
 			'leftnav'
@@ -59,7 +70,7 @@
 			grid-template-columns: 1fr 3fr;
 			grid-template-rows: 0fr 0fr 1fr;
 			grid-template-areas:
-				'header header'
+				'sub-header sub-header'
 				'rightnav content'
 				'leftnav content'
 				'footer footer';
@@ -70,10 +81,9 @@
 			grid-template-columns: 1fr 3fr 1fr;
 			grid-template-rows: 1fr;
 			grid-template-areas:
-				'header header header'
+				'sub-header sub-header sub-header'
 				'leftnav content rightnav'
 				'footer footer footer';
 		}
 	}
 </style>
-
