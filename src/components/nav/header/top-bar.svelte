@@ -5,8 +5,9 @@
 	import { auth } from '$lib/database';
 	import DarkMode from '@components/nav/header/dark-mode.svelte';
 	import { goto } from '$app/navigation';
+	import LoginMenu from './login-menu.svelte';
 
-	const { user, logout } = auth;
+	const { user, logout, loginWithGoogle } = auth;
 </script>
 
 <div class="top-app-bar">
@@ -27,11 +28,9 @@
 				<Section align="end" toolbar>
 					<DarkMode />
 					{#if $user}
-						<Button aria-label="Logout" on:click={logout} title="logout">
-							<span class="no-bold">Logout</span>
-						</Button>
+						<LoginMenu />
 					{:else}
-						<Button aria-label="Login" title="Login">
+						<Button aria-label="Login" title="Login" on:click={() => goto('login')}>
 							<span class="no-bold">Login</span>
 						</Button>
 					{/if}
@@ -44,9 +43,6 @@
 <style>
 	.row {
 		margin: 0px 10px 0 10px;
-	}
-	.no-bold {
-		text-transform: none;
 	}
 	.icon-title {
 		font-weight: bolder;

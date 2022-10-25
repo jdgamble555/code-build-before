@@ -1,8 +1,9 @@
 import { authUser } from "j-supabase";
-import { readable } from "svelte/store";
+import { get, readable } from "svelte/store";
 import { supabase } from "./supabase";
 import type { User as User_Supabase } from '@supabase/supabase-js';
 import type { User } from "$lib/user.model";
+import { page } from '$app/stores';
 
 const supabase_to_user = (i: User_Supabase): User => ({
     displayName: i.user_metadata['full_name'],
@@ -21,15 +22,32 @@ export class supabase_auth_adapter {
         });
     });
 
-    async loginWithGoogle() {
-        const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+    async loginWithGoogle(): Promise<void> {
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: get(page).url.origin
+            }
+        });
         if (error) {
             console.error(error);
         }
     }
 
-    async logout() {
+    async logout(): Promise<void> {
         const { error } = await supabase.auth.signOut();
+        if (error) {
+            console.error(error);
+        }
+    }
+
+    async loginWithMagic(email: string): Promise<void> {
+        const { error } = await supabase.auth.signInWithOtp({
+            email,
+            options: {
+                emailRedirectTo: get(page).url.origin
+            }
+        });
         if (error) {
             console.error(error);
         }

@@ -1,6 +1,8 @@
-export async function GET() {
-    return new Response(
-        `
+import type { RequestHandler } from './$types';
+
+export const GET: RequestHandler = () => {
+  return new Response(
+    `
       <?xml version="1.0" encoding="UTF-8" ?>
       <urlset
         xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"
@@ -12,10 +14,10 @@ export async function GET() {
       >
         <!-- <url> elements go here -->
       </urlset>`.trim(),
-        {
-            headers: {
-                'Content-Type': 'application/xml'
-            }
-        }
-    );
+    {
+      headers: {
+        'Content-Type': 'application/xml'
+      }
+    }
+  );
 }
