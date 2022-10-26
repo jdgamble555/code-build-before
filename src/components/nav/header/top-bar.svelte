@@ -7,7 +7,7 @@
 	import { goto } from '$app/navigation';
 	import LoginMenu from './login-menu.svelte';
 
-	const { user, logout, loginWithGoogle } = auth;
+	const { user } = auth;
 </script>
 
 <div class="top-app-bar">

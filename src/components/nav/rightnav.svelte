@@ -1,1 +1,1 @@
-right nav
+right nav (frontpage only)
