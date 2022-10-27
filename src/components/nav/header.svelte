@@ -1,9 +1,6 @@
-<script>
+<script lang="ts">
 	import TopBar from './header/top-bar.svelte';
+	import '@styles/global.scss';
 </script>
 
 <TopBar />
-
-<style global>
-	@import '@styles/global.scss';
-</style>
