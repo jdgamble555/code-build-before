@@ -1,6 +1,6 @@
 <script lang="ts">
-	import SubHeader from './../components/nav/sub-header.svelte';
-	import { darkMode } from '$lib/stores';
+	import SubHeader from '@components/nav/sub-header.svelte';
+	import { darkMode, showLeft, showRight } from '$lib/stores';
 	import Header from '@components/nav/header.svelte';
 	import Leftnav from '@components/nav/leftnav.svelte';
 	import Rightnav from '@components/nav/rightnav.svelte';
@@ -15,13 +15,13 @@
 		<header class="sub-header">
 			<SubHeader />
 		</header>
-		<aside class="rightnav">
+		<aside class="rightnav {$showRight ? 'show' : 'hide'}">
 			<Rightnav />
 		</aside>
 		<article class="content">
-			<slot></slot>
+			<slot />
 		</article>
-		<nav class="leftnav">
+		<nav class="leftnav {$showLeft ? 'show' : 'hide'}">
 			<Leftnav />
 		</nav>
 		<footer class="footer">
@@ -30,7 +30,15 @@
 	</div>
 </main>
 
-<style>
+<style global>
+	.hide {
+		visibility: hidden;
+		display: none;
+	}
+	.show {
+		visibility: visible;
+		display: block;
+	}
 	.sub-header {
 		grid-area: sub-header;
 	}

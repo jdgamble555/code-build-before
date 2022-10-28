@@ -1,4 +1,4 @@
-import { authUser } from "j-supabase";
+import { authSession } from "j-supabase";
 import { get, readable } from "svelte/store";
 import { supabase } from "./supabase";
 import type { User as User_Supabase } from '@supabase/supabase-js';
@@ -17,8 +17,8 @@ export class supabase_auth_adapter {
     // auth class
 
     user = readable<User | null>(null, (set) => {
-        return authUser(supabase).subscribe(user => {
-            set(user ? supabase_to_user(user) : null);
+        return authSession(supabase).subscribe(session => {
+            set(session?.user ? supabase_to_user(session.user) : null);
         });
     });
 

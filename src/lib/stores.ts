@@ -4,6 +4,10 @@ import type Snackbar from '@smui/snackbar';
 export const darkMode = writable<boolean>(false);
 export const loading = writable<boolean>(false);
 
+// nav
+export const showLeft = writable<boolean>(true);
+export const showRight = writable<boolean>(true);
+
 // snackbar
 export const snackbar = writable<Snackbar | null>(null);
 export const snackmsg = writable<string>('');

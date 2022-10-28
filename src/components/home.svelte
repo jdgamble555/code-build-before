@@ -13,4 +13,3 @@
 		Your most relevant coding resources!
 	</Content>
 </Card>
-
