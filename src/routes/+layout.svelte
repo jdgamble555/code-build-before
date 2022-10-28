@@ -5,8 +5,10 @@
 	import Leftnav from '@components/nav/leftnav.svelte';
 	import Rightnav from '@components/nav/rightnav.svelte';
 	import Footer from '@components/nav/footer.svelte';
+	import Message from '@components/message.svelte';
 </script>
 
+<Message />
 <main class="{$darkMode ? 'dark' : 'light'}-theme">
 	<Header />
 	<div class="wrapper">

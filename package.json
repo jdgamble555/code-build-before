@@ -11,7 +11,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
-		"prepare": "npm run smui-theme-light && npm run smui-theme-dark",
+		"prepare": "npm run vite-workaround && npm run smui-theme-light && npm run smui-theme-dark",
+		"vite-workaround": "node _helper/vite-workaround.js",
 		"smui-theme-light": "smui-theme compile static/smui.css -i src/theme",
 		"smui-theme-dark": "smui-theme compile static/smui-dark.css -i src/theme/dark"
 	},

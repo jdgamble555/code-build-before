@@ -7,6 +7,7 @@
 	import { Separator } from '@smui/list';
 	import { createForm } from 'svelte-forms-lib';
 	import { validEmail } from '$lib/email-validation';
+	import { showMsg } from '$lib/stores';
 
 	const { loginWithGoogle, loginWithMagic } = auth;
 
@@ -26,9 +27,9 @@
 			return Object.keys(errs).length ? errs : null;
 		},
 		onSubmit: (values) => {
-			loginWithMagic(values.email).then(() => {
-				
-			});
+			//loginWithMagic(values.email).then(() => {
+				showMsg('farter! farting....');
+			//});
 		}
 	});
 
