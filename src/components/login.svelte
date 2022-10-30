@@ -11,7 +11,7 @@
 	import { auth_messages } from '$lib/messages';
 	import { goto } from '$app/navigation';
 
-	const { loginWithGoogle, loginWithMagic } = auth;
+	const { loginWithGoogle, loginWithMagic, loginWithApple } = auth;
 
 	const { form, errors, touched, isValid, handleChange, handleSubmit } = createForm({
 		initialValues: {
@@ -48,9 +48,20 @@
 				class="g-button button-size"
 				aria-label="Login"
 				title="Login"
-				on:click={() => loginWithGoogle().then(() => showMsg(auth_messages.LOGIN_SUCCESS))}
+				on:click={() => loginWithGoogle().then((e) => !e && showMsg(auth_messages.LOGIN_SUCCESS))}
 			>
+				<BIcon class="material-icons">login</BIcon>
 				<span class="no-bold">Login with Google</span>
+			</Button>
+			<div class="margin-spacer" />
+			<Button
+				class="a-button button-size"
+				aria-label="Login"
+				title="Login"
+				on:click={() => loginWithApple().then((e) => !e && showMsg(auth_messages.LOGIN_SUCCESS))}
+			>
+				<BIcon class="material-icons">login</BIcon>
+				<span class="no-bold">Login with Apple</span>
 			</Button>
 			<div class="margin-spacer" />
 			<Button
@@ -114,6 +125,11 @@
 	}
 	.g-button {
 		background-color: rgb(219, 14, 14) !important;
+		color: white !important;
+		font-weight: bold;
+	}
+	.a-button {
+		background-color: #a2babd !important;
 		color: white !important;
 		font-weight: bold;
 	}

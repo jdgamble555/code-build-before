@@ -50,6 +50,6 @@
 	"type": "module",
 	"dependencies": {
 		"@supabase/supabase-js": "^2.0.4",
-		"j-supabase": "^1.0.6"
+		"j-supabase": "^1.0.7"
 	}
 }
