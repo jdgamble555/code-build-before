@@ -46,28 +46,37 @@
 	}
 </script>
 
-<TopAppBar color="secondary" variant="fixed">
+<TopAppBar class="top-search-color" variant="fixed">
 	<div class="row">
 		<Row>
-			<Section>
-				<div class="auto-complete">
-					<Autocomplete
-						class="auto-complete"
-						search={searchItems}
-						bind:value
-						showMenuWithNoInput={false}
-						label="Fruit"
-					>
-						<Text slot="loading">
-							<CircularProgress style="height: 24px; width: 24px;" indeterminate />
-						</Text>
-					</Autocomplete>
-				</div>
-			</Section>
-			<Section class="end-button" align="end" toolbar>
+			<Section class="search-button" align="start" toolbar>
 				<IconButton
 					on:click={() => showSearch.update((m) => !m)}
-					class="material-icons"
+					class="material-icons button-color"
+					aria-label="Search"
+					title="Search"
+				>
+					search
+				</IconButton>
+			</Section>
+			<Section>
+				<Autocomplete
+					class="auto-complete"
+					search={searchItems}
+					bind:value
+					showMenuWithNoInput={false}
+					textfield$input$placeholder="Search"
+					textfield$input$class="text-height"
+				>
+					<Text slot="loading">
+						<CircularProgress style="height: 24px; width: 24px;" indeterminate />
+					</Text>
+				</Autocomplete>
+			</Section>
+			<Section class="search-button" align="end" toolbar>
+				<IconButton
+					on:click={() => showSearch.update((m) => !m)}
+					class="material-icons button-color"
 					aria-label="Search"
 					title="Search"
 				>
@@ -79,16 +88,26 @@
 </TopAppBar>
 
 <style global>
-    .end-button {
-        max-width: 50px;
-    }
+	.text-height {
+		margin-top: 10px !important;
+	}
+	.top-search-color {
+		background-color: #fafafa !important;
+	}
+	.button-color {
+		color: #000 !important;
+	}
+	.search-button {
+		max-width: 50px;
+	}
 	.auto-complete {
 		width: 100% !important;
+		margin-bottom: 30px !important;
 	}
 	.row {
 		margin: 0px 10px 0 10px;
 	}
-    .mdc-text-field {
-        width: 100% !important;
-    }
+	.mdc-text-field {
+		width: 100% !important;
+	}
 </style>

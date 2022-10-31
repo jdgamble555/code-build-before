@@ -5,13 +5,14 @@
 	import { auth } from '$lib/database';
 	import DarkModeButton from '@components/nav/header/dark-mode-button.svelte';
 	import { goto } from '$app/navigation';
-	import LoginMenu from './login-menu.svelte';
 	import ToggleSearchButton from './toggle-search-button.svelte';
+	import { settings } from '$lib/settings';
+	import CircularProgress from '@smui/circular-progress';
 
 	const { user } = auth;
 </script>
 
-<TopAppBar color="primary" variant="fixed">
+<TopAppBar variant="fixed" class={$darkMode ? 'top-color-dark' : 'top-color'}>
 	<div class="row">
 		<Row>
 			<Section>
@@ -20,16 +21,22 @@
 						class="material-icons title-button icon-title 
 							{$darkMode ? 'dark-icon-title' : 'light-icon-title'}"
 					>
-						code
+						{settings.siteicon}
 					</div>
-					<div class="title title-button no-bold">Code.Build</div>
+					<div class="title title-button no-bold">{settings.sitename}</div>
 				</Button>
 			</Section>
 			<Section align="end" toolbar>
 				<DarkModeButton />
 				<ToggleSearchButton />
 				{#if $user}
-					<LoginMenu />
+					{#await import('./login-menu.svelte')}
+						<div class="centered">
+							<CircularProgress style="height: 24px; width: 24px;" indeterminate />
+						</div>
+					{:then LoginMenu}
+						<LoginMenu.default />
+					{/await}
 				{:else}
 					<Button aria-label="Login" title="Login" on:click={() => goto('login')}>
 						<span class="no-bold">Login</span>
@@ -40,7 +47,13 @@
 	</div>
 </TopAppBar>
 
-<style>
+<style global>
+	.top-color {
+		background-color: #1e88e5 !important;
+	}
+	.top-color-dark {
+		background-color: #000 !important;
+	}
 	.row {
 		margin: 0px 10px 0 10px;
 	}
