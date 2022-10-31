@@ -3,42 +3,42 @@
 	import TopAppBar, { Row, Section } from '@smui/top-app-bar';
 	import Button from '@smui/button';
 	import { auth } from '$lib/database';
-	import DarkMode from '@components/nav/header/dark-mode.svelte';
+	import DarkModeButton from '@components/nav/header/dark-mode-button.svelte';
 	import { goto } from '$app/navigation';
 	import LoginMenu from './login-menu.svelte';
+	import ToggleSearchButton from './toggle-search-button.svelte';
 
 	const { user } = auth;
 </script>
 
-<div class="top-app-bar">
-	<TopAppBar color="primary" variant="fixed">
-		<div class="row">
-			<Row>
-				<Section>
-					<Button on:click={() => goto('/')} aria-label="Home" color="secondary">
-						<div
-							class="material-icons title-button icon-title 
+<TopAppBar color="primary" variant="fixed">
+	<div class="row">
+		<Row>
+			<Section>
+				<Button on:click={() => goto('/')} aria-label="Home" color="secondary">
+					<div
+						class="material-icons title-button icon-title 
 							{$darkMode ? 'dark-icon-title' : 'light-icon-title'}"
-						>
-							code
-						</div>
-						<div class="title title-button no-bold">Code.Build</div>
+					>
+						code
+					</div>
+					<div class="title title-button no-bold">Code.Build</div>
+				</Button>
+			</Section>
+			<Section align="end" toolbar>
+				<DarkModeButton />
+				<ToggleSearchButton />
+				{#if $user}
+					<LoginMenu />
+				{:else}
+					<Button aria-label="Login" title="Login" on:click={() => goto('login')}>
+						<span class="no-bold">Login</span>
 					</Button>
-				</Section>
-				<Section align="end" toolbar>
-					<DarkMode />
-					{#if $user}
-						<LoginMenu />
-					{:else}
-						<Button aria-label="Login" title="Login" on:click={() => goto('login')}>
-							<span class="no-bold">Login</span>
-						</Button>
-					{/if}
-				</Section>
-			</Row>
-		</div>
-	</TopAppBar>
-</div>
+				{/if}
+			</Section>
+		</Row>
+	</div>
+</TopAppBar>
 
 <style>
 	.row {
@@ -61,8 +61,5 @@
 	.title-button {
 		font-weight: normal;
 		font-size: 1.5em;
-	}
-	.top-app-bar {
-		height: 60px;
 	}
 </style>

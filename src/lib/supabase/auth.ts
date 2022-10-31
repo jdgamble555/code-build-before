@@ -1,26 +1,47 @@
-import { authSession } from "j-supabase";
+import { authUser, realtime, } from "j-supabase";
 import { get, readable } from "svelte/store";
 import { supabase } from "./supabase";
-import type { AuthError, Session, User as User_Supabase } from '@supabase/supabase-js';
-import type { User } from "$lib/user.model";
+import type { AuthError, User } from '@supabase/supabase-js';
+import type { Optional, UserRec } from "$lib/user.model";
 import { page } from '$app/stores';
+import { type supabase_user, supabase_to_user } from './auth.types';
 
-const supabase_to_user = (i: User_Supabase): User => ({
-    displayName: i.user_metadata['full_name'],
-    email: i.email as string,
-    uid: i.id,
-    photoURL: i.user_metadata['avatar_url']
-});
 
 export const supabase_auth_adapter = {
 
     // auth class
 
-    user: readable<User | null>(null, (set) => {
-        return authSession(supabase).subscribe(session => {
-            checkUser(session);
-            set(session?.user ? supabase_to_user(session.user) : null);
+    user: readable<UserRec | null>(null, (set) => {
+        let profileSub: Optional<() => void>;
+        const authSub = authUser(supabase).subscribe(user => {
+            if (user) {
+                checkUser(user);
+                if (user.id) {
+                    profileSub = realtime<supabase_user>(supabase)
+                        .from('profiles')
+                        .eq('id', user.id)
+                        .single()
+                        .subscribe(snap => {
+                            if (snap.data) {
+                                const _user = supabase_to_user({
+                                    ...snap.data,
+                                    providers: user.app_metadata['providers']
+                                });
+                                set(_user);
+                            } else {
+                                set(null);
+                            }
+                        });
+                }
+            } else {
+                if (profileSub) profileSub();
+                set(null);
+            }
         });
+        return () => {
+            if (authSub) authSub();
+            if (profileSub) profileSub();
+        }
     }),
 
     async logout(): Promise<void> {
@@ -53,29 +74,27 @@ export const supabase_auth_adapter = {
     }
 }
 
-const checkUser = (session: Session | null): void => {
+const checkUser = (user: User): void => {
 
     // check for public profile record or create one
-    if (session) {
-        supabase.from('profiles').select('*').eq('id', session?.user.id)
-            .then(({ data, error }) => {
-                if (error) {
-                    console.error(error);
-                } else {
-                    if (data.length === 0) {
-                        supabase.from('profiles').insert({
-                            photo_url: session?.user.user_metadata.avatar_url || null,
-                            display_name: session?.user.user_metadata.avatar_url || null,
-                            role: 'USER'
-                        }).then(({ error }) => {
-                            if (error) {
-                                console.error(error);
-                            }
-                        });
-                    }
+    supabase.from('profiles').select('*').eq('id', user.id)
+        .then(({ data, error }) => {
+            if (error) {
+                console.error(error);
+            } else {
+                if (data.length === 0) {
+                    supabase.from('profiles').insert({
+                        photo_url: user.user_metadata.avatar_url || null,
+                        display_name: user.user_metadata.avatar_url || null,
+                        role: 'USER'
+                    }).then(({ error }) => {
+                        if (error) {
+                            console.error(error);
+                        }
+                    });
                 }
-            });
-    }
+            }
+        });
 }
 
 const oAuth = async (provider: 'google' | 'apple'): Promise<AuthError | null> => {
@@ -94,3 +113,4 @@ const oAuth = async (provider: 'google' | 'apple'): Promise<AuthError | null> =>
     }
     return null;
 }
+

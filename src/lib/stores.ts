@@ -7,6 +7,7 @@ export const loading = writable<boolean>(false);
 // nav
 export const showLeft = writable<boolean>(true);
 export const showRight = writable<boolean>(true);
+export const showSearch = writable<boolean>(false);
 
 // snackbar
 export const snackbar = writable<Snackbar | null>(null);

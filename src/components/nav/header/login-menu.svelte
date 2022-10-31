@@ -14,7 +14,7 @@
 <div>
 	<Button class="no-bold" on:click={() => menu.setOpen(true)}>
 		{#if $user && $user.photoURL}
-			<img class="avatar" src={$user.photoURL} alt={$user.displayName} />
+			<img class="avatar" src={$user.photoURL} alt={$user.displayName} width="35" height="35" />
 		{:else}
 			<span class="material-icons">account_circle</span>
 		{/if}
@@ -65,8 +65,8 @@
 
 <style>
 	.avatar {
-		width: 2.5em !important;
-		height: 2.5em !important;
+		width: 35px !important;
+		height: 35px !important;
 		border-radius: 50% !important;
 	}
 	.back {
