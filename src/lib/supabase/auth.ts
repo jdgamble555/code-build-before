@@ -17,6 +17,7 @@ export const supabase_auth_adapter = {
             if (user) {
                 checkUser(user);
                 if (user.id) {
+                    if (profileSub) profileSub();
                     profileSub = realtime<supabase_user>(supabase)
                         .from('profiles')
                         .eq('id', user.id)

@@ -6,43 +6,24 @@
 	import Autocomplete from '@smui-extra/autocomplete';
 	import { Text } from '@smui/list';
 	import CircularProgress from '@smui/circular-progress';
+	import { read_post } from '$lib/database';
+	import type { Post } from '$lib/post.model';
+	import { goto } from '$app/navigation';
 
-	let fruits = [
-		'Apple',
-		'Orange',
-		'Banana',
-		'Mango',
-		'Lemon',
-		'Cherry',
-		'Blueberry',
-		'Grape',
-		'Strawberry'
-	];
-	let value: string | undefined = undefined;
-
-	let counter = 0;
+	let value: { id?: string; label?: string; slug?: string } | undefined = undefined;
+	let options: Post[] = [];
 
 	async function searchItems(input: string) {
-		if (input === '') {
-			return [];
-		}
-
-		// Pretend to have some sort of canceling mechanism.
-		const myCounter = ++counter;
-
-		// Pretend to be loading something...
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-
-		// This means the function was called again, so we should cancel.
-		if (myCounter !== counter) {
-			// `return false` (or, more accurately, resolving the Promise object to
-			// `false`) is how you tell Autocomplete to cancel this search. It won't
-			// replace the results of any subsequent search that has already finished.
-			return false;
-		}
+		const { searchPost } = read_post;
 
 		// Return a list of matches.
-		return fruits.filter((item) => item.toLowerCase().includes(input.toLowerCase()));
+		let r = await searchPost(input);
+		if (!r) {
+			return false;
+		} else {
+			options = r;
+			return r.map((p) => ({ id: p.id, label: p.title, slug: p.slug }));
+		}
 	}
 </script>
 
@@ -63,10 +44,17 @@
 				<Autocomplete
 					class="auto-complete"
 					search={searchItems}
+					getOptionLabel={(option) => (option ? option.label : '')}
 					bind:value
 					showMenuWithNoInput={false}
 					textfield$input$placeholder="Search"
 					textfield$input$class="text-height"
+					on:SMUI:action={() => {
+						if (value) {
+							goto(`/p/${value.id}/${value.slug}`);
+							value = {};
+						}
+					}}
 				>
 					<Text slot="loading">
 						<CircularProgress style="height: 24px; width: 24px;" indeterminate />
