@@ -1,47 +1,57 @@
 import { authUser, realtime, } from "j-supabase";
-import { get, readable } from "svelte/store";
+import { derived, get, readable } from "svelte/store";
 import { supabase } from "./supabase";
 import type { AuthError, User } from '@supabase/supabase-js';
-import type { Optional, UserRec } from "$lib/user.model";
+import type { UserRec } from "$lib/user.model";
 import { page } from '$app/stores';
-import { type supabase_user, supabase_to_user } from './auth.types';
+import { type supabase_user, combine_auth_user } from './auth.types';
 
+const auth = readable<User | null>(null, set =>
+    authUser(supabase).subscribe(user => {
+        set(user ?? null);
+    })
+);
 
 export const supabase_auth_adapter = {
 
     // auth class
 
-    user: readable<UserRec | null>(null, (set) => {
-        let profileSub: Optional<() => void>;
-        const authSub = authUser(supabase).subscribe(user => {
-            if (user) {
-                checkUser(user);
-                if (user.id) {
-                    if (profileSub) profileSub();
-                    profileSub = realtime<supabase_user>(supabase)
-                        .from('profiles')
-                        .eq('id', user.id)
-                        .single()
-                        .subscribe(snap => {
-                            if (snap.data) {
-                                const _user = supabase_to_user({
-                                    ...snap.data,
-                                    providers: user.app_metadata['providers']
-                                });
-                                set(_user);
+    user: derived<typeof auth, UserRec | null>(auth, (user, set) => {
+        // check for logged in
+        if (user && user.id) {
+
+            // subscribe to profiles table
+            return realtime<supabase_user>(supabase)
+                .from('profiles')
+                .eq('id', user.id)
+                .single()
+                .subscribe(snap => {
+                    if (snap.data) {
+
+                        // if exists, get data
+                        set(combine_auth_user(snap.data, user));
+                    } else {
+
+                        // if DNE, set create data
+                        supabase.from('profiles').insert({
+                            photo_url: user.user_metadata.avatar_url || null,
+                            display_name: user.user_metadata.avatar_url || null,
+                            role: 'USER'
+                        }).select('*').single().then(({ error, data }) => {
+                            if (error) {
+                                console.error(error);
                             } else {
-                                set(null);
+
+                                // get data created
+                                set(combine_auth_user(data, user));
                             }
                         });
-                }
-            } else {
-                if (profileSub) profileSub();
-                set(null);
-            }
-        });
-        return () => {
-            if (authSub) authSub();
-            if (profileSub) profileSub();
+                    }
+                });
+        } else {
+
+            // not logged in
+            set(null);
         }
     }),
 
@@ -75,28 +85,6 @@ export const supabase_auth_adapter = {
     }
 }
 
-const checkUser = (user: User): void => {
-
-    // check for public profile record or create one
-    supabase.from('profiles').select('*').eq('id', user.id)
-        .then(({ data, error }) => {
-            if (error) {
-                console.error(error);
-            } else {
-                if (data.length === 0) {
-                    supabase.from('profiles').insert({
-                        photo_url: user.user_metadata.avatar_url || null,
-                        display_name: user.user_metadata.avatar_url || null,
-                        role: 'USER'
-                    }).then(({ error }) => {
-                        if (error) {
-                            console.error(error);
-                        }
-                    });
-                }
-            }
-        });
-}
 
 const oAuth = async (provider: 'google' | 'apple'): Promise<AuthError | null> => {
     const { error } = await supabase.auth.signInWithOAuth({

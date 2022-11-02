@@ -1,4 +1,5 @@
 import type { Optional, Provider, Role, UserRec } from "$lib/user.model";
+import type { User } from "@supabase/supabase-js";
 import { encode } from "j-supabase";
 
 export interface supabase_user {
@@ -26,3 +27,10 @@ export const supabase_to_user = (u: supabase_user): UserRec => ({
     role: u.role,
     providers: u.providers
 });
+
+export const combine_auth_user = (data: supabase_user, user: User):
+    UserRec => supabase_to_user({
+        ...data,
+        providers: user.app_metadata['providers']
+    });
+
