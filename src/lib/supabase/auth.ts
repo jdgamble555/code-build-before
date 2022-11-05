@@ -33,17 +33,14 @@ export const supabase_auth_adapter = {
                     } else {
 
                         // if DNE, set create data
+                        // will refresh subscription...
                         supabase.from('profiles').insert({
                             photo_url: user.user_metadata.avatar_url || null,
-                            display_name: user.user_metadata.avatar_url || null,
+                            display_name: user.user_metadata.full_name || null,
                             role: 'USER'
-                        }).select('*').single().then(({ error, data }) => {
+                        }).then(({ error }) => {
                             if (error) {
                                 console.error(error);
-                            } else {
-
-                                // get data created
-                                set(combine_auth_user(data, user));
                             }
                         });
                     }

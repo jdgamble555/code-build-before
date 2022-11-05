@@ -6,9 +6,12 @@
 	import Rightnav from '@components/nav/rightnav.svelte';
 	import Footer from '@components/nav/footer.svelte';
 	import Message from '@components/message.svelte';
+	import { browser } from '$app/environment';
 </script>
 
-<Message />
+{#if browser}
+	<Message />
+{/if}
 <main class="{$darkMode ? 'dark' : 'light'}-theme">
 	<Header />
 	<div class="wrapper">

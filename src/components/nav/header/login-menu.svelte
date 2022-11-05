@@ -3,12 +3,12 @@
 	import List, { Item, Separator, Text } from '@smui/list';
 	import Button from '@smui/button';
 	import { auth } from '$lib/database';
+	import { goto } from '$app/navigation';
 
 	let menu: Menu;
 
 	const { user, logout } = auth;
 
-	// todo: put no-bold in material global styles
 </script>
 
 <div>
@@ -21,7 +21,7 @@
 	</Button>
 	<Menu bind:this={menu} anchorCorner="BOTTOM_LEFT">
 		<List>
-			<Item on:SMUI:action={() => {}}>
+			<Item on:SMUI:action={() => goto('/settings')}>
 				<SelectionGroupIcon>
 					<i class="material-icons back">settings</i>
 				</SelectionGroupIcon>

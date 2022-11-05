@@ -7,23 +7,16 @@
 	import { Text } from '@smui/list';
 	import CircularProgress from '@smui/circular-progress';
 	import { read_post } from '$lib/database';
-	import type { Post } from '$lib/post.model';
 	import { goto } from '$app/navigation';
 
-	let value: { id?: string; label?: string; slug?: string } | undefined = undefined;
-	let options: Post[] = [];
+	let value: { id?: string; slug?: string } | undefined = undefined;
 
 	async function searchItems(input: string) {
 		const { searchPost } = read_post;
 
 		// Return a list of matches.
-		let r = await searchPost(input);
-		if (!r) {
-			return false;
-		} else {
-			options = r;
-			return r.map((p) => ({ id: p.id, label: p.title, slug: p.slug }));
-		}
+		const r = await searchPost(input);
+		return r ?? false;
 	}
 </script>
 
@@ -44,7 +37,7 @@
 				<Autocomplete
 					class="auto-complete"
 					search={searchItems}
-					getOptionLabel={(option) => (option ? option.label : '')}
+					getOptionLabel={(option) => (option ? option.title : '')}
 					bind:value
 					showMenuWithNoInput={false}
 					textfield$input$placeholder="Search"
@@ -52,7 +45,6 @@
 					on:SMUI:action={() => {
 						if (value) {
 							goto(`/p/${value.id}/${value.slug}`);
-							value = {};
 						}
 					}}
 				>
