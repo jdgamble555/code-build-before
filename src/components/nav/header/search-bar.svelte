@@ -5,18 +5,30 @@
 	import { showSearch } from '$lib/stores';
 	import Autocomplete from '@smui-extra/autocomplete';
 	import { Text } from '@smui/list';
-	import CircularProgress from '@smui/circular-progress';
 	import { read_post } from '$lib/database';
 	import { goto } from '$app/navigation';
+	import Loader from '../loader.svelte';
+	import type { Post } from '$lib/post.model';
 
 	let value: { id?: string; slug?: string } | undefined = undefined;
 
-	async function searchItems(input: string) {
-		const { searchPost } = read_post;
+	let timer: NodeJS.Timeout;
 
-		// Return a list of matches.
-		const r = await searchPost(input);
-		return r ?? false;
+	async function searchItems(input: string): Promise<false | Post[]> {
+		const { searchPost } = read_post;
+		if (!input) {
+			return false;
+		}
+		// debounce
+		clearTimeout(timer);
+
+		return new Promise((res, _rej) => {
+			let r: Post[] | null;
+			timer = setTimeout(async () => {
+				r = await searchPost(input);
+				res(r || false);
+			}, 500);
+		});
 	}
 </script>
 
@@ -49,7 +61,7 @@
 					}}
 				>
 					<Text slot="loading">
-						<CircularProgress style="height: 24px; width: 24px;" indeterminate />
+						<Loader />
 					</Text>
 				</Autocomplete>
 			</Section>

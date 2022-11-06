@@ -8,7 +8,8 @@
 	import { browser } from '$app/environment';
 	import { auth } from '$lib/database';
 	import { goto } from '$app/navigation';
-	import CircularProgress from '@smui/circular-progress';
+	import Loader from '@components/nav/loader.svelte';
+
 
 	let panel1Open = false;
 	let panel2Open = false;
@@ -20,7 +21,7 @@
 {#if browser}
 	{#await getUser()}
 		<div class="centered">
-			<CircularProgress style="height: 24px; width: 24px;" indeterminate />
+			<Loader />
 		</div>
 	{:then _user}
 		{#if _user && _user.email}
@@ -37,10 +38,7 @@
 								</IconButton>
 							</Header>
 							<Content>
-								<EditProfile
-									displayName={_user.displayName || ''}
-									photoURL={_user.photoURL || ''}
-								/>
+								<EditProfile user={_user} />
 							</Content>
 						</Panel>
 						<Panel bind:open={panel2Open}>

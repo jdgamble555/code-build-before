@@ -25,15 +25,17 @@
 				} else if (!validEmail.test(values.email)) {
 					errs['email'] = 'Invalid Email.';
 				} else if (values.email === email) {
-                    errs['email'] = 'Must enter new email.';
-                }                
+					errs['email'] = 'Must enter new email.';
+				}
 			}
 			return Object.keys(errs).length ? errs : null;
 		},
 		onSubmit: (values) => {
-			updateEmail(values.email).then(() => {
-				showMsg(auth_settings_messages.EMAIL_CHANGE);
-				goto('/');
+			updateEmail(values.email).then(({ error }) => {
+				if (!error) {
+					showMsg(auth_settings_messages.EMAIL_CHANGE);
+					goto('/');
+				}
 			});
 		}
 	});
@@ -59,7 +61,7 @@
 			<br />
 			<span class="error"><small>{$errors.email}</small></span>
 		{/if}
-        <br />
+		<br />
 		<Button
 			variant="outlined"
 			color="primary"

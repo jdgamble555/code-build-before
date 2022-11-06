@@ -8,14 +8,13 @@
 	import { auth_settings_messages } from '$lib/messages';
 	import EditImage from './edit-image.svelte';
 
-	export let displayName: string;
-    export let photoURL: string;
+	export let user: any;
 
 	const { updateProfile } = auth_settings;
 
 	const { form, errors, touched, isValid, handleChange, handleSubmit } = createForm({
 		initialValues: {
-			displayName
+			displayName: user.displayName
 		},
 		validate: async (values) => {
 			const errs: { displayName?: string | undefined } = {};
@@ -24,22 +23,24 @@
 					errs['displayName'] = 'Name is required.';
 				} else if (values.displayName.length < 3) {
 					errs['displayName'] = 'Your name must be at least 3 characters.';
-				} else if (values.displayName === displayName) {
-                    errs['displayName'] = 'Must enter new name.';
-                }
+				} else if (values.displayName === user.displayName) {
+					errs['displayName'] = 'Must enter new name.';
+				}
 			}
 			return Object.keys(errs).length ? errs : null;
 		},
 		onSubmit: (values) => {
-			updateProfile({ displayName: values.displayName }).then(() => {
-				showMsg(auth_settings_messages.DISPLAY_NAME_CHANGE);
+			updateProfile({ displayName: values.displayName }).then(({ error }) => {
+				if (!error) {
+					showMsg(auth_settings_messages.DISPLAY_NAME_CHANGE);
+				}
 			});
 		}
 	});
 </script>
 
 <div class="accordian-container">
-    <EditImage {photoURL} {displayName} />
+	<EditImage {user} />
 	<form class:valid={$isValid} on:submit={handleSubmit}>
 		<Textfield
 			input$name="displayName"
@@ -59,7 +60,7 @@
 			<br />
 			<span class="error"><small>{$errors.displayName}</small></span>
 		{/if}
-        <br />
+		<br />
 		<Button
 			variant="outlined"
 			color="primary"
@@ -81,7 +82,7 @@
 	.item-space {
 		margin: 20px 0 20px 0;
 	}
-    .error {
-        color: red;
-    }
+	.error {
+		color: red;
+	}
 </style>

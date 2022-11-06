@@ -7,7 +7,7 @@
 	import { goto } from '$app/navigation';
 	import ToggleSearchButton from './toggle-search-button.svelte';
 	import { settings } from '$lib/settings';
-	import CircularProgress from '@smui/circular-progress';
+	import Loader from '@components/nav/loader.svelte';
 
 	const { user } = auth;
 </script>
@@ -32,7 +32,7 @@
 				{#if $user}
 					{#await import('./login-menu.svelte')}
 						<div class="centered">
-							<CircularProgress style="height: 24px; width: 24px;" indeterminate />
+							<Loader />
 						</div>
 					{:then LoginMenu}
 						<LoginMenu.default />

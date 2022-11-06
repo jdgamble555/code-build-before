@@ -16,7 +16,7 @@ export const supabase_image_upload = {
         return { error: error?.message };
     },
 
-    async uploadImage(folder: string, file: File | null, name = randomID()): Promise<{ data: string | null, error: string | null }> {
+    async uploadImage(folder: string, file: File | null, name = randomID()): Promise<{ url: string | null, error: string | null }> {
 
         folder = folder.replace('_', '-');
         const ext = 'png';
@@ -47,6 +47,6 @@ export const supabase_image_upload = {
             ({ data: url } = await supabase_image_upload.getURL(data.path));
             url = url + '?lastmod=' + Math.random();
         }
-        return { data: url, error };
+        return { url, error };
     }
 };

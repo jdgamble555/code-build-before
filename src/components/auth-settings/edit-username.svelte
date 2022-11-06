@@ -23,16 +23,18 @@
 				} else if (values.username.length < 3) {
 					errs['username'] = 'Your username must be at least 3 characters.';
 				} else if (values.username === username) {
-                    errs['username'] = 'Must enter new username.';
-                } else if (!await validUsername(values.username)) {
-                    errs['username'] = 'Username is taken.';
-                }
+					errs['username'] = 'Must enter new username.';
+				} else if (!(await validUsername(values.username))) {
+					errs['username'] = 'Username is taken.';
+				}
 			}
 			return Object.keys(errs).length ? errs : null;
 		},
 		onSubmit: (values) => {
-			updateUsername(values.username).then(() => {
-				showMsg(auth_settings_messages.USERNAME_CHANGE);
+			updateUsername(values.username).then(({ error }) => {
+				if (!error) {
+					showMsg(auth_settings_messages.USERNAME_CHANGE);
+				}
 			});
 		}
 	});
@@ -58,7 +60,7 @@
 			<br />
 			<span class="error"><small>{$errors.username}</small></span>
 		{/if}
-        <br />
+		<br />
 		<Button
 			variant="outlined"
 			color="primary"
@@ -80,7 +82,7 @@
 	.item-space {
 		margin: 20px 0 20px 0;
 	}
-    .error {
-        color: red;
-    }
+	.error {
+		color: red;
+	}
 </style>
