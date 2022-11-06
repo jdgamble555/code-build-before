@@ -14,7 +14,7 @@
 {/if}
 <main class="{$darkMode ? 'dark' : 'light'}-theme">
 	<Header />
-	<div class="wrapper">
+	<div class={$showLeft && showRight ? 'wrapper' : 'simple-wrapper'}>
 		<header class="sub-header">
 			<SubHeader />
 		</header>
@@ -33,7 +33,25 @@
 	</div>
 </main>
 
-<style global>
+<style global lang="scss">
+	.simple-wrapper {
+		margin-top: 20px;
+		left: 50%;
+		transform: translateX(-50%);
+		gap: 20px;
+		//text-align: center;
+		max-width: 995px;
+		width: 100%;
+		position: absolute;
+		display: grid;
+		grid-template-areas:
+			'sub-header'
+			'content'
+			'footer';
+		.content {
+			max-width: 100vw;
+		}
+	}
 	.hide {
 		visibility: hidden;
 		display: none;

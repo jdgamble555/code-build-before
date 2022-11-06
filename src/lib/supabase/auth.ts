@@ -14,6 +14,20 @@ const auth = readable<User | null>(null, set =>
 
 export const supabase_auth_adapter = {
 
+    getUser: async (): Promise<UserRec | null> => {
+        const user = (await supabase.auth.getSession()).data.session?.user;
+        if (user) {
+            const { data, error } = await supabase.from('profiles')
+                .select('*').eq('id', user.id).single();
+            if (error) {
+                console.error(error);
+                return null;
+            }
+            return combine_auth_user(data, user);
+        }
+        return null;
+    },
+
     // auth class
 
     user: derived<typeof auth, UserRec | null>(auth, (user, set) => {

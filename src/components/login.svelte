@@ -11,7 +11,7 @@
 	let showEmail = false;
 </script>
 
-<div class="card-container">
+<div class="login-container">
 	<Card variant="outlined" padded>
 		<div class="centered">
 			<h2>Passwordless Login</h2>
@@ -81,5 +81,9 @@
 	}
 	.icon-color {
 		color: #1e88e5 !important;
+	}
+	.login-container {
+		width: 50%;
+		margin: auto;
 	}
 </style>

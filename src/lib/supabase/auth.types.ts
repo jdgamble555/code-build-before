@@ -31,6 +31,7 @@ export const supabase_to_user = (u: supabase_user): UserRec => ({
 export const combine_auth_user = (data: supabase_user, user: User):
     UserRec => supabase_to_user({
         ...data,
+        email: user.email as string,
         providers: user.app_metadata['providers']
     });
 
