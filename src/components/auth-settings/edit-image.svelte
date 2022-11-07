@@ -37,7 +37,6 @@
 		<img src={user.photoURL} alt={user.displayName} width="180px" />
 		<br />
 		<Button
-			variant="outlined"
 			color="primary"
 			class="item-space"
 			aria-label="Delete Image"

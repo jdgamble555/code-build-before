@@ -63,8 +63,7 @@
 		{/if}
 		<br />
 		<Button
-			variant="outlined"
-			color="primary"
+			color="secondary"
 			class="item-space"
 			aria-label="Save"
 			title="Save"

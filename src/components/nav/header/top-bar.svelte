@@ -16,7 +16,7 @@
 	<div class="row">
 		<Row>
 			<Section>
-				<Button on:click={() => goto('/')} aria-label="Home" color="secondary">
+				<Button on:click={() => goto('/')} aria-label="Home">
 					<div
 						class="material-icons title-button icon-title 
 							{$darkMode ? 'dark-icon-title' : 'light-icon-title'}"
@@ -50,6 +50,7 @@
 <style global>
 	.top-color {
 		background-color: #1e88e5 !important;
+		color: #fff !important;
 	}
 	.top-color-dark {
 		background-color: #000 !important;
