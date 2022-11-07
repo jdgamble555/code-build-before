@@ -7,6 +7,9 @@
 	import Footer from '@components/nav/footer.svelte';
 	import Message from '@components/message.svelte';
 	import { browser } from '$app/environment';
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
 </script>
 
 {#if browser}
@@ -25,7 +28,7 @@
 			<slot />
 		</article>
 		<nav class="leftnav {$showLeft ? 'show' : 'hide'}">
-			<Leftnav />
+			<Leftnav tags={data.tags.data || []} />
 		</nav>
 		<footer class="footer">
 			<Footer />
