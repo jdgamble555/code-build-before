@@ -11,6 +11,6 @@
 	<Content class="centered">
 		<h1>Welcome to {settings.sitename}!</h1>
 
-		Your most relevant coding resources!
+		An easier way to code your web applications !
 	</Content>
 </Card>
