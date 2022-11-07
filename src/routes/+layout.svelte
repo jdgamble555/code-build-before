@@ -28,7 +28,7 @@
 			<slot />
 		</article>
 		<nav class="leftnav {$showLeft ? 'show' : 'hide'}">
-			<Leftnav tags={data.tags.data || []} />
+			<Leftnav tags={data.tags.data || []} total={data.total || 0} />
 		</nav>
 		<footer class="footer">
 			<Footer />

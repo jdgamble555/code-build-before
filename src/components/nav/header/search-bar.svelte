@@ -8,7 +8,7 @@
 	import { read_post } from '$lib/database';
 	import { goto } from '$app/navigation';
 	import Loader from '../loader.svelte';
-	import type { Post } from '$lib/post.model';
+	import type { Optional, Post } from '$lib/post.model';
 
 	let value: { id?: string; slug?: string } | undefined = undefined;
 
@@ -23,9 +23,9 @@
 		clearTimeout(timer);
 
 		return new Promise((res, _rej) => {
-			let r: Post[] | null;
+			let r: Optional<Post[]>;
 			timer = setTimeout(async () => {
-				r = await searchPost(input);
+				({ data: r } = await searchPost(input));
 				res(r || false);
 			}, 500);
 		});

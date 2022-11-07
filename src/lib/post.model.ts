@@ -29,3 +29,10 @@ export interface Post {
     name: string;
     count: number;
   };
+
+  export interface PostRequest {
+    error?: Optional<string>;
+    data?: Optional<Post[]>;
+    exists?: Optional<boolean>;
+    count?: Optional<number>;
+  };

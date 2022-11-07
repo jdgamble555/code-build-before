@@ -5,9 +5,11 @@
 	import Card from '@smui/card';
 	import Chip, { Set, Text } from '@smui/chips';
 	export let tags: Tag[];
+	export let total: number;
 </script>
 
 <div class="card-container">
+	<h3 class="center"><b>Total Posts: {total}</b></h3>
 	<Card variant="outlined" padded>
 		<Set chips={[...tags.map((t) => t.name)]} let:chip>
 			<Chip
@@ -22,6 +24,9 @@
 </div>
 
 <style global>
+	.center {
+		text-align: center;
+	}
 	.tag-chips-light {
 		background-color: #000;
 		color: #fff;
@@ -30,4 +35,8 @@
 		background-color: #1e88e5;
 		color: #fff;
 	}
+
+	/*:global(.mdc-chip--selected) {
+		background-color: orange !important;
+	}*/
 </style>
