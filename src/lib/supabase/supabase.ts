@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const p = Object.keys(env).length === 0 ? process.env : env;
 
-console.log(Object.keys(env).length)
+console.log(process.env);
 
 export const supabase = createClient(
     p.PUBLIC_SUPABASE_URL as string,
