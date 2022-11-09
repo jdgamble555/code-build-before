@@ -6,6 +6,8 @@ let process: any;
 
 const p = process?.env ? process.env : env;
 
+console.log(process.env.PUBLIC_SUPABASE_URL);
+
 export const supabase = createClient(
     p.PUBLIC_SUPABASE_URL as string,
     p.PUBLIC_SUPABASE_ANON_KEY as string
