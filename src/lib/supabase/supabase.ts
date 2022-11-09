@@ -1,7 +1,7 @@
 import { env } from '$env/dynamic/public';
 import { createClient } from '@supabase/supabase-js';
 
-const p = Object.keys(env).length ? env : process.env;
+const p = Object.keys(env).length === 0 ? process.env : env;
 
 console.log(p);
 
