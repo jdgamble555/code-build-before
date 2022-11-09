@@ -1,8 +1,7 @@
 import { env } from '$env/dynamic/public';
 import { createClient } from '@supabase/supabase-js';
 
-const p = env ?? process.env;
-console.log(p);
+const p = Object.keys(env) ? env : process.env;
 
 export const supabase = createClient(
     p.PUBLIC_SUPABASE_URL as string,
