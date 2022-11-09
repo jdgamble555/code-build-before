@@ -9,6 +9,8 @@
   $background: #fff,
   $error: color-palette.$red-700);
 
+@import "https://fonts.cdnfonts.com/css/Open-Sans";
+
 html,
 body {
   background-color: #303030;
@@ -16,7 +18,7 @@ body {
   height: 100%;
   min-height: 100%;
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: "Open Sans";
 }
 
 a {
@@ -44,4 +46,15 @@ a:visited {
 
 .card-text {
   color: white !important;
+}
+
+.mdc-chip {
+  background-color: #1e88e5 !important;
+  color: #fff !important;
+  font-size: 14px !important;
+  letter-spacing: normal !important;
+  font-weight: 500 !important;
+  font-family: "Open Sans" !important;
+  height: 32px !important;
+  will-change: unset !important;
 }

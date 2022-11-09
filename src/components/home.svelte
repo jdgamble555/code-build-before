@@ -9,8 +9,14 @@
 
 <Card variant="outlined" padded>
 	<Content class="centered">
-		<h1>Welcome to {settings.sitename}!</h1>
+		<h1 class="title">{settings.sitename}</h1>
 
 		An easier way to code your web applications !
 	</Content>
 </Card>
+
+<style>
+	.title {
+		font-size: 2.5rem !important;
+	}
+</style>
