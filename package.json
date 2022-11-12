@@ -54,7 +54,7 @@
 	"type": "module",
 	"dependencies": {
 		"@smui/card": "^7.0.0-beta.0",
-		"@supabase/supabase-js": "^2.0.5",
+		"@supabase/supabase-js": "^2.1.0",
 		"j-supabase": "^1.0.14"
 	}
 }
