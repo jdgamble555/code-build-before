@@ -15,8 +15,8 @@
 	</Content>
 </Card>
 
-<style>
+<style global>
 	.title {
 		font-size: 2.5rem !important;
-	}
+	}	
 </style>

@@ -21,7 +21,6 @@
 		"@smui-extra/accordion": "^7.0.0-beta.0",
 		"@smui-extra/autocomplete": "^7.0.0-beta.0",
 		"@smui/button": "^7.0.0-beta.0",
-		"@smui/card": "^7.0.0-beta.0",
 		"@smui/checkbox": "^7.0.0-beta.0",
 		"@smui/chips": "^7.0.0-beta.0",
 		"@smui/circular-progress": "^7.0.0-beta.0",
@@ -54,6 +53,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@smui/card": "^7.0.0-beta.0",
 		"@supabase/supabase-js": "^2.0.5",
 		"j-supabase": "^1.0.14"
 	}

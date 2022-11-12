@@ -98,6 +98,7 @@ export const supabase_auth_adapter = {
 
 
 const oAuth = async (provider: 'google' | 'apple'): Promise<AuthError | null> => {
+    console.log(get(page).url.origin);
     const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {

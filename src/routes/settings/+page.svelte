@@ -10,7 +10,6 @@
 	import { goto } from '$app/navigation';
 	import Loader from '@components/nav/loader.svelte';
 
-
 	let panel1Open = false;
 	let panel2Open = false;
 	let panel3Open = false;
