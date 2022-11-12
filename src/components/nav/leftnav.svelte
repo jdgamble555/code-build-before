@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { darkMode } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import type { Tag } from '$lib/post.model';
 	import Card from '@smui/card';
