@@ -57,6 +57,8 @@
 					on:SMUI:action={() => {
 						if (value) {
 							goto(`/p/${value.id}/${value.slug}`);
+							showSearch.set(false);
+							value = undefined;
 						}
 					}}
 				>
