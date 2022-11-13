@@ -39,7 +39,7 @@
 					{/await}
 				{:else}
 					<Button aria-label="Login" title="Login" on:click={() => goto('login')}>
-						<span class="no-bold">Login</span>
+						<span class="no-bold white">Login</span>
 					</Button>
 				{/if}
 			</Section>
