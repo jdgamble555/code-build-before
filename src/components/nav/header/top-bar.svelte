@@ -5,15 +5,15 @@
 	import { auth } from '$lib/database';
 	import DarkModeButton from '@components/nav/header/dark-mode-button.svelte';
 	import { goto } from '$app/navigation';
-	import ToggleSearchButton from './toggle-search-button.svelte';
+	import SearchButton from './search-button.svelte';
 	import { settings } from '$lib/settings';
 	import Loader from '@components/nav/loader.svelte';
 
 	const { user } = auth;
 </script>
 
-<TopAppBar variant="fixed" class={$darkMode ? 'top-color-dark' : 'top-color'}>
-	<div class="row">
+<TopAppBar variant="fixed">
+	<div class="row {$darkMode ? 'top-color-dark' : 'top-color-light'}">
 		<Row>
 			<Section>
 				<Button on:click={() => goto('/')} aria-label="Home">
@@ -28,7 +28,7 @@
 			</Section>
 			<Section align="end" toolbar>
 				<DarkModeButton />
-				<ToggleSearchButton />
+				<SearchButton />
 				{#if $user}
 					{#await import('./login-menu.svelte')}
 						<div class="centered">
@@ -51,12 +51,16 @@
 	.top-color {
 		background-color: #1e88e5 !important;
 		color: #fff !important;
+		margin: 0 !important;
 	}
 	.top-color-dark {
 		background-color: #000 !important;
 	}
+	.top-color-light {
+		background-color: #1e88e5 !important;
+	}
 	.row {
-		margin: 0px 10px 0 10px;
+		margin: 0;
 	}
 	.icon-title {
 		font-weight: bolder;
@@ -71,6 +75,7 @@
 	}
 	.title {
 		padding-left: 20px;
+		color: #fff;
 	}
 	.title-button {
 		font-weight: normal;

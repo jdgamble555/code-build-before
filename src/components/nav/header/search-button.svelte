@@ -5,9 +5,15 @@
 
 <IconButton
 	on:click={() => showSearch.update((m) => !m)}
-	class="material-icons"
+	class="material-icons white"
 	aria-label="Search"
 	title="Search"
 >
 	search
 </IconButton>
+
+<style global>
+	.white {
+		color: #fff !important;
+	}
+</style>

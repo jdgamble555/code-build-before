@@ -3,14 +3,9 @@
 	import IconButton from '@smui/icon-button';
 </script>
 
-<svelte:head>
-	<meta name="description" content="Your most relevant coding resources!" />
-	<link rel="stylesheet" id="theme" href="/smui{$darkMode ? '-dark' : ''}.css" />
-</svelte:head>
-
 <IconButton
 	on:click={() => darkMode.update((m) => !m)}
-	class="material-icons"
+	class="material-icons white"
 	aria-label="{$darkMode ? 'Light' : 'Dark'} Mode"
 	title="{$darkMode ? 'Light' : 'Dark'} Mode"
 >

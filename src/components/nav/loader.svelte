@@ -1,5 +1,7 @@
 <script lang="ts">
 	import CircularProgress from '@smui/circular-progress';
+
+	export let size: number = 50;
 </script>
 
-<CircularProgress style="height: 24px; width: 24px;" indeterminate />
+<CircularProgress style="height: {size}px; width: {size}px;" indeterminate />

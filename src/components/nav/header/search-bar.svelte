@@ -2,7 +2,7 @@
 	import TopAppBar, { Row } from '@smui/top-app-bar';
 	import Section from '@smui/top-app-bar/src/Section.svelte';
 	import IconButton from '@smui/icon-button';
-	import { showSearch } from '$lib/stores';
+	import { darkMode, showSearch } from '$lib/stores';
 	import Autocomplete from '@smui-extra/autocomplete';
 	import { Text } from '@smui/list';
 	import { read_post } from '$lib/database';
@@ -32,13 +32,13 @@
 	}
 </script>
 
-<TopAppBar class="top-search-color" variant="fixed">
-	<div class="row">
+<TopAppBar variant="fixed" color="secondary">
+	<div class="row {$darkMode ? 'top-search-color-dark' : 'top-search-color'}">
 		<Row>
 			<Section class="search-button" align="start" toolbar>
 				<IconButton
 					on:click={() => showSearch.update((m) => !m)}
-					class="material-icons button-color"
+					class="material-icons {$darkMode ? 'search-bar-button-dark' : 'search-bar-button'}"
 					aria-label="Search"
 					title="Search"
 				>
@@ -68,7 +68,7 @@
 			<Section class="search-button" align="end" toolbar>
 				<IconButton
 					on:click={() => showSearch.update((m) => !m)}
-					class="material-icons button-color"
+					class="material-icons {$darkMode ? 'search-bar-button-dark' : 'search-bar-button'}"
 					aria-label="Search"
 					title="Search"
 				>
@@ -80,14 +80,20 @@
 </TopAppBar>
 
 <style global>
+	.search-bar-button {
+		color: #000 !important;
+	}
+	.search-bar-button-dark {
+		color: #fff !important;
+	}
 	.text-height {
 		margin-top: 10px !important;
 	}
 	.top-search-color {
 		background-color: #fafafa !important;
 	}
-	.button-color {
-		color: #000 !important;
+	.top-search-color-dark {
+		background-color: #424242 !important;
 	}
 	.search-button {
 		max-width: 50px;
@@ -97,7 +103,7 @@
 		margin-bottom: 30px !important;
 	}
 	.row {
-		margin: 0px 10px 0 10px;
+		margin: 0;
 	}
 	.mdc-text-field {
 		width: 100% !important;

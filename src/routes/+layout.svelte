@@ -12,6 +12,11 @@
 	export let data: LayoutData;
 </script>
 
+<svelte:head>
+	<meta name="description" content="Your most relevant coding resources!" />
+	<link rel="stylesheet" id="theme" href="/smui{$darkMode ? '-dark' : ''}.css" />
+</svelte:head>
+
 {#if browser}
 	<Message />
 {/if}
@@ -36,7 +41,7 @@
 	</div>
 </main>
 
-<style global lang="scss">
+<style lang="scss" global>
 	.simple-wrapper {
 		margin-top: 20px;
 		left: 50%;
@@ -111,7 +116,7 @@
 	}
 	@media (min-width: 700px) {
 		.wrapper {
-			grid-template-columns: 1fr 3fr 1fr;
+			grid-template-columns: 1fr 3.5fr .5fr;
 			grid-template-rows: 1fr;
 			grid-template-areas:
 				'sub-header sub-header sub-header'
