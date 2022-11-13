@@ -41,13 +41,12 @@
 	</div>
 </main>
 
-<style lang="scss" global>
+<style global>
 	.simple-wrapper {
 		margin-top: 20px;
 		left: 50%;
 		transform: translateX(-50%);
 		gap: 20px;
-		//text-align: center;
 		max-width: 995px;
 		width: 100%;
 		position: absolute;
@@ -56,9 +55,9 @@
 			'sub-header'
 			'content'
 			'footer';
-		.content {
-			max-width: 100vw;
-		}
+	}
+	.simple-wrapper .content {
+		max-width: 100vw;
 	}
 	.hide {
 		visibility: hidden;
@@ -116,7 +115,7 @@
 	}
 	@media (min-width: 700px) {
 		.wrapper {
-			grid-template-columns: 1fr 3.5fr .5fr;
+			grid-template-columns: 1fr 3.5fr 0.5fr;
 			grid-template-rows: 1fr;
 			grid-template-areas:
 				'sub-header sub-header sub-header'

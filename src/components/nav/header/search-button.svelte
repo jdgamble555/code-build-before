@@ -11,9 +11,3 @@
 >
 	search
 </IconButton>
-
-<style global>
-	.white {
-		color: #fff !important;
-	}
-</style>

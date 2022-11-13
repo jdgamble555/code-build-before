@@ -18,15 +18,3 @@
 		<Label class="no-bold {$darkMode ? 'white' : ''}">{c.name}</Label>
 	</Button>
 {/each}
-
-<style global>
-	.white {
-		color: #fff;
-	}
-	.blue {
-		color: #1e88e5;
-	}
-	.right {
-		margin-right: 18px !important;
-	}
-</style>

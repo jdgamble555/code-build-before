@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Card, { Content } from '@smui/card';
 	import { settings } from '$lib/settings';
+	import PostList from './post/post-list.svelte';
 </script>
 
 <svelte:head>
@@ -14,6 +15,7 @@
 		An easier way to code your web applications !
 	</Content>
 </Card>
+<PostList />
 
 <style>
 	.title-home {
