@@ -1,6 +1,7 @@
+import type { Post } from "$lib/post.model";
 import type { Optional, Provider, Role, UserRec } from "$lib/user.model";
 import type { User } from "@supabase/supabase-js";
-import { encode } from "j-supabase";
+import { decode, encode } from "j-supabase";
 
 export interface supabase_user {
     id: string;
@@ -14,6 +15,19 @@ export interface supabase_user {
     display_name: Optional<string>;
     phone_number: Optional<string>;
 };
+
+export const user_to_supabase = (u: UserRec): supabase_user => ({
+    id: decode(u.id),
+    created_at: u.createdAt,
+    updated_at: u.updatedAt,
+    display_name: u.displayName,
+    photo_url: u.photoURL,
+    phone_number: u.phoneNumber,
+    email: u.email,
+    role: u.role,
+    username: u.username,
+    providers: u.providers
+});
 
 export const supabase_to_user = (u: supabase_user): UserRec => ({
     id: encode(u.id),
@@ -35,3 +49,53 @@ export const combine_auth_user = (data: supabase_user, user: User):
         providers: user.app_metadata['providers']
     });
 
+
+// POST
+
+export interface supabase_post {
+    id: string;
+    created_at: Date;
+    title: string;
+    author: supabase_user;
+    content: string;
+    slug: string;
+    minutes: string;
+    updated_at?: Optional<Date>;
+    image?: Optional<string>;
+    image_uploads?: Optional<string[]>;
+    tags: Optional<string[]>;
+    published_at: Date;
+    hearts_count: number;
+};
+
+export const supabase_to_post = (p: supabase_post): Post => ({
+    content: p.content,
+    title: p.title,
+    id: encode(p.id),
+    image: p.image,
+    imageUploads: p.image_uploads,
+    minutes: p.minutes,
+    slug: p.slug,
+    author: supabase_to_user(p.author),
+    createdAt: p.created_at,
+    updatedAt: p.updated_at,
+    tags: p.tags,
+    heartsCount: p.hearts_count,
+    publishedAt: p.published_at
+});
+
+export const post_to_supabase = (p: Post): supabase_post => ({
+    id: decode(p.id),
+    title: p.title,
+    content: p.content,
+    image: p.image,
+    slug: p.slug,
+    minutes: p.minutes,
+    image_uploads: p.imageUploads,
+    author: user_to_supabase(p.author),
+    created_at: p.createdAt,
+    updated_at: p.updatedAt,
+    tags: p.tags,
+    hearts_count: p.heartsCount,
+    published_at: p.publishedAt
+});

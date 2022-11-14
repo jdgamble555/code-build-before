@@ -1,8 +1,13 @@
 <script lang="ts">
+	import type { Optional, Post } from '$lib/post.model';
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
+	import PostDetail from './post-detail.svelte';
 
 	let active = 'New';
+
+	export let posts: Optional<Post[]>;
+
 </script>
 
 <div>
@@ -11,8 +16,11 @@
 			<Label class="no-bold">{tab}</Label>
 		</Tab>
 	</TabBar>
-	{#if active === 'New'}
-		newish
+	<br />
+	{#if active === 'New' && posts}
+		{#each posts as post}
+			<PostDetail {post} />
+		{/each}
 	{:else if active === 'Updated'}
 		updater
 	{:else}

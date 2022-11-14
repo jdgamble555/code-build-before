@@ -2,6 +2,9 @@
 	import Card, { Content } from '@smui/card';
 	import { settings } from '$lib/settings';
 	import PostList from './post/post-list.svelte';
+	import type { Optional, Post } from '$lib/post.model';
+
+	export let posts: Optional<Post[]>;
 </script>
 
 <svelte:head>
@@ -15,7 +18,7 @@
 		An easier way to code your web applications !
 	</Content>
 </Card>
-<PostList />
+<PostList {posts} />
 
 <style>
 	.title-home {

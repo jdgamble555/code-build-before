@@ -1,3 +1,5 @@
+import type { UserRec } from "./user.model";
+
 export type Optional<T> = T | null | undefined;
 
 export interface Post {
@@ -11,18 +13,9 @@ export interface Post {
     updatedAt: Optional<Date>;
     publishedAt: Date;
     image: Optional<string>;
-    imageTmp: Optional<string>;
     imageUploads: Optional<string[]>;
-    tags: Optional<Tag[]>;
-  };
-
-  export interface UserRec {
-    id: string;
-    createdAt: Date;
-    updatedAt: Optional<Date>;
-    displayName: Optional<string>;
-    photoURL: Optional<string>;
-    username: Optional<string>;
+    tags: Optional<string[]>;
+    heartsCount: number;
   };
 
   export interface Tag {
@@ -35,4 +28,16 @@ export interface Post {
     data?: Optional<Post[]>;
     exists?: Optional<boolean>;
     count?: Optional<number>;
+  };
+  
+  export interface PostInput {
+    sortField?: string,
+    sortDirection?: 'desc' | 'asc',
+    tag?: string,
+    uid?: string,
+    authorId?: string,
+    field?: string,
+    page?: number,
+    pageSize?: number,
+    drafts?: boolean
   };

@@ -1,5 +1,8 @@
 <script lang="ts">
+	import type { LayoutData } from './$types';
 	import Home from '@components/home.svelte';
+
+	export let data: LayoutData;
 </script>
 
-<Home />
+<Home posts={data.posts} />
