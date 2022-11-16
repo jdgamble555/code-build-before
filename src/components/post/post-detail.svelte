@@ -5,7 +5,6 @@
 	import { Icon } from '@smui/button';
 	import { goto } from '$app/navigation';
 	import Chip, { Set, Text } from '@smui/chips';
-	import { add_classes } from 'svelte/internal';
 
 	export let post: Post;
 </script>
