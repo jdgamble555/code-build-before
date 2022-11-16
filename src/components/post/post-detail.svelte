@@ -15,7 +15,7 @@
 	{/if}
 	<Content>
 		<a href={'/p/' + post.id + post.slug}>
-			<h2>
+			<h2 class="ng-link">
 				<span class="blue material-icons card-icon">library_books</span>
 				{post.title}
 			</h2>
