@@ -22,7 +22,7 @@
 		</a>
 
 		<h6><i>{post.minutes} min read</i></h6>
-		<a href={'/u' + post.author.id + post.author.username}>
+		<a href={'/u/' + post.author.id + post.author.username}>
 			<div class="ng-author ng-link">
 				{#if post.author?.photoURL}
 					<img
