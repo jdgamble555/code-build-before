@@ -50,11 +50,13 @@
 			</div>
 		</a>
 		{#if post.tags}
-			<Set chips={post.tags} let:chip>
-				<Chip class="grey-tag" {chip} on:click={() => goto('/t/' + chip)}>
-					<Text>{chip}</Text>
-				</Chip>
-			</Set>
+			<div class="grey-tag">
+				<Set chips={post.tags} let:chip>
+					<Chip {chip} on:click={() => goto('/t/' + chip)}>
+						<Text>{chip}</Text>
+					</Chip>
+				</Set>
+			</div>
 		{/if}
 	</Content>
 </Card>
@@ -85,5 +87,4 @@
 	.ng-author img {
 		margin-right: 10px;
 	}
-
 </style>
