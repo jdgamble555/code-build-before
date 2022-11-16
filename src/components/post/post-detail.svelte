@@ -14,7 +14,7 @@
 		<img class="image" src={post.image} alt={post.title} width="1250" height="650" />
 	{/if}
 	<Content>
-		<a href={'/p/' + post.id + post.slug}>
+		<a href={'/p/' + post.id + '/' + post.slug}>
 			<h2 class="ng-link">
 				<span class="blue material-icons card-icon">library_books</span>
 				{post.title}
@@ -22,7 +22,7 @@
 		</a>
 
 		<h6><i>{post.minutes} min read</i></h6>
-		<a href={'/u/' + post.author.id + post.author.username}>
+		<a href={'/u/' + post.author.id + '/' + post.author.username}>
 			<div class="ng-author ng-link">
 				{#if post.author?.photoURL}
 					<img
