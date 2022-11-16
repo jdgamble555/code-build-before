@@ -50,7 +50,7 @@
 			</div>
 		</a>
 		{#if post.tags}
-			<div class="grey-tag">
+			<div class="grey-tag tag-set">
 				<Set chips={post.tags} let:chip>
 					<Chip {chip} on:click={() => goto('/t/' + chip)}>
 						<Text>{chip}</Text>
@@ -63,6 +63,11 @@
 <br />
 
 <style>
+	.tag-set {
+		margin-top: 20px;
+		margin-left: -20px;
+		margin-bottom: -20px;
+	}
 	.image {
 		width: calc(100% + 32px);
 		margin: -16px -16px 0 -16px;
