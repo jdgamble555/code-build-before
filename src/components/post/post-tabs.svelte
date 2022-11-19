@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { read_post } from '$lib/database';
 	import type { Optional, Post } from '$lib/post.model';
 	import Loader from '@components/nav/loader.svelte';
 	import Tab, { Label } from '@smui/tab';
@@ -7,61 +6,29 @@
 	import { getContext } from 'svelte';
 	import PostList from './post-list.svelte';
 	import { LightPaginationNav } from 'svelte-paginate';
-
-	const { getPosts } = read_post;
+	import { loadPosts, postsCache } from '$lib/post-store';
 
 	const _posts = getContext<Optional<Post[]>>('posts');
 	const total = getContext<number>('total');
 
+	// add server query to cache
+	postsCache.update((updater) => updater.set('New_1', _posts));
+
 	let firstload = true;
-
 	let currentPage = 1;
-
 	let active = 'New';
-	let lastTab = 'New';
-
-	const postsCache = new Map<string, Optional<Post[]>>();
-	postsCache.set('new_1', _posts);
-
-	const loadPosts = async ({ page, type }: { page: number; type: string }) => {
-		// reset page number if tab change
-		if (type !== lastTab) {
-			currentPage = 1;
-		}
-		lastTab = type;
-
-		// save posts cache
-		const cacheName = type + '_' + page.toString();
-		const r = postsCache.get(cacheName);
-		if (r) {
-			return r;
-		}
-
-		// get posts sort
-		let sortF: Optional<string>;
-		if (type === 'Top') {
-			sortF = 'heartsCount';
-		} else if (type === 'Updated') {
-			sortF = 'updatedAt';
-		} else {
-			sortF = undefined;
-		}
-
-		// get posts
-		const { error, data: newR } = await getPosts({ sortField: sortF, page });
-		if (error) {
-			console.error(error);
-			return [];
-		} else {
-			// save cache
-			postsCache.set(cacheName, newR);
-			return newR;
-		}
-	};
 </script>
 
-<div>
-	<TabBar tabs={['New', 'Updated', 'Top']} let:tab bind:active on:click={() => (firstload = false)}>
+<div class="card-filler">
+	<TabBar
+		tabs={['New', 'Updated', 'Top']}
+		let:tab
+		bind:active
+		on:click={() => {
+			firstload = false;
+			currentPage = 1;
+		}}
+	>
 		<Tab {tab}>
 			<Label class="no-bold">{tab}</Label>
 		</Tab>
@@ -79,6 +46,7 @@
 </div>
 
 <LightPaginationNav
+	on:click={() => (firstload = false)}
 	totalItems={total}
 	pageSize={5}
 	{currentPage}
@@ -94,5 +62,8 @@
 	.light-pagination-nav.svelte-bxgrui .pagination-nav {
 		border: none;
 		box-shadow: none !important;
+	}
+	.card-filler {
+		min-height: 600px;
 	}
 </style>
