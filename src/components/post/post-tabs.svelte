@@ -13,6 +13,8 @@
 	const _posts = getContext<Optional<Post[]>>('posts');
 	const total = getContext<number>('total');
 
+	let firstload = true;
+
 	let currentPage = 1;
 
 	let active = 'New';
@@ -22,7 +24,6 @@
 	postsCache.set('new_1', _posts);
 
 	const loadPosts = async ({ page, type }: { page: number; type: string }) => {
-
 		// reset page number if tab change
 		if (type !== lastTab) {
 			currentPage = 1;
@@ -52,7 +53,6 @@
 			console.error(error);
 			return [];
 		} else {
-
 			// save cache
 			postsCache.set(cacheName, newR);
 			return newR;
@@ -61,17 +61,21 @@
 </script>
 
 <div>
-	<TabBar tabs={['New', 'Updated', 'Top']} let:tab bind:active>
+	<TabBar tabs={['New', 'Updated', 'Top']} let:tab bind:active on:click={() => (firstload = false)}>
 		<Tab {tab}>
 			<Label class="no-bold">{tab}</Label>
 		</Tab>
 	</TabBar>
 	<br />
-	{#await loadPosts({ type: active, page: currentPage })}
-		<Loader />
-	{:then posts}
-		<PostList {posts} />
-	{/await}
+	{#if firstload}
+		<PostList posts={_posts} />
+	{:else}
+		{#await loadPosts({ type: active, page: currentPage })}
+			<Loader />
+		{:then posts}
+			<PostList {posts} />
+		{/await}
+	{/if}
 </div>
 
 <LightPaginationNav
@@ -80,7 +84,10 @@
 	{currentPage}
 	limit={1}
 	showStepOptions={true}
-	on:setPage={(e) => (currentPage = e.detail.page)}
+	on:setPage={(e) => {
+		currentPage = e.detail.page;
+		firstload = false;
+	}}
 />
 
 <style global>
