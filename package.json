@@ -48,6 +48,7 @@
 		"svelte": "^3.44.0",
 		"svelte-check": "^2.7.1",
 		"svelte-forms-lib": "^2.0.1",
+		"svelte-paginate": "^0.1.0",
 		"svelte-preprocess": "^4.10.6",
 		"svelte-time": "^0.7.1",
 		"tslib": "^2.3.1",

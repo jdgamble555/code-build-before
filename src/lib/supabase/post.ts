@@ -40,7 +40,8 @@ export const supabase_post_read_adapter = {
         const _sorts: { [key: string]: string } = {
             'updatedAt': 'updated_at',
             'createdAt': 'created_at',
-            'heartsCount': 'hearts_count'
+            'heartsCount': 'hearts_count',
+            
         };
 
         sortField = _sorts[sortField] ?? sortField;

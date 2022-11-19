@@ -6,6 +6,7 @@
 	export let data: LayoutData;
 
 	setContext('posts', data.posts);
+	setContext('total', data.total);
 </script>
 
-<Home/>
+<Home />
