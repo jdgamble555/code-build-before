@@ -35,13 +35,17 @@ export const supabase_post_read_adapter = {
         pageSize = 5,
         page = 1,
         drafts = false
-    }: PostInput = {}): Promise<PostRequest> {
+    }: PostInput = {
+            sortDirection: 'desc',
+            sortField: 'created_at',
+            page: 1, 
+            pageSize: 5
+        }): Promise<PostRequest> {
 
         const _sorts: { [key: string]: string } = {
             'updatedAt': 'updated_at',
             'createdAt': 'created_at',
-            'heartsCount': 'hearts_count',
-            
+            'heartsCount': 'hearts_count'
         };
 
         sortField = _sorts[sortField] ?? sortField;

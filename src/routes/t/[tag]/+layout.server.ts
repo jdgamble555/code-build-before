@@ -1,13 +1,20 @@
 import { error } from '@sveltejs/kit';
+import { read_post } from '$lib/database';
 import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = ({ params }) => {
-    if (params.tag) {
-        // get captial version
+const { getPosts } = read_post;
+
+export const load: LayoutServerLoad = async ({ params }) => {
+    const tag = params.tag;
+    if (tag) {
+        const { data: posts, count: total } = await getPosts({ tag });
+        if (total === 0) {
+            throw error(404, 'Not found');
+        }
         return {
-            tag: params.tag
+            total,
+            posts,
+            tag
         };
     }
-
-    throw error(404, 'Not found');
-}
+};

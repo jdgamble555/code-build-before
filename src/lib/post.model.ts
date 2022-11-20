@@ -33,11 +33,11 @@ export interface Post {
   export interface PostInput {
     sortField?: string,
     sortDirection?: 'desc' | 'asc',
-    tag?: string,
-    uid?: string,
-    authorId?: string,
-    field?: string,
+    tag?: Optional<string>,
+    uid?: Optional<string>,
+    authorId?: Optional<string>,
+    field?: Optional<string>,
     page?: number,
     pageSize?: number,
-    drafts?: boolean
+    drafts?: Optional<boolean>
   };

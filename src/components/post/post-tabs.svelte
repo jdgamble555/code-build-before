@@ -1,21 +1,27 @@
 <script lang="ts">
 	import type { Optional, Post } from '$lib/post.model';
-	import Loader from '@components/nav/loader.svelte';
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
 	import { getContext } from 'svelte';
 	import PostList from './post-list.svelte';
 	import { LightPaginationNav } from 'svelte-paginate';
-	import { loadPosts, postsCache } from '$lib/post-store';
+	import { loadPosts, type postsType } from '$lib/post-store';
+	import { loading } from '$lib/stores';
+	import Loader from '@components/nav/loader.svelte';
 
 	const _posts = getContext<Optional<Post[]>>('posts');
+	loadPosts.current = _posts;
+	loadPosts.refresh();
+	const { posts } = loadPosts;
+
 	const total = getContext<number>('total');
 
-	// add server query to cache
-	postsCache.update((updater) => updater.set('New_1', _posts));
+	const _types: { [key: string]: postsType } = {
+		New: 'new',
+		Updated: 'updated',
+		Top: 'top'
+	};
 
-	let firstload = true;
-	let currentPage = 1;
 	let active = 'New';
 </script>
 
@@ -25,8 +31,9 @@
 		let:tab
 		bind:active
 		on:click={() => {
-			firstload = false;
-			currentPage = 1;
+			loadPosts.page = 1;
+			loadPosts.type = _types[active];
+			loadPosts.refresh();
 		}}
 	>
 		<Tab {tab}>
@@ -34,27 +41,22 @@
 		</Tab>
 	</TabBar>
 	<br />
-	{#if firstload}
-		<PostList posts={_posts} />
+	{#if $loading}
+		<Loader />
 	{:else}
-		{#await loadPosts({ type: active, page: currentPage })}
-			<Loader />
-		{:then posts}
-			<PostList {posts} />
-		{/await}
+		<PostList posts={$posts} />
 	{/if}
 </div>
 
 <LightPaginationNav
-	on:click={() => (firstload = false)}
 	totalItems={total}
 	pageSize={5}
-	{currentPage}
+	currentPage={loadPosts.page}
 	limit={1}
 	showStepOptions={true}
 	on:setPage={(e) => {
-		currentPage = e.detail.page;
-		firstload = false;
+		loadPosts.page = e.detail.page;
+		loadPosts.refresh();
 	}}
 />
 

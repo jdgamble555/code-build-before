@@ -1,7 +1,17 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import PostTag from '@components/post/post-tag.svelte';
+	import { page } from '$app/stores';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
+	import { loading } from '$lib/stores';
 
-	export let data: PageData;
+	beforeNavigate((nav) => {
+		if (nav.to?.route.id?.startsWith('/t/')) {
+			loading.set(true);
+		}
+	});
+	afterNavigate(() => loading.set(false));
 </script>
 
-<h1>{data.tag}</h1>
+{#key $page}
+	<PostTag posts={$page.data.posts} tag={$page.data.tag} />
+{/key}

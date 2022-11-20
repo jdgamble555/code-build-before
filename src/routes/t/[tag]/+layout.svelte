@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { breadcrumbs } from '$lib/breadcrumbs';
 
-	import type { PageData } from './$types';
+	import type { LayoutServerData } from './$types';
 
-	export let data: PageData;
+	export let data: LayoutServerData;
 
-	breadcrumbs().addBC(data.tag);
+	$: {
+		breadcrumbs().addBC(data.tag as string);
+	};
+
 </script>
 
 <slot />

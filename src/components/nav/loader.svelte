@@ -4,4 +4,6 @@
 	export let size: number = 50;
 </script>
 
-<CircularProgress style="height: {size}px; width: {size}px;" indeterminate />
+<center>
+	<CircularProgress style="height: {size}px; width: {size}px;" indeterminate />
+</center>
