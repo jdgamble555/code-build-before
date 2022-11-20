@@ -4,7 +4,12 @@ import type { LayoutServerLoad } from './$types';
 
 const { getPosts } = read_post;
 
-export const load: LayoutServerLoad = async ({ params }) => {
+export const load: LayoutServerLoad = async ({ params, setHeaders }) => {
+
+    setHeaders({
+        'cache-control': 'public, max-age=5'
+    });
+
     const tag = params.tag;
     if (tag) {
         const { data: posts, count: total } = await getPosts({ tag });
@@ -12,6 +17,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
             throw error(404, 'Not found');
         }
         return {
+            random: Math.random(),
             total,
             posts,
             tag

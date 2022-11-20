@@ -7,8 +7,11 @@
 
 	$: {
 		breadcrumbs().addBC(data.tag as string);
-	};
-
+	}
 </script>
+
+<div>
+	ID: {data.random}
+</div>
 
 <slot />
