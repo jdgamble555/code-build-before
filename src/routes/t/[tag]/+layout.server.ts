@@ -6,8 +6,9 @@ const { getPosts } = read_post;
 
 export const load: LayoutServerLoad = async ({ params, setHeaders }) => {
 
+    // cache for 3 days
     setHeaders({
-        'cache-control': 'public, max-age=5'
+        'cache-control': 'public, max-age=259200'
     });
 
     const tag = params.tag;
