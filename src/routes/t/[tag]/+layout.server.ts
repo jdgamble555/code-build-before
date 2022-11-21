@@ -8,7 +8,7 @@ export const load: LayoutServerLoad = async ({ params, setHeaders }) => {
 
     // cache for 3 days
     setHeaders({
-        'cache-control': 'public, max-age=259200'
+        'cache-control': 'public, max-age=259200, stale-while-revalidate=86400'
     });
 
     const tag = params.tag;
