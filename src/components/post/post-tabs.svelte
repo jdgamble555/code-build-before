@@ -31,7 +31,6 @@
 		let:tab
 		bind:active
 		on:click={() => {
-			loadPosts.page = 1;
 			loadPosts.type = _types[active];
 			loadPosts.refresh();
 		}}

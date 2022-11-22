@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SubHeader from '@components/nav/sub-header.svelte';
-	import { darkMode, showLeft, showRight } from '$lib/stores';
+	import { darkMode, loading, showLeft, showRight } from '$lib/stores';
 	import Header from '@components/nav/header.svelte';
 	import Leftnav from '@components/nav/leftnav.svelte';
 	import Rightnav from '@components/nav/rightnav.svelte';
@@ -8,8 +8,12 @@
 	import Message from '@components/message.svelte';
 	import { browser } from '$app/environment';
 	import type { LayoutData } from './$types';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
 
 	export let data: LayoutData;
+
+	beforeNavigate(() => loading.set(true));
+	afterNavigate(() => loading.set(false));
 </script>
 
 <svelte:head>

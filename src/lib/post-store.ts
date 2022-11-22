@@ -31,6 +31,7 @@ class _loadPosts {
     }
 
     set type(t: postsType) {
+        this._page = 1;
         this._type = t;
     }
 
@@ -55,6 +56,7 @@ class _loadPosts {
     refresh() {
         const _posts = this._cache.get(this._cacheName());
         if (_posts) {
+            console.log('exists...');
             this._posts.set(_posts);
         } else {
             // get posts sort

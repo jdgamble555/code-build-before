@@ -7,9 +7,9 @@ const { getPosts } = read_post;
 export const load: LayoutServerLoad = async ({ params, setHeaders }) => {
 
     // cache for 3 days
-    setHeaders({
+    /*setHeaders({
         'cache-control': 'public, max-age=259200, stale-while-revalidate=86400'
-    });
+    });*/
 
     const tag = params.tag;
     if (tag) {
@@ -18,7 +18,6 @@ export const load: LayoutServerLoad = async ({ params, setHeaders }) => {
             throw error(404, 'Not found');
         }
         return {
-            random: Math.random(),
             total,
             posts,
             tag
