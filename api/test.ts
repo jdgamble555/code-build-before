@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
     // Check for secret to confirm this is a valid request
 
-    return res.text('hello world!');
+    return res.status(200).json({ body: 'hello world!' });
 
     /*if (req.query.secret !== process.env.MY_SECRET_TOKEN) {
       return res.status(401).json({ message: 'Invalid token' });
@@ -15,4 +15,4 @@ export default async function handler(req, res) {
       // to show the last successfully generated page
       return res.status(500).send('Error revalidating');
     }*/
-  };
+};
