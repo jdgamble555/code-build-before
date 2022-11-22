@@ -56,7 +56,6 @@ class _loadPosts {
     refresh() {
         const _posts = this._cache.get(this._cacheName());
         if (_posts) {
-            console.log('exists...');
             this._posts.set(_posts);
         } else {
             // get posts sort
@@ -71,7 +70,6 @@ class _loadPosts {
                 sortF = undefined;
             }
             loading.set(true);
-            console.log('fetching...');
             getPosts({ sortField: sortF, tag: this._tag, page: this._page }).then(({ error, data: newR }) => {
                 if (error) {
                     console.error(error);
