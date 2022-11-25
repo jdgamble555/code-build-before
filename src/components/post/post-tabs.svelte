@@ -2,19 +2,19 @@
 	import type { Optional, Post } from '$lib/post.model';
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
-	import { getContext } from 'svelte';
 	import PostList from './post-list.svelte';
 	import { LightPaginationNav } from 'svelte-paginate';
 	import { loadPosts, type postsType } from '$lib/post-store';
 	import { loading } from '$lib/stores';
 	import Loader from '@components/nav/loader.svelte';
+	import { page } from '$app/stores';
 
-	const _posts = getContext<Optional<Post[]>>('posts');
+	const _posts = $page.data.posts as Post[];
 	loadPosts.current = _posts;
 	loadPosts.refresh();
 	const { posts } = loadPosts;
 
-	const total = getContext<number>('total');
+	const total = $page.data.total;
 
 	const _types: { [key: string]: postsType } = {
 		New: 'new',

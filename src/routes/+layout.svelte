@@ -1,9 +1,8 @@
 <script lang="ts">
 	import SubHeader from '@components/nav/sub-header.svelte';
-	import { darkMode, loading, showLeft, showRight } from '$lib/stores';
+	import { darkMode, loading, showLeft } from '$lib/stores';
 	import Header from '@components/nav/header.svelte';
 	import Leftnav from '@components/nav/leftnav.svelte';
-	import Rightnav from '@components/nav/rightnav.svelte';
 	import Footer from '@components/nav/footer.svelte';
 	import Message from '@components/message.svelte';
 	import { browser } from '$app/environment';
@@ -26,13 +25,10 @@
 {/if}
 <main class="{$darkMode ? 'dark' : 'light'}-theme">
 	<Header />
-	<div class={$showLeft && showRight ? 'wrapper' : 'simple-wrapper'}>
+	<div class={$showLeft ? 'wrapper' : 'simple-wrapper'}>
 		<header class="sub-header">
 			<SubHeader />
 		</header>
-		<aside class="rightnav {$showRight ? 'show' : 'hide'}">
-			<Rightnav />
-		</aside>
 		<article class="content">
 			<slot />
 		</article>
@@ -46,85 +42,83 @@
 </main>
 
 <style global>
-	.simple-wrapper {
-		margin-top: 20px;
-		left: 50%;
-		transform: translateX(-50%);
-		gap: 20px;
-		max-width: 995px;
-		width: 100%;
-		position: absolute;
-		display: grid;
-		grid-template-areas:
-			'sub-header'
-			'content'
-			'footer';
-	}
-	.simple-wrapper .content {
-		max-width: 100vw;
-	}
-	.hide {
-		visibility: hidden;
-		display: none;
-	}
-	.show {
-		visibility: visible;
-		display: block;
-	}
 	.sub-header {
-		grid-area: sub-header;
+		grid-area: header;
 	}
+
 	.content {
 		grid-area: content;
 	}
-	.rightnav {
-		margin-right: 20px;
-		grid-area: rightnav;
-	}
+
 	.leftnav {
-		margin-left: 20px;
 		grid-area: leftnav;
+		min-width: 180px;
 	}
+
 	.footer {
 		grid-area: footer;
 		text-align: center;
 	}
+
 	.wrapper {
 		margin-top: 20px;
+		margin-right: auto;
+		margin-left: auto;
 		max-width: 995px;
-		width: 100%;
-		background-color: transparent !important;
-		position: absolute;
-		left: 50%;
-		transform: translateX(-50%);
+		width: 95%;
+		grid-gap: 20px;
 		display: grid;
-		gap: 20px;
 		grid-template-areas:
-			'sub-header'
-			'rightnav'
+			'header'
 			'content'
 			'leftnav'
 			'footer';
 	}
-	@media (min-width: 500px) {
+
+	@media (max-width: 699px) {
+		.tag_list > li {
+			display: inline-block;
+			margin-left: 5px;
+		}
+	}
+
+	.simple-wrapper {
+		margin-top: 20px;
+		margin-right: auto;
+		margin-left: auto;
+		max-width: 995px;
+		width: 95%;
+		display: grid;
+		grid-template-areas:
+			'header'
+			'content'
+			'footer';
+	}
+	.simple-wrapper.content {
+		max-width: 100vw;
+	}
+
+	.simple-wrapper .leftnav {
+		visibility: hidden;
+		display: none;
+	}
+
+	@media (min-width: 700px) {
 		.wrapper {
-			grid-template-columns: 1fr 3fr;
-			grid-template-rows: 0fr 0fr 1fr;
+			grid-template-columns: 1fr 4fr;
+			grid-template-rows: 1fr;
 			grid-template-areas:
-				'sub-header sub-header'
-				'rightnav content'
+				'header header'
 				'leftnav content'
 				'footer footer';
 		}
-	}
-	@media (min-width: 700px) {
-		.wrapper {
-			grid-template-columns: 1fr 3.5fr 0.5fr;
-			grid-template-rows: 1fr;
-			grid-template-areas:
-				'sub-header sub-header sub-header'
-				'leftnav content rightnav'
-				'footer footer footer';
+
+		.content {
+			max-width: 73vw;
+		}
+
+		nav ul {
+			flex-direction: column;
 		}
 	}
 </style>
