@@ -1,9 +1,35 @@
-import type { Post, PostInput, PostRequest } from "$lib/post.model";
+import type { Optional, Post, PostInput, PostRequest, PostSingleRequest, sortFields } from "$lib/post.model";
 import { decode, encode, range } from "j-supabase";
 import { supabase_to_post, type supabase_post } from "./auth.types";
 import { supabase } from "./supabase";
 
 export const supabase_post_read_adapter = {
+
+    async getPostById(id: string, published = true): Promise<PostSingleRequest> {
+        const pid = decode(id);
+        let error;
+        let data: Optional<supabase_post>;
+
+        const x = (pub: boolean) => supabase.from(pub ? 'posts_hearts_tags' : 'drafts')
+            .select('*, author!inner(*)').eq('id', pid).single();
+
+        // draft
+        if (!published) {
+            ({ data, error } = await x(false));
+            if (error) {
+                console.error(error);
+            }
+        }
+
+        // published
+        if (!data) {
+            ({ data, error } = await x(true));
+            if (error) {
+                console.error(error);
+            }
+        }
+        return { data: data ? supabase_to_post(data) : undefined, error: error?.message };
+    },
 
     async searchPost(phrase: string): Promise<PostRequest> {
 
@@ -30,16 +56,17 @@ export const supabase_post_read_adapter = {
     async getPosts({
         authorId,
         tag,
-        sortField = 'created_at',
+        sortField = 'createdAt',
         sortDirection = 'desc',
         pageSize = 5,
         page = 1,
         drafts = false
     }: PostInput = {
+            sortField: 'createdAt',
             sortDirection: 'desc',
-            sortField: 'created_at',
-            page: 1, 
-            pageSize: 5
+            pageSize: 5,
+            page: 1,
+            drafts: false
         }): Promise<PostRequest> {
 
         const _sorts: { [key: string]: string } = {
@@ -48,7 +75,7 @@ export const supabase_post_read_adapter = {
             'heartsCount': 'hearts_count'
         };
 
-        sortField = _sorts[sortField] ?? sortField;
+        sortField = _sorts[sortField as string] as sortFields ?? sortField;
 
         const error = null;
         let count = null;

@@ -4,6 +4,8 @@ import type { LayoutServerLoad } from './$types';
 
 const { getPosts } = read_post;
 
+console.log("layout ran...");
+
 export const load: LayoutServerLoad = async () => {
   const tags = await getTags();
   const { data: posts, count: total } = await getPosts();
@@ -12,4 +14,4 @@ export const load: LayoutServerLoad = async () => {
     tags,
     posts
   };
-}
+};

@@ -1,13 +1,17 @@
 <script lang="ts">
-	import type { Post, Tag } from '$lib/post.model';
+	import type { Post } from '$lib/post.model';
 	import Card, { Content } from '@smui/card';
 	import Time from 'svelte-time';
 	import { Icon } from '@smui/button';
 	import { goto } from '$app/navigation';
 	import Chip, { Set, Text } from '@smui/chips';
+	import PostMarkdown from './post-markdown.svelte';
 
 	export let post: Post;
+	export let details = false;
 </script>
+
+<svelte:head />
 
 <Card variant="outlined" padded>
 	{#if post.image}
@@ -49,6 +53,9 @@
 				</p>
 			</div>
 		</a>
+		{#if details}
+			<PostMarkdown source={post.content} />
+		{/if}
 		{#if post.tags}
 			<div class="grey-tag tag-set">
 				<Set chips={post.tags} let:chip>

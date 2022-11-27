@@ -23,5 +23,4 @@ export const showMsg = (text: string) => {
         }
         return self;
     });
-}
-
+};

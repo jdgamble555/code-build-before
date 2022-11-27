@@ -21,6 +21,7 @@
 		"@smui-extra/accordion": "^7.0.0-beta.0",
 		"@smui-extra/autocomplete": "^7.0.0-beta.0",
 		"@smui/button": "^7.0.0-beta.0",
+		"@smui/card": "^7.0.0-beta.0",
 		"@smui/checkbox": "^7.0.0-beta.0",
 		"@smui/chips": "^7.0.0-beta.0",
 		"@smui/circular-progress": "^7.0.0-beta.0",
@@ -41,6 +42,7 @@
 		"eslint": "^8.16.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^4.0.0",
+		"mdsvex": "^0.10.6",
 		"prettier": "^2.6.2",
 		"prettier-plugin-svelte": "^2.7.0",
 		"sass": "^1.55.0",
@@ -48,6 +50,7 @@
 		"svelte": "^3.44.0",
 		"svelte-check": "^2.7.1",
 		"svelte-forms-lib": "^2.0.1",
+		"svelte-highlight": "^6.2.1",
 		"svelte-paginate": "^0.1.0",
 		"svelte-preprocess": "^4.10.6",
 		"svelte-time": "^0.7.1",
@@ -57,8 +60,9 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@smui/card": "^7.0.0-beta.0",
 		"@supabase/supabase-js": "^2.1.0",
-		"j-supabase": "^1.0.14"
+		"highlight.js": "^11.7.0",
+		"j-supabase": "^1.0.14",
+		"svelte-markdown": "^0.2.3"
 	}
 }

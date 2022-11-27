@@ -4,12 +4,14 @@ import type { LayoutServerLoad } from './$types';
 
 const { getPosts } = read_post;
 
-export const load: LayoutServerLoad = async ({ params, setHeaders }) => {
+export const load: LayoutServerLoad = async ({ params }) => {
 
     // cache for 3 days
     /*setHeaders({
         'cache-control': 'public, max-age=259200, stale-while-revalidate=86400'
     });*/
+
+    console.log("tag ran...");
 
     const tag = params.tag;
     if (tag) {

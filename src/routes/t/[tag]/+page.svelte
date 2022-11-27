@@ -4,6 +4,5 @@
 </script>
 
 {#key $page}
-	<PostTag posts={$page.data.posts} tag={$page.data.tag} />
+	<PostTag />
 {/key}
- 

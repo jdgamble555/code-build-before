@@ -5,17 +5,16 @@
 	import { darkMode, showSearch } from '$lib/stores';
 	import Autocomplete from '@smui-extra/autocomplete';
 	import { Text } from '@smui/list';
-	import { read_post } from '$lib/database';
 	import { goto } from '$app/navigation';
 	import Loader from '../loader.svelte';
 	import type { Optional, Post } from '$lib/post.model';
+	import { api } from '$lib/utils';
 
 	let value: { id?: string; slug?: string } | undefined = undefined;
 
 	let timer: NodeJS.Timeout;
 
 	async function searchItems(input: string): Promise<false | Post[]> {
-		const { searchPost } = read_post;
 		if (!input) {
 			return false;
 		}
@@ -25,7 +24,7 @@
 		return new Promise((res, _rej) => {
 			let r: Optional<Post[]>;
 			timer = setTimeout(async () => {
-				({ data: r } = await searchPost(input));
+				({ data: r } = await api('/api/posts', { search: input }));
 				res(r || false);
 			}, 500);
 		});

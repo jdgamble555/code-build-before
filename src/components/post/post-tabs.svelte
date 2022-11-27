@@ -1,25 +1,19 @@
 <script lang="ts">
-	import type { Optional, Post } from '$lib/post.model';
+	import type { sortFields } from '$lib/post.model';
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
 	import PostList from './post-list.svelte';
-	import { LightPaginationNav } from 'svelte-paginate';
-	import { loadPosts, type postsType } from '$lib/post-store';
 	import { loading } from '$lib/stores';
 	import Loader from '@components/nav/loader.svelte';
 	import { page } from '$app/stores';
+	import { getPosts, posts } from '$lib/post-store';
 
-	const _posts = $page.data.posts as Post[];
-	loadPosts.current = _posts;
-	loadPosts.refresh();
-	const { posts } = loadPosts;
+	posts.set($page.data.posts);
 
-	const total = $page.data.total;
-
-	const _types: { [key: string]: postsType } = {
-		New: 'new',
-		Updated: 'updated',
-		Top: 'top'
+	const _types: { [key: string]: sortFields } = {
+		New: 'createdAt',
+		Updated: 'updatedAt',
+		Top: 'heartsCount'
 	};
 
 	let active = 'New';
@@ -31,8 +25,7 @@
 		let:tab
 		bind:active
 		on:click={() => {
-			loadPosts.type = _types[active];
-			loadPosts.refresh();
+			getPosts({ sortField: _types[active] });
 		}}
 	>
 		<Tab {tab}>
@@ -43,28 +36,7 @@
 	{#if $loading}
 		<Loader />
 	{:else}
-		<PostList posts={$posts} />
+		<PostList total={$page.data.total} type={_types[active]} />
 	{/if}
 </div>
 
-<LightPaginationNav
-	totalItems={total}
-	pageSize={5}
-	currentPage={loadPosts.page}
-	limit={1}
-	showStepOptions={true}
-	on:setPage={(e) => {
-		loadPosts.page = e.detail.page;
-		loadPosts.refresh();
-	}}
-/>
-
-<style global>
-	.light-pagination-nav.svelte-bxgrui .pagination-nav {
-		border: none;
-		box-shadow: none !important;
-	}
-	.card-filler {
-		min-height: 600px;
-	}
-</style>
