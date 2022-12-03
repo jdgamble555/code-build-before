@@ -6,7 +6,10 @@
 	import { loading } from '$lib/stores';
 	import Loader from '@components/nav/loader.svelte';
 	import { page } from '$app/stores';
-	import { getPosts, posts } from '$lib/post-store';
+	import { posts } from '$lib/post-store';
+	import { read_post } from '$lib/database';
+
+	const { getPosts } = read_post;
 
 	posts.set($page.data.posts);
 
@@ -25,7 +28,11 @@
 		let:tab
 		bind:active
 		on:click={() => {
-			getPosts({ sortField: _types[active] });
+			loading.set(true);
+			getPosts({ sortField: _types[active] }).then((p) => {
+				posts.set(p.data ?? []);
+				loading.set(false);
+			});
 		}}
 	>
 		<Tab {tab}>
@@ -39,4 +46,3 @@
 		<PostList total={$page.data.total} type={_types[active]} />
 	{/if}
 </div>
-

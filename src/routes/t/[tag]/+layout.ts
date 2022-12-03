@@ -1,17 +1,10 @@
 import { error } from '@sveltejs/kit';
 import { read_post } from '$lib/database';
-import type { LayoutServerLoad } from './$types';
+import type { LayoutLoad } from './$types';
 
 const { getPosts } = read_post;
 
-export const load: LayoutServerLoad = async ({ params }) => {
-
-    // cache for 3 days
-    /*setHeaders({
-        'cache-control': 'public, max-age=259200, stale-while-revalidate=86400'
-    });*/
-
-    console.log("tag ran...");
+export const load: LayoutLoad = async ({ params }) => {
 
     const tag = params.tag;
     if (tag) {

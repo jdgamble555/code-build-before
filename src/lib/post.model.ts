@@ -23,14 +23,14 @@ export interface Tag {
   count: number;
 };
 
-export interface PostSingleRequest {
+export interface PostRequest {
   error?: Optional<string>;
   data?: Optional<Post>;
   exists?: Optional<boolean>;
   count?: Optional<number>;
 };
 
-export interface PostRequest {
+export interface PostListRequest {
   error?: Optional<string>;
   data?: Optional<Post[]>;
   exists?: Optional<boolean>;

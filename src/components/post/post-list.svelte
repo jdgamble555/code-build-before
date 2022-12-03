@@ -1,8 +1,12 @@
 <script lang="ts">
-	import { getPosts, posts } from '$lib/post-store';
+	import { posts } from '$lib/post-store';
 	import type { sortFields } from '$lib/post.model';
+	import { loading } from '$lib/stores';
 	import { LightPaginationNav } from 'svelte-paginate';
 	import PostDetail from './post-detail.svelte';
+	import { read_post } from '$lib/database';
+
+	const { getPosts } = read_post;
 
 	let currentPage = 1;
 
@@ -23,17 +27,11 @@
 		showStepOptions={true}
 		on:setPage={(e) => {
 			currentPage = e.detail.page;
-			getPosts({ sortField: type, page: e.detail.page, tag });
+			loading.set(true);
+			getPosts({ sortField: type, page: e.detail.page, tag }).then((p) => {
+				posts.set(p.data ?? []);
+				loading.set(false);
+			});
 		}}
 	/>
 {/if}
-
-<style global>
-	.light-pagination-nav.svelte-bxgrui .pagination-nav {
-		border: none;
-		box-shadow: none !important;
-	}
-	.card-filler {
-		min-height: 600px;
-	}
-</style>

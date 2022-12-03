@@ -1,7 +1,7 @@
 import { randomID } from "$lib/image-tools";
 import { supabase } from "./supabase";
 
-export const supabase_image_upload = {
+export const supabase_image_upload_adapter = {
 
     async getURL(gs: string): Promise<{ data: string | null }> {
         const { data } = supabase.storage.from('photos').getPublicUrl(gs);
@@ -23,7 +23,7 @@ export const supabase_image_upload = {
         const path = `${folder}/${name}.${ext}`;
         let error = null;
         let data = null;
-        const { error: _e } = await supabase_image_upload.deleteImage(path);
+        const { error: _e } = await supabase_image_upload_adapter.deleteImage(path);
         if (_e) {
             console.error(_e);
         }
@@ -44,7 +44,7 @@ export const supabase_image_upload = {
         let url = null;
         if (data?.path) {
 
-            ({ data: url } = await supabase_image_upload.getURL(data.path));
+            ({ data: url } = await supabase_image_upload_adapter.getURL(data.path));
             url = url + '?lastmod=' + Math.random();
         }
         return { url, error };

@@ -1,4 +1,6 @@
-export const api = async (url: string, params: { [key: string]: string }) => {
-    const r = await fetch(url + '?' + new URLSearchParams(params).toString());
-    return await r.json();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const api = async <T>(url: string, params: Map<string, string>, fetch?: any): Promise<T> => {
+    const _url = url + (params.size > 0 ? '?' : '') + new URLSearchParams(Object.entries(params.entries())).toString();
+    const r = await fetch(_url);
+    return await r.json() as T;
 };

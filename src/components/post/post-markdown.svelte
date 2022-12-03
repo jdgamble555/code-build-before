@@ -25,29 +25,3 @@
 </script>
 
 <SvelteMarkdown {source} />
-
-<!-- https://stackoverflow.com/questions/67954877/how-to-set-numbers-to-pre-with-js-css -->
-<style global lang="scss">
-	pre {
-		border-radius: 5px;
-		counter-reset: linecounter;
-	}
-
-	pre .line-num {
-		min-width: 3ch;
-		display: inline-block;
-		border-right: 1px solid;
-		margin-right: 3ch;
-		color: #c5c8c6;
-	}
-
-	pre .line-num::before {
-		counter-increment: linecounter;
-		content: counter(linecounter);
-	}
-
-	.hljs {
-		padding: 1rem !important;
-		line-height: 1.45 !important;
-	}
-</style>

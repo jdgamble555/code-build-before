@@ -1,11 +1,11 @@
-import type { Optional, Post, PostInput, PostRequest, PostSingleRequest, sortFields } from "$lib/post.model";
+import type { Optional, Post, PostInput, PostListRequest, PostRequest, sortFields } from "$lib/post.model";
 import { decode, encode, range } from "j-supabase";
 import { supabase_to_post, type supabase_post } from "./auth.types";
 import { supabase } from "./supabase";
 
 export const supabase_post_read_adapter = {
 
-    async getPostById(id: string, published = true): Promise<PostSingleRequest> {
+    async getPostById(id: string, published = true): Promise<PostRequest> {
         const pid = decode(id);
         let error;
         let data: Optional<supabase_post>;
@@ -31,7 +31,7 @@ export const supabase_post_read_adapter = {
         return { data: data ? supabase_to_post(data) : undefined, error: error?.message };
     },
 
-    async searchPost(phrase: string): Promise<PostRequest> {
+    async searchPost(phrase: string): Promise<PostListRequest> {
 
         //const { data, error } = await this.sb.supabase.rpc('search_posts', { phrase });
         const { data, error } = await supabase.from('search_posts').select('*')//.textSearch('content', phrase, { type: 'phrase', config: 'english' });
@@ -45,7 +45,7 @@ export const supabase_post_read_adapter = {
 
     async getTotal(col: string): Promise<PostRequest> {
         let q = supabase.from(col)
-            .select(undefined, { count: 'exact' });
+            .select('*', { count: 'estimated' });
         if (col === 'posts') {
             q = q.lte('published_at', new Date().toISOString())
         }
@@ -67,7 +67,7 @@ export const supabase_post_read_adapter = {
             pageSize: 5,
             page: 1,
             drafts: false
-        }): Promise<PostRequest> {
+        }): Promise<PostListRequest> {
 
         const _sorts: { [key: string]: string } = {
             'updatedAt': 'updated_at',

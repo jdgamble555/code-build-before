@@ -6,10 +6,10 @@
 	import Footer from '@components/nav/footer.svelte';
 	import Message from '@components/message.svelte';
 	import { browser } from '$app/environment';
-	import type { LayoutServerData } from './$types';
+	import type { LayoutData } from './$types';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 
-	export let data: LayoutServerData;
+	export let data: LayoutData;
 
 	beforeNavigate(() => loading.set(true));
 	afterNavigate(() => loading.set(false));
