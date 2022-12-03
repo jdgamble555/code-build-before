@@ -4,14 +4,12 @@ import type { PageServerLoad } from './$types';
 
 const { getPostById } = read_post;
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, setHeaders }) => {
 
     // cache for 3 days
-    /*setHeaders({
+    setHeaders({
         'cache-control': 'public, max-age=259200, stale-while-revalidate=86400'
-    });*/
-
-    console.log("server load slug...");
+    });
 
     const slug = params.slug;
     const id = params.id;
