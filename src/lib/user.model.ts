@@ -11,8 +11,11 @@ export interface UserRec {
   providers: Provider[]
 };
 
+export interface ActionRequest {
+  error: Optional<string>;
+  data?: Optional<boolean>;
+};
+
 export type Role = 'ADMIN' | 'EDITOR' | 'USER';
-
 export type Optional<T> = T | null | undefined;
-
 export type Provider = 'apple' | 'google' | 'email';

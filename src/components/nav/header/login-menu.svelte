@@ -8,11 +8,10 @@
 	let menu: Menu;
 
 	const { user, logout } = auth;
-
 </script>
 
 <div>
-	<Button class="no-bold" on:click={() => menu.setOpen(true)}>
+	<Button class="no-bold" on:click={() => menu.setOpen && menu.setOpen(true)}>
 		{#if $user && $user.photoURL}
 			<img class="avatar" src={$user.photoURL} alt={$user.displayName} width="35" height="35" />
 		{:else}

@@ -14,6 +14,10 @@
     color: #1e88e5;
 }
 
+.red {
+    color: red !important;
+}
+
 .right {
     margin-right: 18px !important;
 }
@@ -71,4 +75,12 @@ pre .line-num::before {
 
 .card-filler {
     min-height: 600px;
+}
+
+.post .smui-card--padded {
+    padding-bottom: 0px;
+}
+
+.mdc-button {
+    font-weight: 400 !important;
 }
