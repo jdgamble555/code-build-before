@@ -37,16 +37,11 @@ export interface PostListRequest {
   count?: Optional<number>;
 };
 
-export type sortFields = 'heartsCount' | 'updatedAt' | 'createdAt';
+export type types = 'author' | 'tag' | 'bookmarks' | 'likes' | 'unpublished' | 'drafts' | 'latest' | 'updated';
 
 export interface PostInput {
-  sortField?: Optional<sortFields>,
-  sortDirection?: Optional<'desc' | 'asc'>,
-  tag?: Optional<string>,
-  uid?: Optional<string>,
-  authorId?: Optional<string>,
-  field?: Optional<string>,
+  type?: Optional<types>,
+  filter?: Optional<string>,
   page?: number,
-  pageSize?: number,
-  drafts?: Optional<boolean>
+  size?: number
 };

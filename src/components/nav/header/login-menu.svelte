@@ -26,19 +26,19 @@
 				</SelectionGroupIcon>
 				<Text>Account Settings</Text>
 			</Item>
-			<Item on:SMUI:action={() => {}}>
+			<Item on:SMUI:action={() => goto('/dashboard')}>
 				<SelectionGroupIcon>
 					<i class="material-icons back">dashboard</i>
 				</SelectionGroupIcon>
 				<Text>Dashboard</Text>
 			</Item>
-			<Item on:SMUI:action={() => {}}>
+			<Item on:SMUI:action={() => goto('/dashboard')}>
 				<SelectionGroupIcon>
 					<i class="material-icons back">bookmarks</i>
 				</SelectionGroupIcon>
 				<Text>Bookmarks</Text>
 			</Item>
-			<Item on:SMUI:action={() => {}}>
+			<Item on:SMUI:action={() => goto('/dashboard')}>
 				<SelectionGroupIcon>
 					<i class="material-icons back">account_box</i>
 				</SelectionGroupIcon>

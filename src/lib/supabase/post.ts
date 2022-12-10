@@ -1,4 +1,4 @@
-import type { Optional, Post, PostInput, PostListRequest, PostRequest, sortFields } from "$lib/post.model";
+import type { Optional, Post, PostInput, PostListRequest, PostRequest } from "$lib/post.model";
 import { decode, encode, range } from "j-supabase";
 import { supabase_to_post, type supabase_post } from "./auth.types";
 import { supabase } from "./supabase";
@@ -54,55 +54,62 @@ export const supabase_post_read_adapter = {
     },
 
     async getPosts({
-        authorId,
-        tag,
-        sortField = 'createdAt',
-        sortDirection = 'desc',
-        pageSize = 5,
+        type = 'latest',
+        filter,
         page = 1,
-        drafts = false
+        size = 5,
     }: PostInput = {
-            sortField: 'createdAt',
-            sortDirection: 'desc',
-            pageSize: 5,
+            type: 'latest',
             page: 1,
-            drafts: false
+            size: 5
         }): Promise<PostListRequest> {
 
+        // get sort field
         const _sorts: { [key: string]: string } = {
-            'updatedAt': 'updated_at',
-            'createdAt': 'created_at',
-            'heartsCount': 'hearts_count'
+            'updated': 'updated_at',
+            'latest': 'created_at',
+            'likes': 'hearts_count'
         };
 
-        sortField = _sorts[sortField as string] as sortFields ?? sortField;
+        const sortField = type && Object.keys(_sorts).includes(type)
+            ? _sorts[type as string]
+            : 'created_at';
 
         const error = null;
         let count = null;
         let data = null;
 
-        let q = supabase.from(drafts ? 'drafts' : 'posts_hearts_tags')
-            .select('*, author!inner(*)', { count: 'exact' });
+        let q;
 
-        if (!drafts) {
-            q = q.lt('published_at', new Date().toISOString());
+        if (type === 'bookmarks') {
+            q = supabase.rpc('post_bookmarks', undefined, { count: 'exact' })
+                .select('*, author!inner(*)')
+        } else {
+            q = supabase.from(type === 'drafts' ? 'drafts' : 'posts_hearts_tags')
+                .select('*, author!inner(*)', { count: 'exact' });
+
+            if (type !== 'drafts' && type !== 'unpublished') {
+                q = q.lt('published_at', new Date().toISOString());
+            }
+            if (filter) {
+                if (type === 'tag') {
+
+                    // tag query
+                    q = q.contains('tags', [filter]);
+
+                } else if (type === 'author') {
+
+                    // author query
+                    q = q.eq('author.id', decode(filter));
+                }
+            }
         }
 
-        if (tag) {
-
-            // tag query
-            q = q.contains('tags', [tag]);
-
-        } else if (authorId) {
-
-            // author query
-            q = q.eq('author.id', decode(authorId));
-        }
-
-        const { to, from } = range({ page, size: pageSize });
+        const { to, from } = range({ page, size });
 
         // get results
-        ({ data, count } = await q.order(sortField, { ascending: sortDirection === 'asc' }).range(from, to));
+        ({ data, count } = await q.order(sortField, { ascending: false }).range(from, to));
+
 
         if (count && count > 0) {
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Save from './../actions/save.svelte';
+	import Save from './actions/save.svelte';
 	import type { Post } from '$lib/post.model';
 	import Card, { Content } from '@smui/card';
 	import Time from 'svelte-time';
@@ -7,7 +7,7 @@
 	import { goto } from '$app/navigation';
 	import Chip, { Set, Text } from '@smui/chips';
 	import PostMarkdown from './post-markdown.svelte';
-	import Like from '@components/actions/like.svelte';
+	import Like from '@components/post/actions/like.svelte';
 	import { Separator } from '@smui/list';
 	import Actions from '@smui/card/src/Actions.svelte';
 	import { auth } from '$lib/database';
