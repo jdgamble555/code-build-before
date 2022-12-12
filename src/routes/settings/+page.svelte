@@ -14,63 +14,62 @@
 	let panel2Open = false;
 	let panel3Open = false;
 
-	const { getUser } = auth;
+	const { user } = auth;
 </script>
 
 {#if browser}
-	{#await getUser()}
+	{#if $user === 'loading'}
 		<div class="centered">
 			<Loader />
 		</div>
-	{:then _user}
-		{#if _user && _user.email}
-			<Card variant="outlined" padded>
-				<div class="accordion-container">
-					<Accordion>
-						<Panel bind:open={panel1Open}>
-							<Header>
-								Profile
-								<span slot="description">Change Your Name and Picture</span>
-								<IconButton slot="icon" toggle pressed={panel1Open}>
-									<Icon class="material-icons" on>expand_less</Icon>
-									<Icon class="material-icons">expand_more</Icon>
-								</IconButton>
-							</Header>
-							<Content>
-								<EditProfile user={_user} />
-							</Content>
-						</Panel>
-						<Panel bind:open={panel2Open}>
-							<Header>
-								Username
-								<span slot="description">Change Your Username</span>
-								<IconButton slot="icon" toggle pressed={panel2Open}>
-									<Icon class="material-icons" on>expand_less</Icon>
-									<Icon class="material-icons">expand_more</Icon>
-								</IconButton>
-							</Header>
-							<Content>
-								<EditUsername username={_user.username || ''} />
-							</Content>
-						</Panel>
-						<Panel bind:open={panel3Open}>
-							<Header>
-								Email
-								<span slot="description">Change your Email</span>
-								<IconButton slot="icon" toggle pressed={panel3Open}>
-									<Icon class="material-icons" on>expand_less</Icon>
-									<Icon class="material-icons">expand_more</Icon>
-								</IconButton>
-							</Header>
-							<Content>
-								<EditEmail email={_user.email} />
-							</Content>
-						</Panel>
-					</Accordion>
-				</div>
-			</Card>
-		{:else}
-			{goto('/login')}
-		{/if}
-	{/await}
+	{:else if $user}
+		<br />
+		<Card variant="outlined" padded>
+			<div class="accordion-container">
+				<Accordion>
+					<Panel bind:open={panel1Open}>
+						<Header>
+							Profile
+							<span slot="description">Change Your Name and Picture</span>
+							<IconButton slot="icon" toggle pressed={panel1Open}>
+								<Icon class="material-icons" on>expand_less</Icon>
+								<Icon class="material-icons">expand_more</Icon>
+							</IconButton>
+						</Header>
+						<Content>
+							<EditProfile user={$user} />
+						</Content>
+					</Panel>
+					<Panel bind:open={panel2Open}>
+						<Header>
+							Username
+							<span slot="description">Change Your Username</span>
+							<IconButton slot="icon" toggle pressed={panel2Open}>
+								<Icon class="material-icons" on>expand_less</Icon>
+								<Icon class="material-icons">expand_more</Icon>
+							</IconButton>
+						</Header>
+						<Content>
+							<EditUsername username={$user.username || ''} />
+						</Content>
+					</Panel>
+					<Panel bind:open={panel3Open}>
+						<Header>
+							Email
+							<span slot="description">Change your Email</span>
+							<IconButton slot="icon" toggle pressed={panel3Open}>
+								<Icon class="material-icons" on>expand_less</Icon>
+								<Icon class="material-icons">expand_more</Icon>
+							</IconButton>
+						</Header>
+						<Content>
+							<EditEmail email={$user.email} />
+						</Content>
+					</Panel>
+				</Accordion>
+			</div>
+		</Card>
+	{:else}
+		{goto('/login')}
+	{/if}
 {/if}

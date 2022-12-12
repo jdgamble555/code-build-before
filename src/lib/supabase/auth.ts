@@ -6,7 +6,9 @@ import type { UserRec } from "$lib/user.model";
 import { page } from '$app/stores';
 import { type supabase_user, combine_auth_user } from './auth.types';
 
-const auth = readable<User | null>(null, set =>
+// todo - add loading state, get rid of 'getUser'
+
+const auth = readable<User | null | 'loading'>('loading', set =>
     authUser(supabase).subscribe(user => {
         set(user ?? null);
     })
@@ -30,37 +32,40 @@ export const supabase_auth_adapter = {
 
     // auth class
 
-    user: derived<typeof auth, UserRec | null>(auth, (user, set) => {
+    user: derived<typeof auth, UserRec | 'loading' | null>(auth, (user, set) => {
         // check for logged in
-        if (user && user.id) {
+        if (user) {
 
-            // subscribe to profiles table
-            return realtime<supabase_user>(supabase)
-                .from('profiles')
-                .eq('id', user.id)
-                .single()
-                .subscribe(snap => {
-                    if (snap.data) {
+            if (user !== 'loading') {
+                // subscribe to profiles table
+                return realtime<supabase_user>(supabase)
+                    .from('profiles')
+                    .eq('id', user.id)
+                    .single()
+                    .subscribe(snap => {
+                        if (snap.data) {
 
-                        // if exists, get data
-                        set(combine_auth_user(snap.data, user));
-                    } else {
+                            // if exists, get data
+                            set(combine_auth_user(snap.data, user));
+                        } else {
 
-                        // if DNE, set create data
-                        // will refresh subscription...
-                        supabase.from('profiles').insert({
-                            photo_url: user.user_metadata.avatar_url || null,
-                            display_name: user.user_metadata.full_name || null,
-                            role: 'USER'
-                        }).then(({ error }) => {
-                            if (error) {
-                                console.error(error);
-                            }
-                        });
-                    }
-                });
+                            // if DNE, set create data
+                            // will refresh subscription...
+                            supabase.from('profiles').insert({
+                                photo_url: user.user_metadata.avatar_url || null,
+                                display_name: user.user_metadata.full_name || null,
+                                role: 'USER'
+                            }).then(({ error }) => {
+                                if (error) {
+                                    console.error(error);
+                                }
+                            });
+                        }
+                    });
+            } else {
+                set('loading');
+            }
         } else {
-
             // not logged in
             set(null);
         }

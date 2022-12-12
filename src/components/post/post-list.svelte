@@ -1,18 +1,25 @@
 <script lang="ts">
 	import { posts } from '$lib/post-store';
-	import type { sortFields } from '$lib/post.model';
-	import { loading } from '$lib/stores';
+	import { currentPage, loading } from '$lib/stores';
 	import { LightPaginationNav } from 'svelte-paginate';
 	import PostDetail from './post-detail.svelte';
 	import { read_post } from '$lib/database';
+	import type { types } from '$lib/post.model';
 
 	const { getPosts } = read_post;
 
-	let currentPage = 1;
+	const turnPage = (e: any) => {
+		loading.set(true);
+		currentPage.set(e.detail.page);
+		getPosts({ type, page: e.detail.page, filter }).then((p) => {
+			posts.set(p.data ?? []);
+			loading.set(false);
+		});
+	};
 
 	export let total: Number;
-	export let type: sortFields = 'createdAt';
-	export let tag: string | undefined = undefined;
+	export let type: types | undefined = undefined;
+	export let filter: string | undefined = undefined;
 </script>
 
 {#if $posts}
@@ -22,16 +29,9 @@
 	<LightPaginationNav
 		totalItems={total}
 		pageSize={5}
-		{currentPage}
+		currentPage={$currentPage}
 		limit={1}
 		showStepOptions={true}
-		on:setPage={(e) => {
-			currentPage = e.detail.page;
-			loading.set(true);
-			getPosts({ sortField: type, page: e.detail.page, tag }).then((p) => {
-				posts.set(p.data ?? []);
-				loading.set(false);
-			});
-		}}
+		on:setPage={turnPage}
 	/>
 {/if}

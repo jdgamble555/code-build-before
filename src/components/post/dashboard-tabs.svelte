@@ -52,6 +52,6 @@
 	{#if $loading}
 		<Loader />
 	{:else}
-		<PostList {total} />
+		<PostList {total} type={_types[active]} filter={user.id} />
 	{/if}
 </div>

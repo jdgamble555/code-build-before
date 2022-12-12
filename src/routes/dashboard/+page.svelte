@@ -5,19 +5,17 @@
 	import Dashboard from '@components/dashboard.svelte';
 	import Loader from '@components/nav/loader.svelte';
 
-	const { getUser } = auth;
+	const { user } = auth;
 </script>
 
 {#if browser}
-	{#await getUser()}
+	{#if $user === 'loading'}
 		<div class="centered">
 			<Loader />
 		</div>
-	{:then _user}
-		{#if _user}
-			<Dashboard user={_user} />
-		{:else}
-			{goto('/login')}
-		{/if}
-	{/await}
+	{:else if !$user}
+		{goto('/login')}
+	{:else}
+		<Dashboard user={$user} />
+	{/if}
 {/if}

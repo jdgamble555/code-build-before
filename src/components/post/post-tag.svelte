@@ -12,6 +12,6 @@
 	{#if $loading}
 		<Loader />
 	{:else}
-		<PostList total={$page.data.total} tag={$page.data.tag} />
+		<PostList total={$page.data.total} filter={$page.data.tag} type="tag" />
 	{/if}
 </div>
