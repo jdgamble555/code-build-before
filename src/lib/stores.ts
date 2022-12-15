@@ -25,4 +25,3 @@ export const showMsg = (text: string) => {
     });
 };
 
-export const currentPage = writable(1);

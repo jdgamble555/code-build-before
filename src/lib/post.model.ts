@@ -45,3 +45,8 @@ export interface PostInput {
   page?: number,
   size?: number
 };
+
+export interface UsernameRequest {
+  error?: Optional<string>,
+  data?: Optional<string>
+};

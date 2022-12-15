@@ -19,3 +19,4 @@ export interface ActionRequest {
 export type Role = 'ADMIN' | 'EDITOR' | 'USER';
 export type Optional<T> = T | null | undefined;
 export type Provider = 'apple' | 'google' | 'email';
+export type UserType = UserRec | 'loading' | null;

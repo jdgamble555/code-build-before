@@ -1,4 +1,4 @@
-import type { Optional, Post, PostInput, PostListRequest, PostRequest } from "$lib/post.model";
+import type { Optional, Post, PostInput, PostListRequest, PostRequest, UsernameRequest } from "$lib/post.model";
 import { decode, encode, range } from "j-supabase";
 import { supabase_to_post, type supabase_post } from "./auth.types";
 import { supabase } from "./supabase";
@@ -29,6 +29,12 @@ export const supabase_post_read_adapter = {
             }
         }
         return { data: data ? supabase_to_post(data) : undefined, error: error?.message };
+    },
+
+    async getUsernameFromId(uid: string): Promise<UsernameRequest> {
+        const id = decode(uid);
+        const { data, error } = await supabase.from('profiles').select('*').eq('id', id).single();
+        return { data: data?.username, error: error?.message };
     },
 
     async searchPost(phrase: string): Promise<PostListRequest> {

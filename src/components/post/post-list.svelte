@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { posts } from '$lib/post-store';
-	import { currentPage, loading } from '$lib/stores';
+	import { currentPage, posts } from '$lib/post-store';
+	import { loading } from '$lib/stores';
 	import { LightPaginationNav } from 'svelte-paginate';
 	import PostDetail from './post-detail.svelte';
 	import { read_post } from '$lib/database';
@@ -8,7 +8,7 @@
 
 	const { getPosts } = read_post;
 
-	const turnPage = (e: any) => {
+	const turnPage = (e: CustomEvent<any>) => {
 		loading.set(true);
 		currentPage.set(e.detail.page);
 		getPosts({ type, page: e.detail.page, filter }).then((p) => {

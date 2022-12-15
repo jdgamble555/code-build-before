@@ -2,11 +2,9 @@ import { authUser, realtime, } from "j-supabase";
 import { derived, get, readable } from "svelte/store";
 import { supabase } from "./supabase";
 import type { AuthError, User } from '@supabase/supabase-js';
-import type { UserRec } from "$lib/user.model";
+import type { UserType } from "$lib/user.model";
 import { page } from '$app/stores';
 import { type supabase_user, combine_auth_user } from './auth.types';
-
-// todo - add loading state, get rid of 'getUser'
 
 const auth = readable<User | null | 'loading'>('loading', set =>
     authUser(supabase).subscribe(user => {
@@ -16,23 +14,9 @@ const auth = readable<User | null | 'loading'>('loading', set =>
 
 export const supabase_auth_adapter = {
 
-    getUser: async (): Promise<UserRec | null> => {
-        const user = (await supabase.auth.getSession()).data.session?.user;
-        if (user) {
-            const { data, error } = await supabase.from('profiles')
-                .select('*').eq('id', user.id).single();
-            if (error) {
-                console.error(error);
-                return null;
-            }
-            return combine_auth_user(data, user);
-        }
-        return null;
-    },
-
     // auth class
 
-    user: derived<typeof auth, UserRec | 'loading' | null>(auth, (user, set) => {
+    user: derived<typeof auth, UserType>(auth, (user, set) => {
         // check for logged in
         if (user) {
 
