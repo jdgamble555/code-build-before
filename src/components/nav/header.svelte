@@ -3,22 +3,20 @@
 	import '@styles/global.scss';
 	import { showSearch } from '$lib/stores';
 	import Loader from './loader.svelte';
-	import TopAppBar from '@smui/top-app-bar';
 </script>
 
 <div class="top-app-bar">
-	
-		{#if $showSearch}
-			{#await import('./header/search-bar.svelte')}
-				<div class="centered loader">
-					<Loader />
-				</div>
-			{:then SearchBar}
-				<SearchBar.default />
-			{/await}
-		{:else}
-			<TopBar />
-		{/if}
+	{#if $showSearch}
+		{#await import('./header/search-bar.svelte')}
+			<div class="centered loader">
+				<Loader />
+			</div>
+		{:then SearchBar}
+			<SearchBar.default />
+		{/await}
+	{:else}
+		<TopBar />
+	{/if}
 </div>
 
 <style>

@@ -76,7 +76,7 @@
 		</Content>
 		<Separator />
 		<Actions>
-			{#if $user}
+			{#if $user && $user !== 'loading'}
 				<Save postId={post.id} userId={$user.id} />
 				<Like count={post.heartsCount} postId={post.id} userId={$user.id} />
 			{:else}

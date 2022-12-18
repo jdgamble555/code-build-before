@@ -4,6 +4,7 @@
 	import Button from '@smui/button';
 	import { auth } from '$lib/database';
 	import { goto } from '$app/navigation';
+	import Loader from '../loader.svelte';
 
 	let menu: Menu;
 
@@ -12,10 +13,10 @@
 
 <div>
 	<Button class="no-bold" on:click={() => menu.setOpen && menu.setOpen(true)}>
-		{#if $user && $user.photoURL}
+		{#if $user && $user !== 'loading' && $user.photoURL}
 			<img class="avatar" src={$user.photoURL} alt={$user.displayName} width="35" height="35" />
 		{:else}
-			<span class="material-icons">account_circle</span>
+			<Loader white />
 		{/if}
 	</Button>
 	<Menu bind:this={menu} anchorCorner="BOTTOM_LEFT">
