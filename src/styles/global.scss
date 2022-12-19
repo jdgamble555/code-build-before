@@ -84,3 +84,10 @@ pre .line-num::before {
 .mdc-button {
     font-weight: 400 !important;
 }
+
+// flex container (for edit post)
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+}

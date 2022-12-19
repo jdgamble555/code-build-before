@@ -5,7 +5,8 @@
 	export let data: LayoutData;
 
 	$: {
-		breadcrumbs().addBC(data.tag as string);
+		breadcrumbs.resetBC();
+		breadcrumbs.addBC(data.tag as string);
 	}
 </script>
 

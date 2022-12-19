@@ -5,8 +5,8 @@
 	// navbars
 	showRight.set(false);
 	showLeft.set(false);
-	const crumbs = breadcrumbs();
-	crumbs.addBC('Login');
+	breadcrumbs.resetBC();
+	breadcrumbs.addBC('Login');
 </script>
 
 <slot />

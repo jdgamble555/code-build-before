@@ -3,9 +3,9 @@
 	import Loader from '@components/nav/loader.svelte';
 	import PostList from './post-list.svelte';
 	import { page } from '$app/stores';
-	import { posts } from '$lib/post-store';
+	import { postList } from '$lib/post-store';
 
-	posts.set($page.data.posts);
+	postList.set($page.data.posts);
 </script>
 
 <div class="card-filler">

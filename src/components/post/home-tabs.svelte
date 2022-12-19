@@ -5,13 +5,13 @@
 	import { loading } from '$lib/stores';
 	import Loader from '@components/nav/loader.svelte';
 	import { page } from '$app/stores';
-	import { posts } from '$lib/post-store';
+	import { postList } from '$lib/post-store';
 	import { read_post } from '$lib/database';
 	import type { types } from '$lib/post.model';
 
 	const { getPosts } = read_post;
 
-	posts.set($page.data.posts);
+	postList.set($page.data.posts);
 
 	const _types: { [key: string]: types } = {
 		New: 'latest',
@@ -30,7 +30,7 @@
 		on:click={() => {
 			loading.set(true);
 			getPosts({ type: _types[active] }).then((p) => {
-				posts.set(p.data ?? []);
+				postList.set(p.data ?? []);
 				loading.set(false);
 			});
 		}}

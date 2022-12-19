@@ -5,7 +5,8 @@
 	// navbars
 	showRight.set(false);
 	showLeft.set(false);
-	breadcrumbs().addBC('Settings');
+	breadcrumbs.resetBC();
+	breadcrumbs.addBC('Settings');
 
 </script>
 

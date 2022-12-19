@@ -7,7 +7,7 @@ interface Link {
 
 const { set, update, subscribe } = writable<Link[]>([]);
 
-export const breadcrumbs = () => {
+const _breadcrumbs = () => {
 
 
     let directories: Link[] = [];
@@ -48,3 +48,5 @@ export const breadcrumbs = () => {
         resetBC
     };
 };
+
+export const breadcrumbs = _breadcrumbs();

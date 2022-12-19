@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { currentPage, posts } from '$lib/post-store';
+	import { currentPage, postList } from '$lib/post-store';
 	import { loading } from '$lib/stores';
 	import { LightPaginationNav } from 'svelte-paginate';
 	import PostDetail from './post-detail.svelte';
@@ -12,7 +12,7 @@
 		loading.set(true);
 		currentPage.set(e.detail.page);
 		getPosts({ type, page: e.detail.page, filter }).then((p) => {
-			posts.set(p.data ?? []);
+			postList.set(p.data ?? []);
 			loading.set(false);
 		});
 	};
@@ -22,8 +22,8 @@
 	export let filter: string | undefined = undefined;
 </script>
 
-{#if $posts}
-	{#each $posts as post}
+{#if $postList}
+	{#each $postList as post}
 		<PostDetail {post} />
 	{/each}
 	<LightPaginationNav

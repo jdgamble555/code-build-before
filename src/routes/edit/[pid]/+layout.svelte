@@ -6,7 +6,8 @@
 
 	$: {
 		breadcrumbs.resetBC();
-		breadcrumbs.addBC(data.username as string);
+		breadcrumbs.addBC('Edit Post');
+        breadcrumbs.addBC(data.post.id);
 	}
 </script>
 

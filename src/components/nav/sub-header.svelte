@@ -4,7 +4,7 @@
 	import { darkMode } from '$lib/stores';
 	import Button, { Icon, Label } from '@smui/button';
 
-	const crumbs = breadcrumbs().crumbs;
+	const crumbs = breadcrumbs.crumbs;
 </script>
 
 <Button color="primary" on:click={() => goto('/')}>

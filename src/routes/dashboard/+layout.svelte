@@ -5,7 +5,8 @@
 	// navbars
 	showRight.set(true);
 	showLeft.set(true);
-	breadcrumbs().addBC('Dashboard');
+	breadcrumbs.resetBC();
+	breadcrumbs.addBC('Dashboard');
 </script>
 
 <slot />

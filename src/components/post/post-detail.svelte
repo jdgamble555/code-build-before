@@ -3,7 +3,7 @@
 	import type { Post } from '$lib/post.model';
 	import Card, { Content } from '@smui/card';
 	import Time from 'svelte-time';
-	import { Icon } from '@smui/button';
+	import IconButton, { Icon } from '@smui/icon-button';
 	import { goto } from '$app/navigation';
 	import Chip, { Set, Text } from '@smui/chips';
 	import PostMarkdown from './post-markdown.svelte';
@@ -11,11 +11,20 @@
 	import { Separator } from '@smui/list';
 	import Actions from '@smui/card/src/Actions.svelte';
 	import { auth } from '$lib/database';
+	import { postDetail } from '$lib/post-store';
 
 	const { user } = auth;
 
 	export let post: Post;
 	export let details = false;
+
+	const navigate = (edit = false) => {
+		// navigate to edit or form page
+		// preload post to prevent over-fetching
+		postDetail.set(post);
+		const route = edit ? '/edit/' + post.id : '/p/' + post.id + '/' + post.slug;
+		goto(route);
+	};
 </script>
 
 <svelte:head />
@@ -25,12 +34,12 @@
 			<img class="image" src={post.image} alt={post.title} width="1250" height="650" />
 		{/if}
 		<Content>
-			<a href={'/p/' + post.id + '/' + post.slug}>
+			<div on:click={() => navigate()} on:keypress={() => navigate()}>
 				<h2 class="ng-link">
 					<span class="blue material-icons card-icon">library_books</span>
 					{post.title}
 				</h2>
-			</a>
+			</div>
 
 			<h6><i>{post.minutes} min read</i></h6>
 			<a href={'/u/' + post.author.id + '/' + post.author.username}>
@@ -75,10 +84,17 @@
 			<br />
 		</Content>
 		<Separator />
-		<Actions>
+		<Actions class="flex-container">
 			{#if $user && $user !== 'loading'}
-				<Save postId={post.id} userId={$user.id} />
-				<Like count={post.heartsCount} postId={post.id} userId={$user.id} />
+				<div>
+					<Save postId={post.id} userId={$user.id} />
+					<Like count={post.heartsCount} postId={post.id} userId={$user.id} />
+				</div>
+				{#if post.author.id === $user.id}
+					<IconButton class="material-icons" on:click={() => navigate(true)} title="Edit">
+						edit
+					</IconButton>
+				{/if}
 			{:else}
 				<Save postId={post.id} />
 				<Like count={post.heartsCount} postId={post.id} />

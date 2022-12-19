@@ -1,12 +1,10 @@
-<script>
-	import { page } from '$app/stores';
-	import { breadcrumbs } from '$lib/breadcrumbs';
+<script lang="ts">
 	import PostDetail from '@components/post/post-detail.svelte';
+	import type { PageServerData } from './$types';
 
-	const post = $page.data.post;
-	const details = true;
-
-	breadcrumbs().addBC(post.title);
+	export let data: PageServerData;
 </script>
 
-<PostDetail {post} {details} />
+{#if data.post}
+	<PostDetail post={data.post} details />
+{/if}
