@@ -7,7 +7,6 @@
 	showLeft.set(false);
 	breadcrumbs.resetBC();
 	breadcrumbs.addBC('Settings');
-
 </script>
 
 <slot />

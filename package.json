@@ -61,6 +61,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@github/markdown-toolbar-element": "^2.1.1",
 		"@supabase/supabase-js": "^2.1.0",
 		"highlight.js": "^11.7.0",
 		"j-supabase": "^1.0.16",
