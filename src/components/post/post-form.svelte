@@ -4,16 +4,17 @@
 	import Card, { Content } from '@smui/card';
 	import Textfield from '@smui/textfield';
 	import Icon from '@smui/textfield/icon';
-	//import { onMount } from 'svelte';
 	import { createForm } from 'svelte-forms-lib';
-	//import SvelteMarkdown from 'svelte-markdown';
 	import '@github/markdown-toolbar-element';
-
+	import ChipsInput from '$lib/form/chips-input.svelte';
 
 	export let post: Post;
 
 	const { form, errors, touched, isValid, handleChange, handleSubmit } = createForm({
-		initialValues: post ?? {},
+		initialValues: {
+			title: post.title,
+			tags: post.tags || []
+		},
 		onSubmit: (values) => {}
 	});
 </script>
@@ -46,10 +47,11 @@
 		<MarkdownEditor source={post.content} />
 	</Content>
 </Card>
+<br />
+<ChipsInput label="Tags" placeholder="Tags" bind:input={$form.tags} />
 
 <style global>
 	.text-size {
 		width: 100% !important;
 	}
-
 </style>
