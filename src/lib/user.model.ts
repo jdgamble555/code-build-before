@@ -3,11 +3,11 @@ export interface UserRec {
   email: string;
   role: Role;
   createdAt: Date;
-  updatedAt: Optional<Date>;
-  displayName: Optional<string>;
-  phoneNumber: Optional<string>;
-  photoURL: Optional<string>;
-  username: Optional<string>;
+  updatedAt?: Optional<Date>;
+  displayName?: Optional<string>;
+  phoneNumber?: Optional<string>;
+  photoURL?: Optional<string>;
+  username?: Optional<string>;
   providers: Provider[]
 };
 

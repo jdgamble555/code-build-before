@@ -10,11 +10,11 @@ export interface Post {
   minutes: string;
   author: UserRec;
   createdAt: Date;
-  updatedAt: Optional<Date>;
+  updatedAt?: Optional<Date>;
   publishedAt: Date;
-  image: Optional<string>;
-  imageUploads: Optional<string[]>;
-  tags: Optional<string[]>;
+  image?: Optional<string>;
+  imageUploads?: Optional<string[]>;
+  tags: string[];
   heartsCount: number;
 };
 

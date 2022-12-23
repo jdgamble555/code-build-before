@@ -1,6 +1,6 @@
 <script lang="ts">
 	import MarkdownEditor from '$lib/markdown/markdown-editor.svelte';
-	import type { Post } from '$lib/post.model';
+	import type { Optional, Post } from '$lib/post.model';
 	import Card, { Content } from '@smui/card';
 	import Textfield from '@smui/textfield';
 	import Icon from '@smui/textfield/icon';
@@ -16,10 +16,7 @@
 	let active = 'Content';
 
 	const { form, errors, touched, isValid, handleChange, handleSubmit } = createForm({
-		initialValues: {
-			title: post.title,
-			tags: post.tags || []
-		},
+		initialValues: post,
 		onSubmit: (values) => {}
 	});
 </script>
@@ -29,7 +26,7 @@
 <br />
 
 <Card variant="outlined" padded>
-	<TabBar tabs={['Content', 'Preview']} let:tab bind:active on:click={() => {}}>
+	<TabBar tabs={['Content', 'Preview']} let:tab bind:active>
 		<Tab {tab}>
 			<Label class="no-bold">{tab}</Label>
 		</Tab>
@@ -47,14 +44,13 @@
 				label="Title"
 				bind:value={$form.title}
 				on:input={handleChange}
-				input$autofocus
 				required
 			>
 				<Icon class="material-icons icon-color" slot="leadingIcon">title</Icon>
 			</Textfield>
 			<br />
 			<br />
-			<MarkdownEditor source={post.content} />
+			<MarkdownEditor source={post?.content} />
 			<br />
 			<ChipsInput label="Tags" placeholder="Tags" bind:input={$form.tags} />
 		{:else}
@@ -63,7 +59,6 @@
 	</Content>
 </Card>
 <br />
-
 
 <style global>
 	.text-size {

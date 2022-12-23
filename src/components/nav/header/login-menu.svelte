@@ -46,7 +46,7 @@
 				<Text>My Posts</Text>
 			</Item>
 			<Separator />
-			<Item on:SMUI:action={() => {}}>
+			<Item on:SMUI:action={() => goto('/new')}>
 				<SelectionGroupIcon>
 					<i class="material-icons back">post_add</i>
 				</SelectionGroupIcon>

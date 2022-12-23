@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	export let source: string;
+	export let source = '';
 	export let focus = false;
 
 	let marker: HTMLElement;
