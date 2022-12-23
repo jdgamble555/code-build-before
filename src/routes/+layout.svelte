@@ -112,11 +112,6 @@
 				'leftnav content'
 				'footer footer';
 		}
-
-		.content {
-			max-width: 73vw;
-		}
-
 		nav ul {
 			flex-direction: column;
 		}

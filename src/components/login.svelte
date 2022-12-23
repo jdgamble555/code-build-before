@@ -11,10 +11,11 @@
 	let showEmail = false;
 </script>
 
+<br />
 <div class="login-container">
 	<Card variant="outlined" padded>
 		<div class="centered">
-			<h2>Passwordless Login</h2>
+			<h2 style="bottom: 16px; left: 16px; margin: 0;">Passwordless Login</h2>
 			<div class="margin-spacer" />
 			<Button
 				class="g-button button-size"
@@ -83,7 +84,8 @@
 		color: #1e88e5 !important;
 	}
 	.login-container {
-		width: 50%;
-		margin: auto;
+		display: flex;
+		justify-content: center;
+		width: 100%;
 	}
 </style>

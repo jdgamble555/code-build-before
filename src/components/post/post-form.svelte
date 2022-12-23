@@ -7,8 +7,13 @@
 	import { createForm } from 'svelte-forms-lib';
 	import '@github/markdown-toolbar-element';
 	import ChipsInput from '$lib/form/chips-input.svelte';
+	import TabBar from '@smui/tab-bar';
+	import Tab, { Label } from '@smui/tab';
+	import PostDetail from './post-detail.svelte';
 
 	export let post: Post;
+
+	let active = 'Content';
 
 	const { form, errors, touched, isValid, handleChange, handleSubmit } = createForm({
 		initialValues: {
@@ -24,31 +29,41 @@
 <br />
 
 <Card variant="outlined" padded>
-	<h1>{post ? 'Edit' : 'New'} Post</h1>
+	<TabBar tabs={['Content', 'Preview']} let:tab bind:active on:click={() => {}}>
+		<Tab {tab}>
+			<Label class="no-bold">{tab}</Label>
+		</Tab>
+	</TabBar>
+	<br />
 	<Content>
-		<Textfield
-			input$name="title"
-			type="text"
-			variant="outlined"
-			class="text-size"
-			input$autocomplete="name"
-			placeholder="Title"
-			label="Title"
-			bind:value={$form.title}
-			on:input={handleChange}
-			input$autofocus
-			required
-		>
-			<Icon class="material-icons icon-color" slot="leadingIcon">title</Icon>
-		</Textfield>
-		<!--<SvelteMarkdown source={post.content} />-->
-		<br />
-		<br />
-		<MarkdownEditor source={post.content} />
+		{#if active === 'Content'}
+			<Textfield
+				input$name="title"
+				type="text"
+				variant="outlined"
+				class="text-size"
+				input$autocomplete="name"
+				placeholder="Title"
+				label="Title"
+				bind:value={$form.title}
+				on:input={handleChange}
+				input$autofocus
+				required
+			>
+				<Icon class="material-icons icon-color" slot="leadingIcon">title</Icon>
+			</Textfield>
+			<br />
+			<br />
+			<MarkdownEditor source={post.content} />
+			<br />
+			<ChipsInput label="Tags" placeholder="Tags" bind:input={$form.tags} />
+		{:else}
+			<PostDetail {post} details />
+		{/if}
 	</Content>
 </Card>
 <br />
-<ChipsInput label="Tags" placeholder="Tags" bind:input={$form.tags} />
+
 
 <style global>
 	.text-size {
