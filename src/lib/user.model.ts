@@ -20,3 +20,9 @@ export type Role = 'ADMIN' | 'EDITOR' | 'USER';
 export type Optional<T> = T | null | undefined;
 export type Provider = 'apple' | 'google' | 'email';
 export type UserType = UserRec | 'loading' | null;
+
+export interface UserState {
+  error?: Optional<string>;
+  data?: Optional<UserRec>;
+  loading: boolean;
+};

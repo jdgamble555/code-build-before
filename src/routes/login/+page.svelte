@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { auth } from '$lib/database';
 	import Login from '@components/login.svelte';
@@ -11,10 +10,8 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-{#if browser}
-	{#if $user}
-		{goto('/')}
-	{:else}
-		<Login />
-	{/if}
+{#if $user && $user !== 'loading'}
+	{goto('/')}
+{:else}
+	<Login />
 {/if}

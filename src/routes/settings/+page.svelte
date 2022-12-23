@@ -15,6 +15,9 @@
 	let panel3Open = false;
 
 	const { user } = auth;
+
+	// todo - move login check to +page.ts
+
 </script>
 
 {#if browser}
