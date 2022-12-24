@@ -35,16 +35,14 @@
 			: undefined;
 </script>
 
-{#if browser}
-	{#if $user === 'loading'}
-		<div class="centered">
-			<Loader />
-		</div>
-	{:else if $user}
-		{#if post}
-			<PostForm {post} />
-		{/if}
-	{:else}
-		{goto('/login')}
+{#if $user === 'loading'}
+	<div class="centered">
+		<Loader />
+	</div>
+{:else if $user}
+	{#if post}
+		<PostForm {post} />
 	{/if}
+{:else if browser}
+	{goto('/login')}
 {/if}

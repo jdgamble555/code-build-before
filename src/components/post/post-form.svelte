@@ -5,7 +5,6 @@
 	import Textfield from '@smui/textfield';
 	import Icon from '@smui/textfield/icon';
 	import { createForm } from 'svelte-forms-lib';
-	import '@github/markdown-toolbar-element';
 	import ChipsInput from '$lib/form/chips-input.svelte';
 	import TabBar from '@smui/tab-bar';
 	import Tab, { Label } from '@smui/tab';
@@ -50,7 +49,7 @@
 			</Textfield>
 			<br />
 			<br />
-			<MarkdownEditor source={post.content} />
+			<MarkdownEditor bind:source={$form.content} />
 			<br />
 			<ChipsInput label="Tags" placeholder="Tags" bind:input={$form.tags} />
 		{:else}

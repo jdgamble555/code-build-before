@@ -3,6 +3,7 @@ import { get } from 'svelte/store';
 import type { LayoutLoad } from './$types';
 import { auth, read_post } from '$lib/database';
 import { redirect } from '@sveltejs/kit';
+import type { Post } from '$lib/post.model';
 
 const { user } = auth;
 
@@ -18,7 +19,7 @@ export const load: LayoutLoad = async ({ params }) => {
     const { getPostById } = read_post;
 
     // grab post or get passed post
-    let post = get(postDetail);
+    let post = get(postDetail) as Post;
     if (!post) {
         const { data, error } = await getPostById(pid);
         if (error) {

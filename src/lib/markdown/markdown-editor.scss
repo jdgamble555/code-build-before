@@ -2,6 +2,8 @@ $hover-color: #06c;
 $border-color: #d9d9d9;
 $blue-border: #4c9aff;
 
+
+
 markdown-toolbar {
   padding: 8px;
   word-wrap: normal;
@@ -22,7 +24,7 @@ markdown-toolbar {
   }
 }
 
-:host {
+.custom-mark {
   margin-left: 10px;
   margin-right: 10px;
   border: 1px solid $border-color;
@@ -32,7 +34,6 @@ markdown-toolbar {
   background: #fff;
   display: flex;
   flex-direction: column;
-
 
   .text-editor {
     //padding-left: 15px;
@@ -56,7 +57,7 @@ markdown-toolbar {
 
 .text-editor {
   width: 96%;
-  background-color: #fff !important;
+  //background-color: #fff !important;
 }
 
 .lined-textarea {
@@ -73,6 +74,5 @@ markdown-toolbar {
 
 .toolbar-mark {
   padding-bottom: 3px;
-
   background-color: rgb(236, 235, 235);
 }
