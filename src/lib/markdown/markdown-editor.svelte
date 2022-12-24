@@ -218,7 +218,13 @@
 	</md-ref>
 </markdown-toolbar>
 <div>
-	<textarea value={source} rows="50" id="controlId" bind:this={marker} class="text-editor lined-textarea" />
+	<textarea
+		value={source}
+		rows="50"
+		id="controlId"
+		bind:this={marker}
+		class="text-editor lined-textarea"
+	/>
 </div>
 
 <style lang="scss">

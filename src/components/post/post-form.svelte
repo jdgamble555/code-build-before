@@ -1,6 +1,6 @@
 <script lang="ts">
 	import MarkdownEditor from '$lib/markdown/markdown-editor.svelte';
-	import type { Optional, Post } from '$lib/post.model';
+	import type { Post } from '$lib/post.model';
 	import Card, { Content } from '@smui/card';
 	import Textfield from '@smui/textfield';
 	import Icon from '@smui/textfield/icon';
@@ -50,11 +50,11 @@
 			</Textfield>
 			<br />
 			<br />
-			<MarkdownEditor source={post?.content} />
+			<MarkdownEditor source={post.content} />
 			<br />
 			<ChipsInput label="Tags" placeholder="Tags" bind:input={$form.tags} />
 		{:else}
-			<PostDetail {post} details />
+			<PostDetail {post} details preview />
 		{/if}
 	</Content>
 </Card>

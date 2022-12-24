@@ -17,6 +17,7 @@
 
 	export let post: Post;
 	export let details = false;
+	export let preview = false;
 
 	const navigate = (edit = false) => {
 		// navigate to edit or form page
@@ -85,7 +86,7 @@
 		</Content>
 		<Separator />
 		<Actions class="flex-container">
-			{#if $user && $user !== 'loading'}
+			{#if $user && $user !== 'loading' && !preview}
 				<div>
 					<Save postId={post.id} userId={$user.id} />
 					<Like count={post.heartsCount} postId={post.id} userId={$user.id} />
@@ -96,8 +97,10 @@
 					</IconButton>
 				{/if}
 			{:else}
-				<Save postId={post.id} />
-				<Like count={post.heartsCount} postId={post.id} />
+				<div>
+					<Save postId={post.id} />
+					<Like count={post.heartsCount} postId={post.id} />
+				</div>
 			{/if}
 		</Actions>
 	</Card>
