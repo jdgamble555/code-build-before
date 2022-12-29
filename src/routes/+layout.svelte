@@ -90,7 +90,7 @@
 		max-width: 995px;
 		width: 95%;
 		display: grid;
-		grid-template-columns: minmax(350px, 600px);
+		grid-template-columns: minmax(350px, 955px);
 		grid-template-areas:
 			'sub-header'
 			'content'
