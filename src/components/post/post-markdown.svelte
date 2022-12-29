@@ -10,7 +10,7 @@
 	export let source: string;
 
 	onMount(() => {
-		hljs.addPlugin(new CopyButtonPlugin());
+		//hljs.addPlugin(new CopyButtonPlugin());
 		hljs.addPlugin({
 			'after:highlightElement': ({ result, el }) => {
 				const lines = document.createElement('div');
@@ -24,4 +24,4 @@
 	});
 </script>
 
-<SvelteMarkdown {source} />
+<SvelteMarkdown {source} options={{ breaks: true }} />

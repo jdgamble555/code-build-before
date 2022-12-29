@@ -25,25 +25,32 @@
 {/if}
 <main class="{$darkMode ? 'dark' : 'light'}-theme">
 	<Header />
-	<div class={$showLeft ? 'wrapper' : 'simple-wrapper'}>
-		<header class="sub-header">
-			<SubHeader />
-		</header>
-		<article class="content">
-			<slot />
-		</article>
-		<nav class="leftnav {$showLeft ? 'show' : 'hide'}">
-			<Leftnav tags={data.tags.data || []} total={data.total || 0} />
-		</nav>
-		<footer class="footer">
-			<Footer />
-		</footer>
+	<div class="content-container">
+		<div class={$showLeft ? 'wrapper' : 'simple-wrapper'}>
+			<header class="sub-header">
+				<SubHeader />
+			</header>
+			<article class="content">
+				<slot />
+			</article>
+			<nav class="leftnav {$showLeft ? 'show' : 'hide'}">
+				<Leftnav tags={data.tags.data || []} total={data.total || 0} />
+			</nav>
+			<footer class="footer">
+				<Footer />
+			</footer>
+		</div>
 	</div>
 </main>
 
-<style global>
+<style global lang="scss">
+	.content-container {
+		display: flex;
+		justify-content: center;
+	}
 	.sub-header {
-		grid-area: header;
+		margin-top: 20px;
+		grid-area: sub-header;
 	}
 
 	.content {
@@ -52,7 +59,6 @@
 
 	.leftnav {
 		grid-area: leftnav;
-		min-width: 180px;
 	}
 
 	.footer {
@@ -61,15 +67,13 @@
 	}
 
 	.wrapper {
-		margin-top: 20px;
-		margin-right: auto;
-		margin-left: auto;
 		max-width: 995px;
 		width: 95%;
 		grid-gap: 20px;
 		display: grid;
+		grid-template-columns: minmax(350px, 600px);
 		grid-template-areas:
-			'header'
+			'sub-header'
 			'content'
 			'leftnav'
 			'footer';
@@ -83,19 +87,14 @@
 	}
 
 	.simple-wrapper {
-		margin-top: 20px;
-		margin-right: auto;
-		margin-left: auto;
 		max-width: 995px;
 		width: 95%;
 		display: grid;
+		grid-template-columns: minmax(350px, 600px);
 		grid-template-areas:
-			'header'
+			'sub-header'
 			'content'
 			'footer';
-	}
-	.simple-wrapper.content {
-		max-width: 100vw;
 	}
 
 	.simple-wrapper .leftnav {
@@ -105,13 +104,14 @@
 
 	@media (min-width: 700px) {
 		.wrapper {
-			grid-template-columns: 1fr 4fr;
+			grid-template-columns: 180px minmax(450px, 775px);
 			grid-template-rows: 1fr;
 			grid-template-areas:
-				'header header'
+				'sub-header sub-header'
 				'leftnav content'
 				'footer footer';
 		}
+
 		nav ul {
 			flex-direction: column;
 		}
