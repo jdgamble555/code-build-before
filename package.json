@@ -63,8 +63,10 @@
 	"dependencies": {
 		"@github/markdown-toolbar-element": "^2.1.1",
 		"@supabase/supabase-js": "^2.2.2",
+		"date-picker-svelte": "^2.2.5",
 		"highlight.js": "^11.7.0",
 		"j-supabase": "^1.0.16",
-		"svelte-markdown": "^0.2.3"
+		"svelte-markdown": "^0.2.3",
+		"svelty-picker": "^3.2.3"
 	}
 }

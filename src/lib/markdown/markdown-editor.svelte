@@ -1,9 +1,24 @@
 <script lang="ts">
 	import '@github/markdown-toolbar-element';
+	import { onMount } from 'svelte';
 
 	export let source = '';
 
 	let marker: HTMLElement;
+	let lineNums: HTMLElement;
+
+	const addLines = (n: number) => {
+		lineNums.innerHTML = Array(n).fill('<span></span>').join('');
+	};
+
+	const addLinesEvent = (event: Event) => {
+		const numberOfLines = (event.target as HTMLInputElement).value.split('\n').length;
+		addLines(numberOfLines);
+	};
+
+	onMount(() => {
+		addLines(source.split('\n').length);
+	});
 </script>
 
 <div class="custom-mark">
@@ -178,17 +193,60 @@
 			</button>
 		</md-ref>
 	</markdown-toolbar>
-	<div>
+	<div class="editor">
+		<div bind:this={lineNums} class="line-numbers">
+			<span />
+		</div>
 		<textarea
+			on:keyup={addLinesEvent}
 			value={source}
-			rows="50"
+			rows="15"
 			id="controlId"
 			bind:this={marker}
-			class="text-editor lined-textarea"
+			class="text-editor"
 		/>
 	</div>
 </div>
 
-<style lang="scss">
+<style lang="scss" global>
 	@import './markdown-editor.scss';
+
+	.editor {
+		display: inline-flex;
+		column-gap: 20px;
+		font-family: monospace;
+		line-height: 21px;
+		//background: #282a3a;
+		border-radius: 2px;
+		padding: 20px 10px;
+	}
+
+	.line-numbers {
+		width: 20px;
+		text-align: right;
+	}
+
+	.line-numbers span {
+		counter-increment: linenumber;
+	}
+
+	.line-numbers span::before {
+		content: counter(linenumber);
+		display: block;
+		//color: #1e88e5;
+		color: #000;
+	}
+
+	textarea {
+		line-height: 21px;
+		font-family: monospace;
+		//overflow-y: hidden;
+		padding: 0;
+		border: 0;
+		//background: #282a3a;
+		//color: #fff;
+		min-width: 500px;
+		outline: none;
+		resize: none;
+	}
 </style>
