@@ -19,6 +19,10 @@
 	onMount(() => {
 		addLines(source.split('\n').length);
 	});
+
+	const updateSource = (e: Event) => {
+		source = (e.target as HTMLInputElement).value;
+	};
 </script>
 
 <div class="custom-mark">
@@ -200,6 +204,7 @@
 		<textarea
 			on:keyup={addLinesEvent}
 			value={source}
+			on:input={updateSource}
 			rows="15"
 			id="controlId"
 			bind:this={marker}
@@ -210,43 +215,4 @@
 
 <style lang="scss" global>
 	@import './markdown-editor.scss';
-
-	.editor {
-		display: inline-flex;
-		column-gap: 20px;
-		font-family: monospace;
-		line-height: 21px;
-		//background: #282a3a;
-		border-radius: 2px;
-		padding: 20px 10px;
-	}
-
-	.line-numbers {
-		width: 20px;
-		text-align: right;
-	}
-
-	.line-numbers span {
-		counter-increment: linenumber;
-	}
-
-	.line-numbers span::before {
-		content: counter(linenumber);
-		display: block;
-		//color: #1e88e5;
-		color: #000;
-	}
-
-	textarea {
-		line-height: 21px;
-		font-family: monospace;
-		//overflow-y: hidden;
-		padding: 0;
-		border: 0;
-		//background: #282a3a;
-		//color: #fff;
-		min-width: 500px;
-		outline: none;
-		resize: none;
-	}
 </style>

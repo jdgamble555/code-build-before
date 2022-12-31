@@ -59,7 +59,7 @@ export const supabase_post_edit_adapter = {
             }
 
             // remove draft
-            const { error: _e } = await this.deletePost(id, false);
+            const { error: _e } = await supabase_post_edit_adapter.deletePost(id, false);
             if (_e) {
                 console.error(_e);
             }
