@@ -9,7 +9,7 @@
 	import TabBar from '@smui/tab-bar';
 	import Tab, { Label } from '@smui/tab';
 	import PostDetail from './post-detail.svelte';
-	import { DateInput } from 'date-picker-svelte';
+	import SveltyPicker from 'svelty-picker'
 	import { auth, edit_post } from '$lib/database';
 	import { goto } from '$app/navigation';
 	import Button from '@smui/button/src/Button.svelte';
@@ -20,6 +20,8 @@
 	const { user } = auth;
 
 	export let post: Post;
+
+	let active = 'Content';
 
 	// form functions and validation
 
@@ -34,9 +36,14 @@
 	const content = field('content', post.content, [required(), min(3)]);
 	const tags = field('tags', post.tags, [tagsRequired(), tagsMin(2)]);
 	const title = field('title', post.title, [required(), min(2)]);
-	const postForm = form(content, tags, title);
+	const date = field('publishedAt', new Date(post.publishedAt).toISOString());
+	const postForm = form(content, tags, title, date);
 
 	// auto save function
+
+	type FormState = 'not-ready' | 'error' | 'saving' | 'synced';
+
+	let state: FormState = 'not-ready';
 
 	let timer: NodeJS.Timer;
 
@@ -45,35 +52,50 @@
 			// debounce
 			clearTimeout(timer);
 			timer = setTimeout(() => {
-				console.log($postForm.summary);
+				// save draft data if ready
+				if (isReady()) {
+					saveForm();
+				}
 			}, 500);
 		})();
 
-	let date = new Date(post.publishedAt);
+	const isReady = () => {
+		// if default state
+		if (!$content.dirty && !$tags.dirty && !$title.dirty) {
+			return false;
+		}
+		// if empty values
+		if (!$content.value || !$title.value || $tags.value.length === 0) {
+			return false;
+		}
+		// else run validation and check for errors
+		postForm.validate();
+		if ($postForm.errors.length === 0) {
+			return true;
+		}
+		return false;
+	};
 
-	let active = 'Content';
+	const saveForm = async (publish = false) => {
+		state = 'saving';
 
-	const submitForm = async (e: SubmitEvent) => {
-		const values = post;
-		const publish = true;
 		const id = post.id === '0x0' ? undefined : post.id;
-
-		const { id: _id, ...data } = {
-			...values,
-			uid: $user !== 'loading' ? $user?.id : '',
-			publishedAt: new Date(new Date(date).setHours(5))
+		const data = {
+			...$postForm.summary,
+			author: $user !== 'loading' ? $user : '',
+			publishedAt: new Date(new Date($date.value).setHours(5))
 		};
 
 		// add post to db
-		const { data: _data, error: e3 } = await setPost(data as any, id, publish);
+		const { data: _data, error } = await setPost(data as any, id, publish);
 
-		if (e3) {
-			console.error(e3);
+		if (error) {
+			console.error(error);
 		}
-
-		if (publish && !e3) {
+		if (publish && !error) {
 			//goto(`/${post.id}/${values.slug}`);
 		}
+		state = 'synced';
 	};
 </script>
 
@@ -103,22 +125,20 @@
 			</Textfield>
 			{#if $postForm.hasError('title.required')}
 				<HelperText class="red" persistent slot="helper">Title is Required.</HelperText>
-			{/if}
-			{#if $postForm.hasError('title.min') && !$postForm.hasError('title.required')}
+			{:else if $postForm.hasError('title.min')}
 				<HelperText class="red" persistent slot="helper">
 					Title must be at least 2 characters long.
 				</HelperText>
 			{/if}
 			<br />
 			<br />
-			<DateInput bind:value={date} />
+			<SveltyPicker bind:value={$date.value} />
 			<br />
 			<br />
 			<MarkdownEditor bind:source={$content.value} />
 			{#if $postForm.hasError('content.required')}
 				<HelperText class="red" persistent slot="helper">Post Content is Required.</HelperText>
-			{/if}
-			{#if $postForm.hasError('content.min') && !$postForm.hasError('content.required')}
+			{:else if $postForm.hasError('content.min')}
 				<HelperText class="red" persistent slot="helper">
 					Post Content must be at least 3 characters long.
 				</HelperText>
@@ -127,13 +147,29 @@
 			<ChipsInput label="Tags" placeholder="Tags" bind:input={$tags.value} />
 			{#if $postForm.hasError('tags.required')}
 				<HelperText class="red" persistent slot="helper">Tags are required.</HelperText>
-			{/if}
-			{#if $postForm.hasError('tags.min') && !$postForm.hasError('tags.required')}
+			{:else if $postForm.hasError('tags.min')}
 				<HelperText class="red" persistent slot="helper">You must have at least 2 tags.</HelperText>
 			{/if}
 			<br />
 			<br />
-			<Button type="submit" color="secondary" touch variant="outlined"><Label>Save</Label></Button>
+			<Button
+				class="no-bold"
+				type="submit"
+				color="secondary"
+				touch
+				variant="outlined"
+				disabled={state === 'not-ready'}
+			>
+				<Label>
+					{#if state === 'saving'}
+						Saving Draft...
+					{:else if state === 'not-ready'}
+						Not Ready to Save
+					{:else}
+						Save
+					{/if}
+				</Label>
+			</Button>
 		{:else}
 			<PostDetail {post} details preview />
 		{/if}

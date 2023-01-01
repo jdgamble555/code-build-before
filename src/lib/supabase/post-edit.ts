@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { dev } from "$app/environment";
 import type { Post, PostRequest } from "$lib/post.model";
+import { minutesToRead, slugify } from "$lib/utils";
 import { decode } from "j-supabase";
 import { supabase } from "./supabase";
 
@@ -12,8 +14,6 @@ export const supabase_post_edit_adapter = {
  */
     async setPost(data: Post, id: string | undefined = undefined, published = false): Promise<PostRequest> {
 
-        console.log(data);
-
         id = id ? decode(id) : undefined;
 
         // todo - save to drafts first
@@ -23,14 +23,16 @@ export const supabase_post_edit_adapter = {
             title: data.title,
             content: data.content,
             image: data.image,
-            slug: data.slug,
-            minutes: data.minutes,
+            slug: slugify(data.title),
+            minutes: minutesToRead(data.content),
             author: decode(data.author.id),
             image_uploads: data.imageUploads,
-            created_at: data.createdAt,
-            updated_at: data.updatedAt,
             published_at: data.publishedAt
         };
+
+        if (dev) {
+            console.log(new_data);
+        }
 
         if (!published) {
             new_data = { ...new_data, tags: data.tags };
