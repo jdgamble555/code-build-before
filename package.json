@@ -66,6 +66,7 @@
 		"@supabase/supabase-js": "^2.2.2",
 		"highlight.js": "^11.7.0",
 		"j-supabase": "^1.0.16",
+		"svelte-flatpickr": "^3.2.6",
 		"svelte-forms": "^2.3.1",
 		"svelte-markdown": "^0.2.3"
 	}

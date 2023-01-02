@@ -95,3 +95,9 @@ pre .line-num::before {
     display: flex;
     justify-content: space-between;
 }
+
+// chips-input
+
+.no-flex-wrap {
+    flex-wrap: nowrap !important;
+}

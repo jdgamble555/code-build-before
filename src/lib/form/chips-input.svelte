@@ -7,27 +7,40 @@
 	export let label = '';
 	export let placeholder = label;
 
-	let value = ' ';
+	let value = '';
+	const setValue = () => (value = input.length ? ' ' : '');
+	setValue();
+
+	let newValue = '';
 
 	const handleKey = (e: CustomEvent) => {
 		const event = e as unknown as KeyboardEvent;
 
 		// remove value with backspace
 		if (event.key === 'Backspace') {
-			if (value === '') input.pop();
+			if (value === '') {
+				input.pop();
+			}
+			setValue();
 		}
 
 		// add value with enter, space, or comma
 		if (['Enter', ' ', ','].includes(event.key)) {
-			if (input.includes(value.trim())) {
-				value = '';
+			newValue = value.trim();
+
+			// remove comma from chip
+			if (event.key === ',') {
+				newValue = newValue.slice(0, -1);
+			}
+
+			// prevent duplicates
+			if (input.includes(newValue)) {
+				setValue();
 				return;
 			}
-			if (event.key === ',') {
-				value = value.slice(0, -1);
-			}
-			input.push(value.trim());
-			value = '';
+
+			input.push(newValue);
+			setValue();
 		}
 		// save new value
 		input = input;
@@ -41,19 +54,20 @@
 	class="text-size"
 	{placeholder}
 	{label}
+	required
 	bind:value
 	on:keyup={handleKey}
 >
-	<Set class="set" chips={input} let:chip>
+	<Set class="no-flex-wrap" chips={input} let:chip>
 		<Chip {chip}>
 			<Text>{chip}</Text>
-			<TrailingAction icon$class="material-icons white">close</TrailingAction>
+			<TrailingAction
+				on:click={() => {
+					// remove value
+					value = input.length === 1 ? '' : ' ';
+				}}
+				icon$class="material-icons white">close</TrailingAction
+			>
 		</Chip>
 	</Set>
 </TextField>
-
-<style global>
-	.set {
-		flex-wrap: nowrap !important;
-	}
-</style>

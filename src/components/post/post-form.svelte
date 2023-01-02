@@ -9,19 +9,32 @@
 	import TabBar from '@smui/tab-bar';
 	import Tab, { Label } from '@smui/tab';
 	import PostDetail from './post-detail.svelte';
-	import SveltyPicker from 'svelty-picker'
+	import SveltyPicker from 'svelty-picker';
 	import { auth, edit_post } from '$lib/database';
 	import { goto } from '$app/navigation';
 	import Button from '@smui/button/src/Button.svelte';
 	import { form, field } from 'svelte-forms';
 	import { required, min } from 'svelte-forms/validators';
 
+	import Flatpickr from 'svelte-flatpickr';
+	import type { BaseOptions } from 'flatpickr/dist/types/options';
+	import { darkMode } from '$lib/stores';
+
 	const { setPost } = edit_post;
 	const { user } = auth;
 
 	export let post: Post;
 
+	let id = post.id === '0x0' ? undefined : post.id;
+
 	let active = 'Content';
+
+	// date options
+
+	const options: Partial<BaseOptions> = {
+		enableTime: true,
+		position: 'above'
+	};
 
 	// form functions and validation
 
@@ -79,23 +92,26 @@
 	const saveForm = async (publish = false) => {
 		state = 'saving';
 
-		const id = post.id === '0x0' ? undefined : post.id;
-		const data = {
+		const _data = {
 			...$postForm.summary,
 			author: $user !== 'loading' ? $user : '',
 			publishedAt: new Date(new Date($date.value).setHours(5))
 		};
 
 		// add post to db
-		const { data: _data, error } = await setPost(data as any, id, publish);
+		const { data, error } = await setPost(_data as any, id, publish);
 
 		if (error) {
+			state = 'error';
 			console.error(error);
 		}
-		if (publish && !error) {
-			//goto(`/${post.id}/${values.slug}`);
+		if (data && !error) {
+			id = data?.id;
+			state = 'synced';
+			if (publish) {
+				goto(`/${data.id}/${data.slug}`);
+			}
 		}
-		state = 'synced';
 	};
 </script>
 
@@ -132,7 +148,7 @@
 			{/if}
 			<br />
 			<br />
-			<SveltyPicker bind:value={$date.value} />
+			<!--<SveltyPicker bind:value={$date.value} />-->
 			<br />
 			<br />
 			<MarkdownEditor bind:source={$content.value} />
@@ -150,6 +166,20 @@
 			{:else if $postForm.hasError('tags.min')}
 				<HelperText class="red" persistent slot="helper">You must have at least 2 tags.</HelperText>
 			{/if}
+			<br />
+			<br />
+			<Flatpickr placeholder="Publish Date" class="text-height mdc-text-field--outlined" {options} value={$date.value} />
+				<!--<div class="flatpickr text-height" id="my-picker">
+					<input
+						class="mdc-text-field--outlined"
+						placeholder="Publish Date"
+						type="text"
+						aria-label="Continuous slider demo"
+						data-input
+					/>
+					<span class="material-icons" data-toggle>date_range</span>
+				</div>-->
+
 			<br />
 			<br />
 			<Button
@@ -170,6 +200,18 @@
 					{/if}
 				</Label>
 			</Button>
+			<span class="space" />
+			<Button
+				on:click={() => saveForm(true)}
+				class="no-bold"
+				type="submit"
+				color="secondary"
+				touch
+				variant="outlined"
+				disabled={state !== 'synced'}
+			>
+				<Label>Publish</Label>
+			</Button>
 		{:else}
 			<PostDetail {post} details preview />
 		{/if}
@@ -177,8 +219,16 @@
 </Card>
 <br />
 
-<style global>
+<style lang="scss" global>
+	@import 'flatpickr/dist/flatpickr.css';
+
 	.text-size {
 		width: 100% !important;
+	}
+	.space {
+		margin: 0 5px 0 5px;
+	}
+	.text-height {
+		height: 50px;
 	}
 </style>
