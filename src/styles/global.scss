@@ -2,6 +2,10 @@
     text-align: center;
 }
 
+.vertical-space {
+    margin: 1.5em 0;
+}
+
 .no-bold {
     text-transform: none !important;
 }
@@ -101,4 +105,3 @@ pre .line-num::before {
 .no-flex-wrap {
     flex-wrap: nowrap !important;
 }
-

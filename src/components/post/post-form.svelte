@@ -15,6 +15,8 @@
 	import { form, field } from 'svelte-forms';
 	import { required, min } from 'svelte-forms/validators';
 	import DatePicker from '$lib/form/date-picker.svelte';
+	import { tagsMin, tagsRequired } from '$lib/form/chips-validate';
+	import PostCoverImage from './post-cover-image.svelte';
 
 	const { setPost } = edit_post;
 	const { user } = auth;
@@ -25,17 +27,7 @@
 
 	let active = 'Content';
 
-	// date options
-
 	// form functions and validation
-
-	function tagsRequired() {
-		return (value: string) => ({ valid: value.length > 0, name: 'required' });
-	}
-
-	function tagsMin(n: number) {
-		return (value: string) => ({ valid: value.length >= n, name: 'min' });
-	}
 
 	const content = field('content', post.content, [required(), min(3)]);
 	const tags = field('tags', post.tags, [tagsRequired(), tagsMin(2)]);
@@ -48,7 +40,6 @@
 	type FormState = 'not-ready' | 'error' | 'saving' | 'synced';
 
 	let state: FormState = 'not-ready';
-
 	let timer: NodeJS.Timer;
 
 	$: $postForm,
@@ -117,6 +108,8 @@
 	<br />
 	<Content>
 		{#if active === 'Content'}
+			<PostCoverImage />
+			<div class="vertical-space" />
 			<Textfield
 				input$name="title"
 				type="text"
@@ -137,8 +130,7 @@
 					Title must be at least 2 characters long.
 				</HelperText>
 			{/if}
-			<br />
-			<br />
+			<div class="vertical-space" />
 			<MarkdownEditor bind:source={$content.value} />
 			{#if $postForm.hasError('content.required')}
 				<HelperText class="red" persistent slot="helper">Post Content is Required.</HelperText>
@@ -154,8 +146,7 @@
 			{:else if $postForm.hasError('tags.min')}
 				<HelperText class="red" persistent slot="helper">You must have at least 2 tags.</HelperText>
 			{/if}
-			<br />
-			<br />
+			<div class="vertical-space" />
 			<DatePicker bind:value={$date.value} />
 			<br />
 			<Button
