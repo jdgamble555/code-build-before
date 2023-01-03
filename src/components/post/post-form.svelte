@@ -9,16 +9,12 @@
 	import TabBar from '@smui/tab-bar';
 	import Tab, { Label } from '@smui/tab';
 	import PostDetail from './post-detail.svelte';
-	import SveltyPicker from 'svelty-picker';
 	import { auth, edit_post } from '$lib/database';
 	import { goto } from '$app/navigation';
 	import Button from '@smui/button/src/Button.svelte';
 	import { form, field } from 'svelte-forms';
 	import { required, min } from 'svelte-forms/validators';
-
-	import Flatpickr from 'svelte-flatpickr';
-	import type { BaseOptions } from 'flatpickr/dist/types/options';
-	import { darkMode } from '$lib/stores';
+	import DatePicker from '$lib/form/date-picker.svelte';
 
 	const { setPost } = edit_post;
 	const { user } = auth;
@@ -30,11 +26,6 @@
 	let active = 'Content';
 
 	// date options
-
-	const options: Partial<BaseOptions> = {
-		enableTime: true,
-		position: 'above'
-	};
 
 	// form functions and validation
 
@@ -148,9 +139,6 @@
 			{/if}
 			<br />
 			<br />
-			<!--<SveltyPicker bind:value={$date.value} />-->
-			<br />
-			<br />
 			<MarkdownEditor bind:source={$content.value} />
 			{#if $postForm.hasError('content.required')}
 				<HelperText class="red" persistent slot="helper">Post Content is Required.</HelperText>
@@ -168,19 +156,7 @@
 			{/if}
 			<br />
 			<br />
-			<Flatpickr placeholder="Publish Date" class="text-height mdc-text-field--outlined" {options} value={$date.value} />
-				<!--<div class="flatpickr text-height" id="my-picker">
-					<input
-						class="mdc-text-field--outlined"
-						placeholder="Publish Date"
-						type="text"
-						aria-label="Continuous slider demo"
-						data-input
-					/>
-					<span class="material-icons" data-toggle>date_range</span>
-				</div>-->
-
-			<br />
+			<DatePicker bind:value={$date.value} />
 			<br />
 			<Button
 				class="no-bold"
@@ -220,15 +196,10 @@
 <br />
 
 <style lang="scss" global>
-	@import 'flatpickr/dist/flatpickr.css';
-
 	.text-size {
 		width: 100% !important;
 	}
 	.space {
 		margin: 0 5px 0 5px;
-	}
-	.text-height {
-		height: 50px;
 	}
 </style>
