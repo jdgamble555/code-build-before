@@ -1,28 +1,8 @@
 <script lang="ts">
+	import TextboxLineNumbers from '$lib/form/textbox-line-numbers.svelte';
 	import '@github/markdown-toolbar-element';
-	import { onMount } from 'svelte';
 
 	export let source = '';
-
-	let marker: HTMLElement;
-	let lineNums: HTMLElement;
-
-	const addLines = (n: number) => {
-		lineNums.innerHTML = Array(n).fill('<span></span>').join('');
-	};
-
-	const addLinesEvent = (event: Event) => {
-		const numberOfLines = (event.target as HTMLInputElement).value.split('\n').length;
-		addLines(numberOfLines);
-	};
-
-	onMount(() => {
-		addLines(source.split('\n').length);
-	});
-
-	const updateSource = (e: Event) => {
-		source = (e.target as HTMLInputElement).value;
-	};
 </script>
 
 <div class="custom-mark">
@@ -197,22 +177,45 @@
 			</button>
 		</md-ref>
 	</markdown-toolbar>
-	<div class="editor">
-		<div bind:this={lineNums} class="line-numbers">
-			<span />
-		</div>
-		<textarea
-			on:keyup={addLinesEvent}
-			value={source}
-			on:input={updateSource}
-			rows="15"
-			id="controlId"
-			bind:this={marker}
-			class="text-editor"
-		/>
-	</div>
+	<TextboxLineNumbers bind:source />
 </div>
 
-<style lang="scss" global>
-	@import './markdown-editor.scss';
+<style lang="scss">
+	$hover-color: #06c;
+	$border-color: #d9d9d9;
+	$blue-border: #4c9aff;
+
+	markdown-toolbar {
+		padding: 8px;
+		word-wrap: normal;
+
+		.btn {
+			background: none;
+			border: none;
+			cursor: pointer;
+			display: inline-block;
+			height: 24px;
+			padding: 3px 5px;
+			width: 28px;
+			color: #222;
+
+			&:hover {
+				color: $hover-color;
+			}
+		}
+	}
+
+	.custom-mark {
+		margin-left: 10px;
+		margin-right: 10px;
+		border-radius: 3px;
+		outline: none;
+		background: #fff;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.toolbar-mark {
+		padding-bottom: 3px;
+	}
 </style>

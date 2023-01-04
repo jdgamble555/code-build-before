@@ -1,6 +1,6 @@
 <script>
 	import { browser } from '$app/environment';
-	import MarkdownEditor from '$lib/markdown/markdown-editor.svelte';
+	import MarkdownEditor from '$lib/form/markdown-editor.svelte';
 	const source = 'butter me up!';
 </script>
 

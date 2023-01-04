@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MarkdownEditor from '$lib/markdown/markdown-editor.svelte';
+	import MarkdownEditor from '$lib/form/markdown-editor.svelte';
 	import type { Post } from '$lib/post.model';
 	import Card, { Content } from '@smui/card';
 	import Textfield from '@smui/textfield';
