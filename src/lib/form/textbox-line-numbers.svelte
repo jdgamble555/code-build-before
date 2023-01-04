@@ -27,7 +27,6 @@
 		<div class="line-numbers" style:width="{lineNumbersWidth}px">
 			{#each source.split('\n') as subStr, index}
 				<div
-					class="line-numbers"
 					style:margin-bottom="calc(var(--line-height) * {wrapped(subStr, charactersPerLine, 0)})"
 				>
 					{index + 1}
@@ -35,6 +34,7 @@
 			{/each}
 		</div>
 		<textarea
+			id="controlId"
 			class="numbered-textarea"
 			bind:value={source}
 			style:width="{charactersPerLine}ch"
@@ -61,7 +61,7 @@
 	}
 
 	.line-numbers {
-		padding-right: 10px;
+		padding-right: 20px;
 		text-align: right;
 		//color: #1e88e5 !important;
         color: rgb(48, 48, 48);
