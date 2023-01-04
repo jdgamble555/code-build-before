@@ -61,6 +61,7 @@
 	}
 
 	.line-numbers {
+		margin-left: -15px;
 		padding-right: 20px;
 		text-align: right;
 		//color: #1e88e5 !important;
