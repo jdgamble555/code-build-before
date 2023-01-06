@@ -32,8 +32,8 @@
 	const content = field('content', post.content, [required(), min(3)]);
 	const tags = field('tags', post.tags, [tagsRequired(), tagsMin(2)]);
 	const title = field('title', post.title, [required(), min(2)]);
-	const date = field('publishedAt', new Date(post.publishedAt).toISOString());
-	const postForm = form(content, tags, title, date);
+	const publishedAt = field('publishedAt', new Date(post.publishedAt).toISOString(), [required()]);
+	const postForm = form(content, tags, title, publishedAt);
 
 	// auto save function
 
@@ -77,7 +77,7 @@
 		const _data = {
 			...$postForm.summary,
 			author: $user !== 'loading' ? $user : '',
-			publishedAt: new Date(new Date($date.value).setHours(5))
+			publishedAt: new Date($publishedAt.value)
 		};
 
 		// add post to db
@@ -108,7 +108,7 @@
 	<br />
 	<Content>
 		{#if active === 'Content'}
-			<PostCoverImage />
+			<PostCoverImage image={post.image} title={post.title} />
 			<div class="vertical-space" />
 			<Textfield
 				input$name="title"
@@ -147,27 +147,12 @@
 				<HelperText class="red" persistent slot="helper">You must have at least 2 tags.</HelperText>
 			{/if}
 			<div class="vertical-space" />
-			<DatePicker bind:value={$date.value} />
+			<DatePicker bind:value={$publishedAt.value} />
+			{#if $postForm.hasError('publishedAt.required')}
+				<HelperText class="red" persistent slot="helper">Published Date is required.</HelperText>
+			{/if}
 			<br />
-			<Button
-				class="no-bold"
-				type="submit"
-				color="secondary"
-				touch
-				variant="outlined"
-				disabled={state === 'not-ready'}
-			>
-				<Label>
-					{#if state === 'saving'}
-						Saving Draft...
-					{:else if state === 'not-ready'}
-						Not Ready to Save
-					{:else}
-						Save
-					{/if}
-				</Label>
-			</Button>
-			<span class="space" />
+			<br />
 			<Button
 				on:click={() => saveForm(true)}
 				class="no-bold"
@@ -178,6 +163,18 @@
 				disabled={state !== 'synced'}
 			>
 				<Label>Publish</Label>
+			</Button>
+			<span class="space" />
+			<Button class="no-bold" type="submit" touch disabled={state === 'not-ready'}>
+				<Label>
+					{#if state === 'saving'}
+						Saving Draft...
+					{:else if state === 'not-ready'}
+						Not Ready to Save
+					{:else}
+						Synced
+					{/if}
+				</Label>
 			</Button>
 		{:else}
 			<PostDetail {post} details preview />

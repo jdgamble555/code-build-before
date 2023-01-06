@@ -1,20 +1,46 @@
 <script lang="ts">
-	import Flatpickr from 'svelte-flatpickr';
-	import type { BaseOptions } from 'flatpickr/dist/types/options';
-	import HelperText from '@smui/textfield/helper-text';
+	//import Flatpickr from 'svelte-flatpickr';
+	//import type { BaseOptions } from 'flatpickr/dist/types/options';
+	import Textfield from '@smui/textfield';
+	import Icon from '@smui/textfield/icon';
+	import { onDestroy, onMount } from 'svelte';
+	import { writable } from 'svelte/store';
 
-	export let options: Partial<BaseOptions> = {
+	/*export let options: Partial<BaseOptions> = {
 		enableTime: true,
 		position: 'above'
 	};
-	export let value: string;
+	let el: HTMLElement;*/
 
-	let el: HTMLElement;
+	export let value: string;
+	let tmpDate = writable(dateForDateTimeInputValue(new Date(value) || new Date()));
+	let unsubscribe = () => {};
+
+	onMount(() => {
+		unsubscribe = tmpDate.subscribe(() => {
+			value = $tmpDate ? new Date($tmpDate).toISOString() : '';
+		});
+	});
+
+	onDestroy(unsubscribe);
+
+	function dateForDateTimeInputValue(date: Date) {
+		return new Date(date.getTime() + date.getTimezoneOffset() * -60 * 1000)
+			.toISOString()
+			.slice(0, 19);
+	}
+
+	function showDate(e: Event) {
+		const target = e.target as HTMLInputElement;
+		if (target?.nodeName === 'INPUT') {
+			target.showPicker();
+		}
+	}
 
 	//$: el ? new MDCTextField(el) : undefined;
 </script>
 
-<Flatpickr
+<!--<Flatpickr
 	placeholder="Publish Date"
 	class="text-height mdc-text-field--outlined"
 	element="#picker"
@@ -51,10 +77,25 @@
 		</i>
 	</label>
 	<HelperText persistent>Publish Date *</HelperText>
-</Flatpickr>
+</Flatpickr>-->
+<Textfield
+	on:click={showDate}
+	type="datetime-local"
+	class="text-size"
+	variant="outlined"
+	bind:value={$tmpDate}
+	label="Publish Date"
+	required
+>
+	<Icon class="material-icons" slot="leadingIcon">event</Icon>
+</Textfield>
 
 <style lang="scss" global>
-	@import 'flatpickr/dist/flatpickr.css';
+	//@import 'flatpickr/dist/flatpickr.css';
+
+	/*.mdc-text-field__input::-webkit-calendar-picker-indicator {
+		display: initial;
+	}*/
 
 	.pointer {
 		cursor: pointer !important;

@@ -22,7 +22,7 @@
 				console.error(error);
 				showMsg(error);
 			} else {
-                user.photoURL = url;
+				user.photoURL = url;
 				const { error } = await updateProfile({ photoURL: url });
 				if (error) {
 					console.error(error);
