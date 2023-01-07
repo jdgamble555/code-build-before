@@ -12,9 +12,11 @@ export const randomID = (): string => {
     Date.now().toString(24);
 };
 
+type Optional<T> = T | null | undefined;
+
 export interface Preview {
-  blob: Blob;
-  filename: string;
+  blob: Optional<Blob>;
+  filename: Optional<string>;
 }
 
 /**
@@ -72,7 +74,7 @@ export const scaleImage = async (doc: any, src: any, type = 'image/png', newX?: 
 * @param event - file event
 * @returns - string blob of image
 */
-export const previewImage = async (doc: any, event: Event,): Promise<Preview | undefined> => {
+export const getPreviewImage = async (doc: any, event: Event,): Promise<Preview> => {
 
   // add event to image service
   const target = event.target as HTMLInputElement;
@@ -90,5 +92,5 @@ export const previewImage = async (doc: any, event: Event,): Promise<Preview | u
     const blob = await scaleImage(doc, image, undefined, 1250, 650);
     return { filename, blob };
   }
-  return;
+  return { blob: undefined, filename: undefined };
 }

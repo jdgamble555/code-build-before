@@ -1,4 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type Optional<T> = T | undefined | null;
+
 export const api = async <T>(url: string, params: Map<string, string>, fetch?: any): Promise<T> => {
     const _url = url + (params.size > 0 ? '?' : '') + new URLSearchParams(Object.entries(params.entries())).toString();
     const r = await fetch(_url);
@@ -19,4 +21,17 @@ export function slugify(value: string): string {
 export function minutesToRead(data: string): string {
     const wordCount = data.trim().split(/\s+/g).length;
     return (wordCount / 100 + 1).toFixed(0);
+}
+
+export function isValidURL(url: Optional<string>): boolean {
+    let _url;
+    if (!url) {
+        return false;
+    }
+    try {
+        _url = new URL(url);
+    } catch (_) {
+        return false;
+    }
+    return _url.protocol === "http:" || _url.protocol === "https:";
 }

@@ -28,6 +28,12 @@
 		if (['Enter', ' ', ','].includes(event.key)) {
 			newValue = value.trim();
 
+			// handle no previous values and , enter or space
+			if (newValue === ',' || newValue === '') {
+				setValue();
+				return;
+			}
+
 			// remove comma from chip
 			if (event.key === ',') {
 				newValue = newValue.slice(0, -1);

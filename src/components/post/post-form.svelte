@@ -1,6 +1,6 @@
 <script lang="ts">
 	import MarkdownEditor from '$lib/form/markdown-editor.svelte';
-	import type { Post } from '$lib/post.model';
+	import type { Optional, Post } from '$lib/post.model';
 	import Card, { Content } from '@smui/card';
 	import Textfield from '@smui/textfield';
 	import HelperText from '@smui/textfield/helper-text';
@@ -9,7 +9,7 @@
 	import TabBar from '@smui/tab-bar';
 	import Tab, { Label } from '@smui/tab';
 	import PostDetail from './post-detail.svelte';
-	import { auth, edit_post } from '$lib/database';
+	import { auth, edit_post, image_upload } from '$lib/database';
 	import { goto } from '$app/navigation';
 	import Button from '@smui/button/src/Button.svelte';
 	import { form, field } from 'svelte-forms';
@@ -17,9 +17,11 @@
 	import DatePicker from '$lib/form/date-picker.svelte';
 	import { tagsMin, tagsRequired } from '$lib/form/chips-validate';
 	import PostCoverImage from './post-cover-image.svelte';
+	import { isValidURL } from '$lib/utils';
 
 	const { setPost } = edit_post;
 	const { user } = auth;
+	const { uploadImage } = image_upload;
 
 	export let post: Post;
 
@@ -27,13 +29,16 @@
 
 	let active = 'Content';
 
+	let imageFile: Optional<File>;
+
 	// form functions and validation
 
 	const content = field('content', post.content, [required(), min(3)]);
 	const tags = field('tags', post.tags, [tagsRequired(), tagsMin(2)]);
 	const title = field('title', post.title, [required(), min(2)]);
 	const publishedAt = field('publishedAt', new Date(post.publishedAt).toISOString(), [required()]);
-	const postForm = form(content, tags, title, publishedAt);
+	const image = field('image', post.image, [required()]);
+	const postForm = form(image, content, tags, title, publishedAt);
 
 	// auto save function
 
@@ -41,6 +46,8 @@
 
 	let state: FormState = 'not-ready';
 	let timer: NodeJS.Timer;
+
+	// todo - move debounce out...
 
 	$: $postForm,
 		(() => {
@@ -56,7 +63,7 @@
 
 	const isReady = () => {
 		// if default state
-		if (!$content.dirty && !$tags.dirty && !$title.dirty) {
+		if (!$content.dirty && !$tags.dirty && !$title.dirty && !$image.dirty) {
 			return false;
 		}
 		// if empty values
@@ -74,8 +81,26 @@
 	const saveForm = async (publish = false) => {
 		state = 'saving';
 
+		if (!isValidURL($image.value)) {
+			const uid = $user && $user !== 'loading' ? $user.id : null;
+
+			// upload new image
+			if (uid && imageFile) {
+				const { url, error: _e } = await uploadImage(`cover_images/${uid}`, imageFile);
+				if (_e) {
+					console.error(_e);
+				} else {
+					image.set(url);
+					imageFile = undefined;
+					// setting new image will retrigger function
+					return;
+				}
+			}
+		}
+
 		const _data = {
 			...$postForm.summary,
+			image: $image.value,
 			author: $user !== 'loading' ? $user : '',
 			publishedAt: new Date($publishedAt.value)
 		};
@@ -91,6 +116,8 @@
 			id = data?.id;
 			state = 'synced';
 			if (publish) {
+				// delete old published image
+
 				goto(`/${data.id}/${data.slug}`);
 			}
 		}
@@ -108,7 +135,7 @@
 	<br />
 	<Content>
 		{#if active === 'Content'}
-			<PostCoverImage image={post.image} title={post.title} />
+			<PostCoverImage {image} title={post.title} bind:imageFile />
 			<div class="vertical-space" />
 			<Textfield
 				input$name="title"
