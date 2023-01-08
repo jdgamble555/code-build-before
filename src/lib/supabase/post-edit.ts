@@ -2,7 +2,7 @@
 import { dev } from "$app/environment";
 import type { Post, PostRequest } from "$lib/post.model";
 import { minutesToRead, slugify } from "$lib/utils";
-import { decode } from "j-supabase";
+import { decode, encode } from "j-supabase";
 import { supabase } from "./supabase";
 
 export const supabase_post_edit_adapter = {
@@ -66,7 +66,7 @@ export const supabase_post_edit_adapter = {
                 console.error(_e);
             }
         }
-        return { error: error?.message, data: _d };
+        return { error: error?.message, data: {..._d, id: encode(_d.id) } };
     },
 
     /**

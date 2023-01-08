@@ -18,12 +18,15 @@
 	import { tagsMin, tagsRequired } from '$lib/form/chips-validate';
 	import PostCoverImage from './post-cover-image.svelte';
 	import { isValidURL } from '$lib/utils';
+	import { imageUploads } from '$lib/stores';
 
 	const { setPost } = edit_post;
 	const { user } = auth;
 	const { uploadImage } = image_upload;
 
 	export let post: Post;
+
+	imageUploads.set(post.imageUploads || []);
 
 	let id = post.id === '0x0' ? undefined : post.id;
 
@@ -102,7 +105,8 @@
 			...$postForm.summary,
 			image: $image.value,
 			author: $user !== 'loading' ? $user : '',
-			publishedAt: new Date($publishedAt.value)
+			publishedAt: new Date($publishedAt.value),
+			imageUploads: $imageUploads
 		};
 
 		// add post to db
@@ -116,9 +120,7 @@
 			id = data?.id;
 			state = 'synced';
 			if (publish) {
-				// delete old published image
-
-				goto(`/${data.id}/${data.slug}`);
+				goto(`/p/${data.id}/${data.slug}`);
 			}
 		}
 	};
@@ -204,7 +206,7 @@
 				</Label>
 			</Button>
 		{:else}
-			<PostDetail {post} details preview />
+			<PostDetail post={{ ...post, ...$postForm.summary }} details preview />
 		{/if}
 	</Content>
 </Card>

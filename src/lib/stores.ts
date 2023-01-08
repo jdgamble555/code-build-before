@@ -25,3 +25,5 @@ export const showMsg = (text: string) => {
     });
 };
 
+// posts
+export const imageUploads = writable<string[]>([]);
