@@ -3,6 +3,12 @@
 	import { breadcrumbs } from '$lib/breadcrumbs';
 	import { showLeft, showRight } from '$lib/stores';
 	import { settings } from '$lib/settings';
+	import Schema from '$lib/schema.svelte';
+	import { marked } from 'marked';
+
+	import type { LayoutData } from './$types';
+	import type { Post } from '$lib/post.model';
+	export let data: LayoutData;
 
 	// navbars
 	showRight.set(true);
@@ -16,6 +22,21 @@
 		url: settings.domain,
 		image: settings.meta_image
 	};
+
+	const schema = [
+		{
+			'@type': 'ItemList',
+			itemListElement: data.posts?.map((r: Post, i: number) => ({
+				'@type': 'ListItem',
+				position: i + 1,
+				name: r.title,
+				url: settings.domain + '/p/' + r.id + '/' + r.slug,
+				image: r.image,
+				description: marked.parse(r.content.substring(0, 125)),
+				id: r.id
+			}))
+		}
+	];
 </script>
 
 <svelte:head>
@@ -26,6 +47,8 @@
 		href="https://code.build/feed"
 	/>
 </svelte:head>
+
+<Schema {schema} />
 
 <MetaTags
 	title={meta.title}

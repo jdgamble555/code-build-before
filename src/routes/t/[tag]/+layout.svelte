@@ -2,8 +2,11 @@
 	import { breadcrumbs } from '$lib/breadcrumbs';
 	import { settings } from '$lib/settings';
 	import { MetaTags } from 'svelte-meta-tags';
+	import Schema from '$lib/schema.svelte';
+	import { marked } from 'marked';
 
 	import type { LayoutData } from './$types';
+	import type { Post } from '$lib/post.model';
 	export let data: LayoutData;
 
 	$: {
@@ -18,7 +21,24 @@
 		url: settings.domain,
 		image: settings.meta_image
 	};
+
+	const schema = [
+		{
+			'@type': 'ItemList',
+			itemListElement: data.posts?.map((r: Post, i: number) => ({
+				'@type': 'ListItem',
+				position: i + 1,
+				name: r.title,
+				url: settings.domain + '/p/' + r.id + '/' + r.slug,
+				image: r.image,
+				description: marked.parse(r.content.substring(0, 125)),
+				id: r.id
+			}))
+		}
+	];
 </script>
+
+<Schema {schema} />
 
 <MetaTags
 	title={meta.title}

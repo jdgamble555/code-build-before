@@ -4,8 +4,6 @@ import type { RequestHandler } from './$types';
 
 const { getUsernameFromId } = read_post;
 
-// todo - return value to custom error component
-
 export const GET: RequestHandler = async ({ params }) => {
 
     const uid = params.uid;
