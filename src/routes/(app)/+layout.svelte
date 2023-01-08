@@ -18,6 +18,15 @@
 	};
 </script>
 
+<svelte:head>
+	<link
+		rel="alternate"
+		type="application/rss+xml"
+		title="Code.Build 💻 RSS Feed"
+		href="https://code.build/feed"
+	/>
+</svelte:head>
+
 <MetaTags
 	title={meta.title}
 	description={meta.description}
