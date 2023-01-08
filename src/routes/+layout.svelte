@@ -16,7 +16,6 @@
 </script>
 
 <svelte:head>
-	<meta name="description" content="Your most relevant coding resources!" />
 	<link rel="stylesheet" id="theme" href="/smui{$darkMode ? '-dark' : ''}.css" />
 </svelte:head>
 

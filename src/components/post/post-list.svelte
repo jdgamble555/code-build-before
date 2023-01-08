@@ -20,11 +20,12 @@
 	export let total: Number;
 	export let type: types | undefined = undefined;
 	export let filter: string | undefined = undefined;
+	export let drafts: boolean = false;
 </script>
 
 {#if $postList}
 	{#each $postList as post}
-		<PostDetail {post} />
+		<PostDetail {post} isDraft={drafts} />
 	{/each}
 	<LightPaginationNav
 		totalItems={total}

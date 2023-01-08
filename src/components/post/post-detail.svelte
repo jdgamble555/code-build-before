@@ -18,12 +18,13 @@
 	export let post: Post;
 	export let details = false;
 	export let preview = false;
+	export let isDraft = false;
 
 	const navigate = (edit = false) => {
 		// navigate to edit or form page
 		// preload post to prevent over-fetching
 		postDetail.set(post);
-		const route = edit ? '/edit/' + post.id : '/p/' + post.id + '/' + post.slug;
+		const route = edit ? '/edit/' + post.id : (isDraft ? '/d/' : '/p/') + post.id + '/' + post.slug;
 		goto(route);
 	};
 </script>

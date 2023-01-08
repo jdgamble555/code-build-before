@@ -206,7 +206,7 @@
 				</Label>
 			</Button>
 		{:else}
-			<PostDetail post={{ ...post, ...$postForm.summary }} details preview />
+			<PostDetail post={{ ...post, ...$postForm.summary }} details preview isDraft />
 		{/if}
 	</Content>
 </Card>
