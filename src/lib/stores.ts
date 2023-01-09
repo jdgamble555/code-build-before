@@ -1,5 +1,6 @@
 import { writable } from "svelte/store";
 import type Snackbar from '@smui/snackbar';
+import type { Optional } from "./post.model";
 
 export const darkMode = writable<boolean>(false);
 export const loading = writable<boolean>(false);
@@ -27,3 +28,40 @@ export const showMsg = (text: string) => {
 
 // posts
 export const imageUploads = writable<string[]>([]);
+
+export type dialogType = {
+    show: boolean,
+    confirmed: boolean,
+    id: Optional<string>,
+    imageURL: Optional<string>,
+    imageUploads: Optional<string[]>
+};
+
+// dialog
+export const dialogStore = (() => {
+    const { set, update, subscribe } = writable<dialogType>({
+        show: false,
+        confirmed: false,
+        id: null,
+        imageURL: null,
+        imageUploads: null
+    });
+    return {
+        set,
+        update,
+        subscribe,
+        show: (id: string, imageURL?: Optional<string>, imageUploads?: Optional<string[]>) => update(v => ({ ...v, show: true, id, imageURL, imageUploads })),
+        confirm: () => update(v => ({ ...v, confirmed: true })),
+        reject: () => update(v => ({ ...v, confirmed: false })),
+        toggle: () => update(v => ({ ...v, show: !v.show }))
+    }
+})();
+
+/*
+export const test = new (class {
+    private me: boolean;
+    constructor() {
+        this.me = true;
+    }
+})();
+*/

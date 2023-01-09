@@ -5,6 +5,7 @@
 	import Textfield from '@smui/textfield';
 	import HelperText from '@smui/textfield/helper-text';
 	import Icon from '@smui/textfield/icon';
+	import IconButton from '@smui/icon-button';
 	import ChipsInput from '$lib/form/chips-input.svelte';
 	import TabBar from '@smui/tab-bar';
 	import Tab, { Label } from '@smui/tab';
@@ -18,7 +19,7 @@
 	import { tagsMin, tagsRequired } from '$lib/form/chips-validate';
 	import PostCoverImage from './post-cover-image.svelte';
 	import { isValidURL } from '$lib/utils';
-	import { imageUploads } from '$lib/stores';
+	import { dialogStore, imageUploads } from '$lib/stores';
 
 	const { setPost } = edit_post;
 	const { user } = auth;
@@ -182,29 +183,40 @@
 			{/if}
 			<br />
 			<br />
-			<Button
-				on:click={() => saveForm(true)}
-				class="no-bold"
-				type="submit"
-				color="secondary"
-				touch
-				variant="outlined"
-				disabled={state !== 'synced'}
-			>
-				<Label>Publish</Label>
-			</Button>
-			<span class="space" />
-			<Button class="no-bold" type="submit" touch disabled={state === 'not-ready'}>
-				<Label>
-					{#if state === 'saving'}
-						Saving Draft...
-					{:else if state === 'not-ready'}
-						Not Ready to Save
-					{:else}
-						Synced
-					{/if}
-				</Label>
-			</Button>
+			<div class="flex-container">
+				<div>
+					<Button
+						on:click={() => saveForm(true)}
+						class="no-bold"
+						type="submit"
+						color="secondary"
+						touch
+						variant="outlined"
+						disabled={state !== 'synced'}
+					>
+						<Label>Publish</Label>
+					</Button>
+
+					<Button class="no-bold" type="submit" touch disabled={state === 'not-ready'}>
+						<Label>
+							{#if state === 'saving'}
+								Saving Draft...
+							{:else if state === 'not-ready'}
+								Not Ready to Save
+							{:else}
+								Synced
+							{/if}
+						</Label>
+					</Button>
+				</div>
+				<div>
+					<IconButton
+						class="material-icons"
+						on:click={() => dialogStore.show(post.id, post.image, post.imageUploads)}
+						title="Delete">delete</IconButton
+					>
+				</div>
+			</div>
 		{:else}
 			<PostDetail post={{ ...post, ...$postForm.summary }} details preview isDraft />
 		{/if}

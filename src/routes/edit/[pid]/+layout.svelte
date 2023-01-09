@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Confirm from '@components/dialog/confirm.svelte';
 	import { breadcrumbs } from '$lib/breadcrumbs';
 	import { showLeft, showRight } from '$lib/stores';
 
@@ -15,4 +16,5 @@
 	}
 </script>
 
+<Confirm />
 <slot />
