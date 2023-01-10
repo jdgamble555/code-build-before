@@ -10,7 +10,7 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-{#if $user && !$user.loading}
+{#if $user.data && !$user.loading}
 	{goto('/')}
 {:else}
 	<Login />
