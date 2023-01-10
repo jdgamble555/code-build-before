@@ -13,8 +13,8 @@
 
 <div>
 	<Button class="no-bold" on:click={() => menu.setOpen && menu.setOpen(true)}>
-		{#if $user && $user !== 'loading' && $user.photoURL}
-			<img class="avatar" src={$user.photoURL} alt={$user.displayName} width="35" height="35" />
+		{#if $user.data && !$user.loading && $user.data.photoURL}
+			<img class="avatar" src={$user.data.photoURL} alt={$user.data.displayName} width="35" height="35" />
 		{:else}
 			<Loader white />
 		{/if}

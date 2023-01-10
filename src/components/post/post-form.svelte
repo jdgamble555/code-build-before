@@ -86,7 +86,7 @@
 		state = 'saving';
 
 		if (!isValidURL($image.value)) {
-			const uid = $user && $user !== 'loading' ? $user.id : null;
+			const uid = $user.data && !$user.loading ? $user.data.id : null;
 
 			// upload new image
 			if (uid && imageFile) {
@@ -105,7 +105,7 @@
 		const _data = {
 			...$postForm.summary,
 			image: $image.value,
-			author: $user !== 'loading' ? $user : '',
+			author: !$user.loading ? $user.data : '',
 			publishedAt: new Date($publishedAt.value),
 			imageUploads: $imageUploads
 		};

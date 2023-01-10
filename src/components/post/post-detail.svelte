@@ -87,12 +87,12 @@
 		</Content>
 		<Separator />
 		<Actions class="flex-container">
-			{#if $user && $user !== 'loading' && !preview}
+			{#if $user.data && !$user.loading && !preview}
 				<div>
-					<Save postId={post.id} userId={$user.id} />
-					<Like count={post.heartsCount} postId={post.id} userId={$user.id} />
+					<Save postId={post.id} userId={$user.data.id} />
+					<Like count={post.heartsCount} postId={post.id} userId={$user.data.id} />
 				</div>
-				{#if post.author.id === $user.id}
+				{#if post.author.id === $user.data.id}
 					<IconButton class="material-icons" on:click={() => navigate(true)} title="Edit">
 						edit
 					</IconButton>

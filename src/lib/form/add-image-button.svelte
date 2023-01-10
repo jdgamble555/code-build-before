@@ -37,7 +37,7 @@
 			// view file before upload
 			const file = target.files[0];
 
-			const uid = $user && $user !== 'loading' ? $user.id : null;
+			const uid = $user.data && !$user.loading ? $user.data.id : null;
 			if (uid) {
 				const { url, error } = await uploadImage(`post-images/${uid}`, file);
 				loadingImage = false;

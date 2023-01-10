@@ -9,13 +9,13 @@
 </script>
 
 {#if browser}
-	{#if $user === 'loading'}
+	{#if $user.loading}
 		<div class="centered">
 			<Loader />
 		</div>
-	{:else if !$user}
+	{:else if !$user.data}
 		{goto('/login')}
 	{:else}
-		<Dashboard user={$user} />
+		<Dashboard user={$user.data} />
 	{/if}
 {/if}

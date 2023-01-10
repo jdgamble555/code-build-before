@@ -21,11 +21,11 @@
 </script>
 
 {#if browser}
-	{#if $user === 'loading'}
+	{#if $user.loading}
 		<div class="centered">
 			<Loader />
 		</div>
-	{:else if $user}
+	{:else if $user.data}
 		<br />
 		<Card variant="outlined" padded>
 			<div class="accordion-container">
@@ -40,7 +40,7 @@
 							</IconButton>
 						</Header>
 						<Content>
-							<EditProfile user={$user} />
+							<EditProfile user={$user.data} />
 						</Content>
 					</Panel>
 					<Panel bind:open={panel2Open}>
@@ -53,7 +53,7 @@
 							</IconButton>
 						</Header>
 						<Content>
-							<EditUsername username={$user.username || ''} />
+							<EditUsername username={$user.data.username || ''} />
 						</Content>
 					</Panel>
 					<Panel bind:open={panel3Open}>
@@ -66,7 +66,7 @@
 							</IconButton>
 						</Header>
 						<Content>
-							<EditEmail email={$user.email} />
+							<EditEmail email={$user.data.email} />
 						</Content>
 					</Panel>
 				</Accordion>

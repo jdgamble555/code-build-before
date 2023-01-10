@@ -11,7 +11,7 @@
 	const { user } = auth;
 
 	$: post =
-		$user && $user !== 'loading'
+		$user.data && !$user.loading
 			? {
 					id: '0x0',
 					title: '',
@@ -19,13 +19,13 @@
 					slug: '',
 					minutes: '',
 					author: {
-						id: $user.id,
-						email: $user.email,
-						role: $user.role,
-						createdAt: $user.createdAt,
-						providers: $user.providers,
-						username: $user.username,
-						photoURL: $user.photoURL
+						id: $user.data.id,
+						email: $user.data.email,
+						role: $user.data.role,
+						createdAt: $user.data.createdAt,
+						providers: $user.data.providers,
+						username: $user.data.username,
+						photoURL: $user.data.photoURL
 					},
 					createdAt: new Date(),
 					publishedAt: new Date(),
@@ -35,11 +35,11 @@
 			: undefined;
 </script>
 
-{#if $user === 'loading'}
+{#if $user.loading}
 	<div class="centered">
 		<Loader />
 	</div>
-{:else if $user}
+{:else if $user.data}
 	{#if post}
 		<PostForm {post} />
 	{/if}
