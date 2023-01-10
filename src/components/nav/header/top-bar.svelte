@@ -29,10 +29,10 @@
 			<Section align="end" toolbar>
 				<DarkModeButton />
 				<SearchButton />
-				{#if $user}
+				{#if $user.data}
 					{#await import('./login-menu.svelte')}
 						<div class="centered">
-							<Loader />
+							<Loader white />
 						</div>
 					{:then LoginMenu}
 						<LoginMenu.default />
