@@ -2,6 +2,11 @@
 	"name": "code-build",
 	"version": "0.0.1",
 	"private": true,
+	"browser": {
+		"fs": false,
+		"path": false,
+		"buffer": false
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -64,18 +69,13 @@
 	"dependencies": {
 		"@github/markdown-toolbar-element": "^2.1.1",
 		"@supabase/supabase-js": "^2.2.2",
-		"buffer": "^6.0.3",
 		"feed": "^4.2.2",
-		"fs": "^0.0.1-security",
 		"highlight.js": "^11.7.0",
 		"j-supabase": "^1.0.16",
-		"path": "^0.12.7",
 		"sitemap": "^7.1.1",
 		"stream": "^0.0.2",
 		"svelte-forms": "^2.3.1",
 		"svelte-markdown": "^0.2.3",
-		"url": "^0.11.0",
-		"util": "^0.12.5",
 		"zlib": "^1.0.5"
 	}
 }
