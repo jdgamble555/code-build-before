@@ -106,7 +106,7 @@ export const GET: RequestHandler = async () => {
         "Content-Type": "application/xml",
         "Content-Encoding": "gzip"
       }
-    });
+    }).arrayBuffer();
 
   } catch (e: any) {
     console.error(e);
