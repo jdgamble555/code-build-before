@@ -9,9 +9,7 @@
 		"util": false,
 		"url": false,
 		"child_process": false,
-		"readline": false,
-		"stream": false,
-		"zlib": false
+		"readline": false
 	},
 	"scripts": {
 		"dev": "vite dev",
