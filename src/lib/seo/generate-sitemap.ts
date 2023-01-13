@@ -20,18 +20,27 @@ export interface sitemapTag {
     lastmod?: Optional<string>;
     changefreq?: Optional<changeFreq>;
     priority?: Optional<priority>;
-    images?: Optional<string[] | string>;
+    image?: Optional<string[] | string>;
 };
 
-export class genSitemap {
+export class generateSitemap {
 
     private feed: string[] = [];
     private pretty: boolean;
     private useImage: boolean;
+    private xsl: string;
+    private hostname: string;
 
-    constructor({ useImage = false, pretty = false } = {}) {
+    constructor({
+        useImage = false,
+        pretty = false,
+        xsl = '',
+        hostname = ''
+    } = {}) {
         this.pretty = pretty;
         this.useImage = useImage;
+        this.xsl = xsl;
+        this.hostname = hostname + '/';
     }
 
     addLink(tag: sitemapTag) {
@@ -39,22 +48,21 @@ export class genSitemap {
         const link: string[] = [];
 
         // add loc
-        const loc = this.createTag('loc', tag.loc);
-        link.concat(loc);
+        const loc = this.createTag('loc', this.hostname + tag.loc);
+        link.push(...loc);
 
         // lastmod
         if (tag.lastmod) {
             const lastmod = this.createTag('lastmod', tag.lastmod);
-            link.concat(lastmod);
+            link.push(...lastmod);
         }
 
         // images
-        if (tag.images) {
-
+        if (tag.image) {
             // force to be array
-            const images = tag.images.length
-                ? tag.images
-                : [tag.images];
+            const images = Array.isArray(tag.image)
+                ? tag.image
+                : [tag.image];
 
             // add image namespace
             this.useImage = true;
@@ -62,30 +70,32 @@ export class genSitemap {
             for (let i = 0; i < images.length; ++i) {
                 const image_loc = this.createTag('image:loc', images[i]);
                 const image_image = this.createTag('image:image', image_loc);
-                link.concat(image_image);
+                link.push(...image_image);
             }
         }
 
         // changefreq
         if (tag.changefreq) {
             const changefreq = this.createTag('changefreq', tag.changefreq);
-            link.concat(changefreq);
+            link.push(...changefreq);
         }
 
         // priority
         if (tag.priority) {
             // todo - check for leading zeros
             const priority = this.createTag('priority', tag.priority.toString());
-            link.concat(priority);
+            link.push(...priority);
         }
 
         // create url
         const url = this.createTag('url', link);
-        this.feed.concat(url);
+        this.feed.push(...url);
         return this;
     }
 
     private urlset_open() {
+        // https://www.sitemaps.org/protocol.html - validate sitemap?
+
         let urlset = 'urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"';
         if (this.useImage) {
             urlset += ' xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"';
@@ -99,8 +109,11 @@ export class genSitemap {
     }
 
     generate() {
-        const xml = '<?xml version="1.0" encoding="UTF-8"?>';
+        let xml = '<?xml version="1.0" encoding="UTF-8"?>';
         const urlset = this.createTag('urlset', this.feed);
+        if (this.xsl) {
+            xml += `<?xml-stylesheet type="text/xsl" href="${this.xsl}" ?>`;
+        }
         this.feed = [xml].concat(urlset);
         return this.feed.join('');
     }

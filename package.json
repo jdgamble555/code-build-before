@@ -2,17 +2,6 @@
 	"name": "code-build",
 	"version": "0.0.1",
 	"private": true,
-	"browser": {
-		"fs": false,
-		"path": false,
-		"buffer": false,
-		"util": false,
-		"url": false,
-		"child_process": false,
-		"readline": false,
-		"stream": false,
-		"zlib": false
-	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -78,7 +67,6 @@
 		"@supabase/supabase-js": "^2.2.2",
 		"highlight.js": "^11.7.0",
 		"j-supabase": "^1.0.16",
-		"sitemap": "^7.1.1",
 		"svelte-forms": "^2.3.1",
 		"svelte-markdown": "^0.2.3"
 	}

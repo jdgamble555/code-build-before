@@ -1,14 +1,14 @@
-import { describe, it, expect, beforeEach, beforeAll } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 
-import { genSitemap } from './gen-sitemap.js';
+import { generateSitemap } from './generate-sitemap.js';
 
 describe('sitemap tests', () => {
 
-    let sitemap: genSitemap;
+    let sitemap: generateSitemap;
 
 
     beforeEach(() => {
-        sitemap = new genSitemap();
+        sitemap = new generateSitemap();
     });
 
     it('get blank sitemap', () => {
