@@ -9,7 +9,7 @@ import { error } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async () => {
 
-  try {
+
     const sitemapStream = new SitemapStream({
       hostname: settings.domain,
       xmlns: {
@@ -106,8 +106,4 @@ export const GET: RequestHandler = async () => {
       }
     });
 
-  } catch (e: any) {
-    console.error(e);
-    throw error(500, e);
-  }
 };
