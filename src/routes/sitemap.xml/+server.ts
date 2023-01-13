@@ -33,7 +33,7 @@ export const GET: RequestHandler = async () => {
       console.error(error);
     }
     data?.forEach((doc) => {
-      
+
       const date = new Date(doc['updated_at'] ?? doc['published_at']);
       const pid = encode(doc.id);
 
@@ -97,6 +97,8 @@ export const GET: RequestHandler = async () => {
     sitemapStream.end();
 
     const _stream = (await streamToPromise(sitemapStream)).toString();
+
+    console.log(_stream);
 
     return new Response(_stream, {
       headers: {
