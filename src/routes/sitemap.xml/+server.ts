@@ -2,7 +2,7 @@
 import type { RequestHandler } from './$types';
 import { encode } from 'j-supabase';
 import { SitemapStream, streamToPromise } from 'sitemap';
-import { createGzip } from 'zlib';
+//import { createGzip } from 'zlib';
 import { settings } from '$lib/settings';
 import { supabase } from '$lib/supabase/supabase';
 import { error } from '@sveltejs/kit';
@@ -97,8 +97,6 @@ export const GET: RequestHandler = async () => {
     sitemapStream.end();
 
     const _stream = (await streamToPromise(sitemapStream)).toString();
-
-      console.log(_stream);
 
     return new Response(_stream, {
       headers: {
