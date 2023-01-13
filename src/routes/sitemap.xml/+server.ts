@@ -100,7 +100,7 @@ export const GET: RequestHandler = async () => {
 
     console.log(_stream);
 
-    return new Response(_stream, {
+    return new Response('test', {
       headers: {
         "Content-Type": "application/xml",
         //"Content-Encoding": "gzip",
