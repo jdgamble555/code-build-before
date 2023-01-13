@@ -20,7 +20,7 @@ export const GET: RequestHandler = async () => {
       },
       xslUrl: 'sitemap.xsl'
     });
-    const pipeline = sitemapStream.pipe(createGzip());
+    //const pipeline = sitemapStream.pipe(createGzip());
 
     let lastmod = new Date(1 - 1 - 2000);
 
@@ -96,15 +96,15 @@ export const GET: RequestHandler = async () => {
 
     sitemapStream.end();
 
-    const _stream = (await streamToPromise(pipeline)).toString();
+    const _stream = (await streamToPromise(sitemapStream)).toString();
 
       console.log(_stream);
 
     return new Response(_stream, {
       headers: {
         "Content-Type": "application/xml",
-        "Content-Encoding": "gzip",
-        "Accept-Encoding": "gzip"
+        //"Content-Encoding": "gzip",
+        //"Accept-Encoding": "gzip"
       }
     });
 
