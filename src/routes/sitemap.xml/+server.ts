@@ -102,7 +102,7 @@ export const GET: RequestHandler = async () => {
 
     return new Response('test', {
       headers: {
-        "Content-Type": "application/xml",
+        //"Content-Type": "application/xml",
         //"Content-Encoding": "gzip",
         //"Accept-Encoding": "gzip"
       }
