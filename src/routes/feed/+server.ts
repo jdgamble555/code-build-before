@@ -8,6 +8,8 @@ import { error as sk_error } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async () => {
 
+    return new Response("testing 1,2.3...");
+
     /*const feed = new Feed({
         title: settings.meta_title,
         description: settings.meta_description,

@@ -98,11 +98,9 @@ export const GET: RequestHandler = async () => {
 
     const _stream = (await streamToPromise(sitemapStream)).toString();
 
-    console.log(_stream);
-
-    return new Response('test', {
+    return new Response(_stream, {
       headers: {
-        //"Content-Type": "application/xml",
+        "Content-Type": "application/xml",
         //"Content-Encoding": "gzip",
         //"Accept-Encoding": "gzip"
       }
