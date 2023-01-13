@@ -103,7 +103,8 @@ export const GET: RequestHandler = async () => {
     return new Response(_stream, {
       headers: {
         "Content-Type": "application/xml",
-        "Content-Encoding": "gzip"
+        "Content-Encoding": "gzip",
+        "Accept-Encoding": "gzip"
       }
     });
 
