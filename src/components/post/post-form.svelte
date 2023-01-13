@@ -20,6 +20,7 @@
 	import PostCoverImage from './post-cover-image.svelte';
 	import { isValidURL } from '$lib/utils';
 	import { dialogStore, imageUploads } from '$lib/stores';
+	import { debounce } from '$lib/debounce';
 
 	const { setPost } = edit_post;
 	const { user } = auth;
@@ -49,21 +50,19 @@
 	type FormState = 'not-ready' | 'error' | 'saving' | 'synced';
 
 	let state: FormState = 'not-ready';
-	let timer: NodeJS.Timer;
 
-	// todo - move debounce out...
+	const _debounce = debounce(() => {
+		if (isReady()) {
+			saveForm();
+		}
+	}, 500);
 
-	$: $postForm,
-		(() => {
-			// debounce
-			clearTimeout(timer);
-			timer = setTimeout(() => {
-				// save draft data if ready
-				if (isReady()) {
-					saveForm();
-				}
-			}, 500);
-		})();
+	$: $postForm, _debounce();
+
+	$: {
+		$publishedAt
+		console.log($publishedAt.value);
+	}
 
 	const isReady = () => {
 		// if default state

@@ -4,11 +4,11 @@ import { encode } from 'j-supabase';
 import { settings } from '$lib/settings';
 import { supabase } from '$lib/supabase/supabase';
 import { error as sk_error } from '@sveltejs/kit';
-import { Feed } from "feed";
+//import { Feed } from "feed";
 
 export const GET: RequestHandler = async () => {
 
-    const feed = new Feed({
+    /*const feed = new Feed({
         title: settings.meta_title,
         description: settings.meta_description,
         id: "https://code.build",
@@ -60,5 +60,7 @@ export const GET: RequestHandler = async () => {
     } catch (e: any) {
         console.error(e);
         throw sk_error(500, e);
-    }
+    }*/
+
+    return new Response();
 };

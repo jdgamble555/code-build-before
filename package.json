@@ -20,6 +20,7 @@
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"test:unit": "vitest",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"prepare": "npm run vite-workaround && npm run smui-theme-light && npm run smui-theme-dark",
@@ -75,7 +76,6 @@
 	"dependencies": {
 		"@github/markdown-toolbar-element": "^2.1.1",
 		"@supabase/supabase-js": "^2.2.2",
-		"feed": "^4.2.2",
 		"highlight.js": "^11.7.0",
 		"j-supabase": "^1.0.16",
 		"sitemap": "^7.1.1",

@@ -96,10 +96,7 @@ export const GET: RequestHandler = async () => {
 
     sitemapStream.end();
 
-    const _stream = await streamToPromise(pipeline)
-      .catch((e) => {
-        throw e;
-      });
+    const _stream = (await streamToPromise(pipeline)).toString();
 
       console.log(_stream);
 

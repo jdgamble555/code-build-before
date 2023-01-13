@@ -1,3 +1,3 @@
 User-agent: *
 Disallow:
-Sitemap: https://code-build-new.vercel.app/sitemap.xml
+Sitemap: https://code.build/sitemap.xml
