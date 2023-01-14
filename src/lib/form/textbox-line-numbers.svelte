@@ -1,22 +1,22 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	export let source: string;
 
 	let fontWidthElem: HTMLElement;
 	let fontWidth: number;
 	let editorWidth: number;
+	let lineNumEl: HTMLElement;
+	let lineNumbersWidth: number;
+	let charactersPerLine: number;
 
-	onMount(() => {
-		fontWidth = fontWidthElem.getBoundingClientRect().width;
-	});
+	$: {
+		fontWidth = fontWidthElem?.getBoundingClientRect().width || 0;
+		lineNumbersWidth = lineNumEl?.scrollWidth || 0;
+		charactersPerLine = Math.floor((editorWidth - lineNumbersWidth) / fontWidth);
+	}
 
-	let lineNumbersWidth = 30;
-	$: charactersPerLine = Math.floor((editorWidth - lineNumbersWidth) / fontWidth) - 1;
-
-	function wrapped(str: string, charactersPerLine: number, timesWrapped: number): number {
-		if (str.length > charactersPerLine) {
-			return wrapped(str.substring(charactersPerLine).trim(), charactersPerLine, timesWrapped + 1);
+	function wrapped(str: string, timesWrapped: number): number {
+		if (charactersPerLine && str.length > charactersPerLine) {
+			return wrapped(str.substring(charactersPerLine), timesWrapped + 1);
 		}
 		return timesWrapped;
 	}
@@ -24,14 +24,14 @@
 
 <div class="editor-wrapper">
 	<div class="editor" bind:clientWidth={editorWidth}>
-		<div class="line-numbers" style:width="{lineNumbersWidth}px">
-			{#each source.split('\n') as subStr, index}
-				<div
-					style:margin-bottom="calc(var(--line-height) * {wrapped(subStr, charactersPerLine, 0)})"
-				>
-					{index + 1}
-				</div>
-			{/each}
+		<div class="line-numbers" bind:this={lineNumEl}>
+			{#if charactersPerLine > 111}
+				{#each source.split('\n') as subStr, index}
+					<div style:margin-bottom="calc(var(--line-height) * {wrapped(subStr, 0)})">
+						{index + 1}
+					</div>
+				{/each}
+			{/if}
 		</div>
 		<textarea
 			id="controlId"
@@ -48,7 +48,6 @@
 	.editor-wrapper {
 		--line-height: 21px;
 		padding: 20px 10px;
-		//background: #282a3a;
 		border-radius: 2px;
 	}
 
@@ -64,19 +63,15 @@
 		margin-left: -15px;
 		padding-right: 20px;
 		text-align: right;
-		//color: #1e88e5 !important;
-        color: rgb(48, 48, 48);
-        //font-weight: bold;
+		color: rgb(48, 48, 48);
 	}
 
 	.numbered-textarea {
 		line-height: var(--line-height);
-		overflow-y: hidden;
+		overflow-y: auto;
 		margin: 0;
 		padding: 0;
 		border: 0;
-		//background: #282a3a;
-		//color: #fff;
 		outline: none;
 		resize: none;
 	}

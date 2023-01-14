@@ -59,11 +59,6 @@
 
 	$: $postForm, _debounce();
 
-	$: {
-		$publishedAt
-		console.log($publishedAt.value);
-	}
-
 	const isReady = () => {
 		// if default state
 		if (!$content.dirty && !$tags.dirty && !$title.dirty && !$image.dirty) {
