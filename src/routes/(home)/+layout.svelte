@@ -26,6 +26,8 @@
 	const schema = [
 		{
 			'@type': 'ItemList',
+			'name': meta.title,
+			'numberOfItems': data.posts?.length,
 			itemListElement: data.posts?.map((r: Post, i: number) => ({
 				'@type': 'ListItem',
 				position: i + 1,
