@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+
 	export let schema: any;
 
 	// create schema with context
@@ -22,5 +24,7 @@
 </script>
 
 <svelte:head>
-	{@html json}
+	{#if !browser}
+		{@html json}
+	{/if}
 </svelte:head>
