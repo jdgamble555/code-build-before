@@ -1,30 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { RequestHandler } from './$types';
 import { encode } from 'j-supabase';
 import { settings } from '$lib/settings';
 import { supabase } from '$lib/supabase/supabase';
-import { error as sk_error } from '@sveltejs/kit';
-//import { Feed } from "feed";
+import { generateAtomFeed } from '$lib/seo/generate-feed';
+import { encodeXML } from '$lib/seo/xml-utils';
+import { marked } from 'marked';
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ url }) => {
 
-    return new Response("testing 1,2.3...");
-
-    /*const feed = new Feed({
+    const feed = new generateAtomFeed({
+        hostname: url.origin,
         title: settings.meta_title,
         description: settings.meta_description,
-        id: "https://code.build",
-        link: "https://code.build",
-        language: "en",
-        favicon: "https://code.build/favicon.ico",
-        copyright: "©2022 Code.Build",
-        feedLinks: {
-            atom: "https://code.build/feed"
-        },
-        author: {
-            name: "Jonathan Gamble",
-            link: "https://code.build/u/86qJ3nXSvhBPUbmdaMwUeb/jdgamble555"
-        }
+        link: settings.domain,
+        atomLink: settings.domain + '/feed',
+        language: 'en'
     });
 
     // post pages
@@ -38,31 +28,15 @@ export const GET: RequestHandler = async () => {
         feed.addItem({
             title: post.title,
             id: encode(post.id),
-            link: `https://code.build/p/${encode(post.id)}/${post.slug}`,
-            // description: post.description,
-            content: post.content,
-            date: new Date(post['published_at']),
-            image: post.image,
-            category: tags.map((t) => ({ name: t })) as any,
-            author: [{
-                name: post.author.display_name,
-                link: "https://code.build/u/" + encode(post.author.id) + '/' + post.author.username
-            }]
+            link: `p/${encode(post.id)}/${post.slug}`,
+            description: encodeXML(marked.parse(post.content)),
+            published: new Date(post['published_at']).toISOString(),
+            category: tags,
+            creator: post.author.display_name
         });
     });
 
-    try {
-
-        return new Response(feed.atom1(), {
-            headers: {
-                "Content-Type": "application/xml"
-            }
-        });
-
-    } catch (e: any) {
-        console.error(e);
-        throw sk_error(500, e);
-    }*/
-
-    return new Response();
+    return new Response(feed.generate(), {
+        headers: { "content-type": "application/xml" }
+    });
 };

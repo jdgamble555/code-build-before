@@ -53,11 +53,16 @@ export const GET: RequestHandler = async ({ url }) => {
         console.error(d4);
       }
       const date = d4 && d4.length ? new Date(d4[0]['updated_at']) : new Date(doc['updated_at']);
-      sitemap.addLink({
-        lastmod: date.toISOString(),
-        loc: `u/${uid}/${doc.username}`,
-        image: doc['photo_url']
-      });
+
+      // only add me
+      // todo - disallow test users, allow all other users
+      if (doc.username === 'jdgamble555') {
+        sitemap.addLink({
+          lastmod: date.toISOString(),
+          loc: `u/${uid}/${doc.username}`,
+          image: doc['photo_url']
+        });
+      }
     }
   }
 
