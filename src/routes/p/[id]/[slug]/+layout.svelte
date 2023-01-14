@@ -62,7 +62,7 @@
 		{
 			'@type': 'BreadcrumbList',
 			name: meta.title,
-			'@identifier': meta.pid,
+			'@identifier': meta.post_url,
 			numberOfItems: 1,
 			itemListElement: [
 				{

@@ -26,7 +26,7 @@
 		{
 			'@type': 'ItemList',
 			'name': meta.title,
-			'@identifier': data.uid,
+			'@identifier': settings.domain + '/u/' + data.uid + '/' + data.username,
 			'numberOfItems': data.posts?.length,
 			itemListElement: data.posts?.map((r: Post, i: number) => ({
 				'@type': 'ListItem',
