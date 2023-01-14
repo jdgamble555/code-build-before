@@ -5,11 +5,10 @@ import type { LayoutLoad } from './$types';
 const { getPosts } = read_post;
 
 export const load: LayoutLoad = async () => {
-  const tags = await getTags();
   const { data: posts, count: total } = await getPosts();
   return {
     total,
-    tags,
+    tags: getTags(),
     posts
   };
 };
