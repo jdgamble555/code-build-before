@@ -23,7 +23,7 @@
 	export let drafts: boolean = false;
 </script>
 
-{#if $postList}
+{#if $postList.length}
 	{#each $postList as post}
 		<PostDetail {post} isDraft={drafts} />
 	{/each}
@@ -35,4 +35,6 @@
 		showStepOptions={true}
 		on:setPage={turnPage}
 	/>
+{:else}
+	<p>There are no posts here yet.</p>
 {/if}

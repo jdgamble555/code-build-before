@@ -13,7 +13,7 @@
 
 <Card variant="outlined" padded>
 	<Content class="centered">
-		<h4 class="title-home">Welcome {user?.displayName}!</h4>
+		<h4 class="title-home">Welcome {user?.displayName || 'New User'}!</h4>
 	</Content>
 </Card>
 <DashboardTabs {user} />

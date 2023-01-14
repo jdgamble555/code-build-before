@@ -49,6 +49,6 @@
 </script>
 
 <Button on:click={like}>
-	<Icon class="material-icons red">{count > 0 ? 'favorite' : 'favorite_border'}</Icon>
+	<Icon class="material-icons red">{liked ? 'favorite' : 'favorite_border'}</Icon>
 	<Label class="no-bold">{count} like{count === 1 ? '' : 's'}</Label>
 </Button>

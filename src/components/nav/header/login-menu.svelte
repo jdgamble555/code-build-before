@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Menu, { SelectionGroupIcon } from '@smui/menu';
 	import List, { Item, Separator, Text } from '@smui/list';
-	import Button from '@smui/button';
+	import Button, { Icon } from '@smui/button';
 	import { auth } from '$lib/database';
 	import { goto } from '$app/navigation';
 	import Loader from '../loader.svelte';
@@ -13,14 +13,18 @@
 
 <div>
 	<Button class="no-bold" on:click={() => menu.setOpen && menu.setOpen(true)}>
-		{#if $user.data && !$user.loading && $user.data.photoURL}
-			<img
-				class="avatar"
-				src={$user.data.photoURL}
-				alt={$user.data.displayName}
-				width="35"
-				height="35"
-			/>
+		{#if $user.data && !$user.loading}
+			{#if $user.data.photoURL}
+				<img
+					class="avatar"
+					src={$user.data.photoURL}
+					alt={$user.data.displayName}
+					width="35"
+					height="35"
+				/>
+			{:else}
+				<Icon class="material-icons account-icon-main">account_circle</Icon>
+			{/if}
 		{:else}
 			<Loader white />
 		{/if}
@@ -71,7 +75,7 @@
 	</Menu>
 </div>
 
-<style>
+<style global>
 	.avatar {
 		width: 35px !important;
 		height: 35px !important;
@@ -79,5 +83,11 @@
 	}
 	.back {
 		color: #1e88e5;
+	}
+	.account-icon-main {
+		transform: scale(2);
+		margin-left: 30px;
+		margin-top: 30px;
+		margin-bottom: 30px;
 	}
 </style>
