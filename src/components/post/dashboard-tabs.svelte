@@ -35,15 +35,13 @@
 	onMount(loadPosts);
 
 	let active = 'Bookmarks';
+
+	const types =
+		user.role !== 'ADMIN' ? ['Bookmarks'] : ['Bookmarks', 'Posts', 'Drafts', 'Unpublished'];
 </script>
 
 <div class="card-filler">
-	<TabBar
-		tabs={['Bookmarks', 'Posts', 'Drafts', 'Unpublished']}
-		let:tab
-		bind:active
-		on:click={loadPosts}
-	>
+	<TabBar tabs={types} let:tab bind:active on:click={loadPosts}>
 		<Tab {tab}>
 			<Label class="no-bold">{tab}</Label>
 		</Tab>
