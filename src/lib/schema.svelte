@@ -24,7 +24,7 @@
 </script>
 
 <svelte:head>
-	{#if !browser}
+	{#if browser}
 		{@html json}
 	{/if}
 </svelte:head>
