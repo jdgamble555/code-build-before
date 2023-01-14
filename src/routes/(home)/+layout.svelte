@@ -8,6 +8,7 @@
 
 	import type { LayoutData } from './$types';
 	import type { Post } from '$lib/post.model';
+	import { browser } from '$app/environment';
 	export let data: LayoutData;
 
 	// navbars
@@ -77,6 +78,8 @@
 	}}
 />
 
-<Schema {schema} />
+{#if !browser}
+	<Schema {schema} />
+{/if}
 
 <slot />
