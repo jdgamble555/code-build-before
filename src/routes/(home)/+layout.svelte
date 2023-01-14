@@ -48,8 +48,6 @@
 	/>
 </svelte:head>
 
-<Schema {schema} />
-
 <MetaTags
 	title={meta.title}
 	description={meta.description}
@@ -78,5 +76,7 @@
 		handle: settings.meta_author
 	}}
 />
+
+<Schema {schema} />
 
 <slot />
