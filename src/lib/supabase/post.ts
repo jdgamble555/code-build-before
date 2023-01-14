@@ -94,6 +94,10 @@ export const supabase_post_read_adapter = {
             q = supabase.from(type === 'drafts' ? 'drafts' : 'posts_hearts_tags')
                 .select('*, author!inner(*)', { count: 'exact' });
 
+            if (type === 'unpublished') {
+                q = q.gt('published_at', new Date().toISOString());
+            }
+
             if (type !== 'drafts' && type !== 'unpublished') {
                 q = q.lt('published_at', new Date().toISOString());
             }
