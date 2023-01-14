@@ -61,8 +61,9 @@
 		},
 		{
 			'@type': 'BreadcrumbList',
-			'name': meta.title,
-			'numberOfItems': 1,
+			name: meta.title,
+			'@identifier': meta.pid,
+			numberOfItems: 1,
 			itemListElement: [
 				{
 					'@type': 'ListItem',
