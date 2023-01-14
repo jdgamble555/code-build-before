@@ -29,7 +29,7 @@
 		author_url: settings.domain + '/u/' + post.author.id + '/' + post.author.username,
 		tags_string: post.tags.join(', '),
 		minutes: post.minutes,
-		post_url: settings.domain + '/p/' + post.id + '/' + post.slug
+		post_url: settings.domain + '/p/' + post.id + '/' + post.slug 
 	};
 
 	const schema = [
