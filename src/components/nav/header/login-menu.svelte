@@ -14,7 +14,13 @@
 <div>
 	<Button class="no-bold" on:click={() => menu.setOpen && menu.setOpen(true)}>
 		{#if $user.data && !$user.loading && $user.data.photoURL}
-			<img class="avatar" src={$user.data.photoURL} alt={$user.data.displayName} width="35" height="35" />
+			<img
+				class="avatar"
+				src={$user.data.photoURL}
+				alt={$user.data.displayName}
+				width="35"
+				height="35"
+			/>
 		{:else}
 			<Loader white />
 		{/if}
@@ -39,19 +45,21 @@
 				</SelectionGroupIcon>
 				<Text>Bookmarks</Text>
 			</Item>
-			<Item on:SMUI:action={() => goto('/dashboard')}>
-				<SelectionGroupIcon>
-					<i class="material-icons back">account_box</i>
-				</SelectionGroupIcon>
-				<Text>My Posts</Text>
-			</Item>
-			<Separator />
-			<Item on:SMUI:action={() => goto('/new')}>
-				<SelectionGroupIcon>
-					<i class="material-icons back">post_add</i>
-				</SelectionGroupIcon>
-				<Text>New Post</Text>
-			</Item>
+			{#if $user.data && !$user.loading && $user.data.role !== 'USER'}
+				<Item on:SMUI:action={() => goto('/dashboard')}>
+					<SelectionGroupIcon>
+						<i class="material-icons back">account_box</i>
+					</SelectionGroupIcon>
+					<Text>My Posts</Text>
+				</Item>
+				<Separator />
+				<Item on:SMUI:action={() => goto('/new')}>
+					<SelectionGroupIcon>
+						<i class="material-icons back">post_add</i>
+					</SelectionGroupIcon>
+					<Text>New Post</Text>
+				</Item>
+			{/if}
 			<Separator />
 			<Item on:SMUI:action={logout}>
 				<SelectionGroupIcon>
