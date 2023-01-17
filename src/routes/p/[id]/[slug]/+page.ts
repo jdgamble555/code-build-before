@@ -24,21 +24,18 @@ export const load: PageLoad = async ({ params, setHeaders }) => {
             if (e) {
                 throw error(404, e);
             }
-            if (data) {
-                post = data;
-            }
+            post = data;
         }
-        if (!post) {
+        if (!post?.title) {
             throw error(404, 'Not found');
-        } else {
-            // redirect if slug is changed
-            if (post.slug !== slug) {
-                redirect(301, `/p/${id}/${slug}`);
-            } else {
-                return {
-                    post
-                };
-            }
         }
+        // redirect if slug is changed
+        if (post.slug !== slug) {
+            redirect(301, `/p/${id}/${slug}`);
+            return;
+        }
+        return {
+            post
+        };
     }
 };
