@@ -9,8 +9,10 @@
 
 	const post = $page.data.post as Post;
 
-	breadcrumbs.resetBC();
-	breadcrumbs.addBC(post.title);
+	$: {
+		breadcrumbs.resetBC();
+		breadcrumbs.addBC(post.title);
+	}
 
 	const meta = {
 		pid: post.id,
@@ -29,7 +31,7 @@
 		author_url: settings.domain + '/u/' + post.author.id + '/' + post.author.username,
 		tags_string: post.tags.join(', '),
 		minutes: post.minutes,
-		post_url: settings.domain + '/p/' + post.id + '/' + post.slug 
+		post_url: settings.domain + '/p/' + post.id + '/' + post.slug
 	};
 
 	const schema = [
