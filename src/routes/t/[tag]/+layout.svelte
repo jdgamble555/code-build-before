@@ -7,11 +7,13 @@
 
 	import type { LayoutData } from './$types';
 	import type { Post } from '$lib/post.model';
+	import { capitalizeFirstLetter } from '$lib/utils';
 	export let data: LayoutData;
 
 	$: {
+		const tag = capitalizeFirstLetter(data.tag as string);
 		breadcrumbs.resetBC();
-		breadcrumbs.addBC(data.tag as string);
+		breadcrumbs.addBC(tag);
 	}
 
 	const meta = {

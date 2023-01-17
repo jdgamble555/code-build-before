@@ -35,3 +35,5 @@ export function isValidURL(url: Optional<string>): boolean {
     }
     return _url.protocol === "http:" || _url.protocol === "https:";
 }
+
+export const capitalizeFirstLetter = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);

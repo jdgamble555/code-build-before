@@ -6,7 +6,7 @@
 	import IconButton, { Icon } from '@smui/icon-button';
 	import { goto } from '$app/navigation';
 	import Chip, { Set, Text } from '@smui/chips';
-	import PostMarkdown from './post-markdown.svelte';
+	import PostMarkdown from './markdown/post-markdown.svelte';
 	import Like from '@components/post/actions/like.svelte';
 	import { Separator } from '@smui/list';
 	import Actions from '@smui/card/src/Actions.svelte';

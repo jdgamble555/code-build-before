@@ -1,5 +1,5 @@
-import type { Optional, Post, PostInput, PostListRequest, PostRequest, UsernameRequest } from "$lib/post.model";
-import { decode, encode, range } from "j-supabase";
+import type { Optional, PostInput, PostListRequest, PostRequest, UsernameRequest } from "$lib/post.model";
+import { decode, range } from "j-supabase";
 import { supabase_to_post, type supabase_post } from "./auth.types";
 import { supabase } from "./supabase";
 
@@ -45,7 +45,7 @@ export const supabase_post_read_adapter = {
         if (error) {
             console.error(error);
         }
-        const p = data ? data.map((p) => ({ ...p, id: encode(p.id) })) as Post[] : null;
+        const p = data ? data?.map((_p: supabase_post) => supabase_to_post(_p)) : null;
         return { data: p, error: error?.message };
     },
 

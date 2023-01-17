@@ -63,7 +63,7 @@ export interface supabase_post {
     updated_at?: Optional<Date>;
     image?: Optional<string>;
     image_uploads?: Optional<string[]>;
-    tags: Optional<string[]>;
+    tags: string[];
     published_at: Date;
     hearts_count: number;
 };

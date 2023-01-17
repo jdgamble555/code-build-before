@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
 	import { CopyButtonPlugin } from '$lib/highlight-copy';
 	import ImageMarkdown from './image-markdown.svelte';
+	import LinkMarkdown from './link-markdown.svelte';
 
 	export let source: string;
 
@@ -25,4 +26,4 @@
 	});
 </script>
 
-<SvelteMarkdown renderers={{ image: ImageMarkdown }} {source} options={{ breaks: true }} />
+<SvelteMarkdown renderers={{ image: ImageMarkdown, link: LinkMarkdown }} {source} options={{ breaks: true }} />
