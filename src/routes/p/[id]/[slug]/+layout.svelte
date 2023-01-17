@@ -11,7 +11,7 @@
 
 	$: {
 		breadcrumbs.resetBC();
-		breadcrumbs.addBC(post.title);
+		breadcrumbs.addBC($page.data.post.title);
 	}
 
 	const meta = {
