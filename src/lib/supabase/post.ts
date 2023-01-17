@@ -40,8 +40,8 @@ export const supabase_post_read_adapter = {
     async searchPost(phrase: string): Promise<PostListRequest> {
 
         //const { data, error } = await this.sb.supabase.rpc('search_posts', { phrase });
-        const { data, error } = await supabase.from('search_posts').select('*')//.textSearch('content', phrase, { type: 'phrase', config: 'english' });
-            .or(`title.phfts.${phrase},content.phfts.${phrase},tags.phfts.${phrase}`);
+        const { data, error } = await supabase.from('posts_hearts_tags').select('*')//.textSearch('content', phrase, { type: 'phrase', config: 'english' });
+            .or(`title.phfts.${phrase},content.phfts.${phrase}`);
         if (error) {
             console.error(error);
         }

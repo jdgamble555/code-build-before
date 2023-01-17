@@ -9,10 +9,11 @@
 	import Loader from '../loader.svelte';
 	import type { Optional, Post } from '$lib/post.model';
 	import { read_post } from '$lib/database';
+	import { postDetail } from '$lib/post-store';
 
 	const { searchPost } = read_post;
 
-	let value: { id?: string; slug?: string } | undefined = undefined;
+	let value: Optional<Post> | undefined = undefined;
 
 	let timer: NodeJS.Timeout;
 
@@ -57,6 +58,7 @@
 					textfield$input$class="text-height"
 					on:SMUI:action={() => {
 						if (value) {
+							postDetail.set(value);
 							goto(`/p/${value.id}/${value.slug}`);
 							showSearch.set(false);
 							value = undefined;
