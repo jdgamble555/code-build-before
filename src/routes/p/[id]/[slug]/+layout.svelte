@@ -9,6 +9,8 @@
 
 	const post = $page.data.post as Post;
 
+	console.log(post);
+
 	$: {
 		breadcrumbs.resetBC();
 		breadcrumbs.addBC($page.data.post.title);
