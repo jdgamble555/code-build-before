@@ -21,7 +21,7 @@ export const load = (async ({ params, setHeaders }) => {
     if (slug && id) {
         // check for pre-loaded post
         if (browser) {
-            post = get(postDetail);
+            post = get(postDetail || null);
         }
         if (!post) {
             // otherwise grab post info
