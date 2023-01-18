@@ -31,7 +31,7 @@ export const load: LayoutLoad = async ({ params, setHeaders }) => {
             }
             post = data;
         }
-        if (!post?.title) {
+        if (!post) {
             throw error(404, 'Not found');
         }
         // redirect if slug is changed
