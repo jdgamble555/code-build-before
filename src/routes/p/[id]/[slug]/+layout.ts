@@ -1,12 +1,12 @@
 import { error, redirect } from '@sveltejs/kit';
 import { read_post } from '$lib/database';
-import type { PageLoad } from './$types';
+import type { LayoutLoad } from './$types';
 import { get } from 'svelte/store';
 import { postDetail } from '$lib/post-store';
 
 const { getPostById } = read_post;
 
-export const load: PageLoad = async ({ params, setHeaders }) => {
+export const load: LayoutLoad = async ({ params, setHeaders }) => {
 
     // cache for 3 days
     setHeaders({

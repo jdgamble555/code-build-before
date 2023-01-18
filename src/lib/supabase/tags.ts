@@ -4,6 +4,7 @@ import { supabase } from "./supabase";
 
 export const getTags = async (): Promise<{ data: Tag[] | null, error: any }> => {
     const { error, data } = await supabase.from('tag_cloud')
-        .select('*');
+        .select('*')
+        .order('name', { ascending: false });
     return { data: data as any, error };
 }
