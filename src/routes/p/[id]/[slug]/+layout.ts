@@ -20,6 +20,7 @@ export const load: LayoutLoad = async ({ params, setHeaders }) => {
         let post = get(postDetail);
         console.log(post);
         if (!post) {
+            console.log('getting post');
             // otherwise grab post info
             const { data, error: e } = await getPostById(id);
             if (e) {
