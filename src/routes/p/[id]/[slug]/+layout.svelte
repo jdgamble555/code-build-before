@@ -13,7 +13,7 @@
 
 	$: {
 		breadcrumbs.resetBC();
-		//breadcrumbs.addBC($page.data.post.title);
+		breadcrumbs.addBC($page.data.post.title);
 	};
 
 	let meta: any = undefined;

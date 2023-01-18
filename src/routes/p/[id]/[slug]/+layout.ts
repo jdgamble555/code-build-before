@@ -18,6 +18,7 @@ export const load: LayoutLoad = async ({ params, setHeaders }) => {
     if (slug && id) {
         // check for pre-loaded post
         let post = get(postDetail);
+        console.log(post);
         if (!post) {
             // otherwise grab post info
             const { data, error: e } = await getPostById(id);
