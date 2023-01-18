@@ -8,7 +8,7 @@ import type { Optional, Post } from '$lib/post.model';
 
 const { getPostById } = read_post;
 
-export const load: LayoutLoad = async ({ params, setHeaders }) => {
+export const load = (async ({ params, setHeaders }) => {
 
     // cache for 3 days
     setHeaders({
@@ -21,7 +21,7 @@ export const load: LayoutLoad = async ({ params, setHeaders }) => {
     if (slug && id) {
         // check for pre-loaded post
         if (browser) {
-            //post = get(postDetail);
+            post = get(postDetail);
         }
         if (!post) {
             // otherwise grab post info
@@ -43,4 +43,4 @@ export const load: LayoutLoad = async ({ params, setHeaders }) => {
             post
         };
     }
-};
+}) satisfies LayoutLoad;
