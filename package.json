@@ -48,6 +48,7 @@
 		"prettier-plugin-svelte": "^2.7.0",
 		"sass": "^1.55.0",
 		"smui-theme": "^7.0.0-beta.0",
+		"supabase": "^1.34.2",
 		"svelte": "^3.44.0",
 		"svelte-check": "^2.7.1",
 		"svelte-forms-lib": "^2.0.1",

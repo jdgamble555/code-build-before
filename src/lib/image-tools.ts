@@ -74,7 +74,7 @@ export const scaleImage = async (doc: any, src: any, type = 'image/png', newX?: 
 * @param event - file event
 * @returns - string blob of image
 */
-export const getPreviewImage = async (doc: any, event: Event,): Promise<Preview> => {
+export const getPreviewImage = async (doc: any, event: Event): Promise<Preview> => {
 
   // add event to image service
   const target = event.target as HTMLInputElement;

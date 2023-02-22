@@ -41,12 +41,7 @@ export const supabase_auth_adapter = {
             .eq('id', _user.id)
             .single()
             .subscribe(snap => {
-                if (snap.data) {
-
-                    // if exists, get data
-                    set({ loading: false, data: combine_auth_user(snap.data, _user) });
-                } else {
-
+                if (!snap.data) {
                     // if DNE, set create data
                     // will refresh subscription...
                     supabase.from('profiles').insert({
@@ -58,7 +53,11 @@ export const supabase_auth_adapter = {
                             console.error(error);
                         }
                     });
+                    return;
                 }
+                
+                // if exists, get data
+                set({ loading: false, data: combine_auth_user(snap.data, _user) });
             });
     }),
 
