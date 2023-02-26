@@ -23,7 +23,7 @@
 	export let drafts: boolean = false;
 </script>
 
-{#if $postList.length}
+{#if $postList?.length}
 	{#each $postList as post}
 		<PostDetail {post} isDraft={drafts} />
 	{/each}

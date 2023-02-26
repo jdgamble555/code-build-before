@@ -12,6 +12,7 @@
 	import Actions from '@smui/card/src/Actions.svelte';
 	import { auth } from '$lib/database';
 	import { postDetail } from '$lib/post-store';
+	import Share from './actions/share.svelte';
 
 	const { user } = auth;
 
@@ -89,6 +90,7 @@
 		<Actions class="flex-container">
 			{#if $user.data && !$user.loading && !preview}
 				<div>
+					<Share {post} />
 					<Save postId={post.id} userId={$user.data.id} />
 					<Like count={post.heartsCount} postId={post.id} userId={$user.data.id} />
 				</div>
@@ -99,6 +101,7 @@
 				{/if}
 			{:else}
 				<div>
+					<Share {post} />
 					<Save postId={post.id} />
 					<Like count={post.heartsCount} postId={post.id} />
 				</div>
