@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Post } from '$lib/post.model';
-	import Button, { Icon } from '@smui/button';
+	import Button, { Icon, Label } from '@smui/button';
 	import List, { Item } from '@smui/list';
 	import Menu from '@smui/menu';
 	import { copy } from 'svelte-copy';
@@ -20,7 +20,8 @@
 </script>
 
 <Button on:click={() => menu.setOpen(true)}>
-	<Icon class="material-icons">more_vert</Icon>
+	<Icon class="material-icons">share</Icon>
+	<Label class="no-bold">Share</Label>
 </Button>
 <Menu bind:this={menu}>
 	<List>

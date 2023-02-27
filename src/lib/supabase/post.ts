@@ -1,14 +1,23 @@
-import type { Optional, PostInput, PostListRequest, PostRequest, UsernameRequest } from "$lib/post.model";
+import type { Optional, Post, PostInput, PostListRequest, PostRequest, UsernameRequest } from "$lib/post.model";
 import { decode, range } from "j-supabase";
 import { supabase_to_post, type supabase_post } from "./auth.types";
 import { supabase } from "./supabase";
 
 export const supabase_post_read_adapter = {
 
+    async getRelated(id: string): Promise<PostListRequest> {
+        const pid = decode(id);
+        const { data, error } = await supabase.rpc('get_related_posts', { post_id: pid }).limit(3)
+        if (error) {
+            console.error(error);
+        }
+        return { data: data ? data?.map((_p: supabase_post) => supabase_to_post(_p)) : null, error: error?.message };
+    },
+
     async getPostById(id: string, published = true): Promise<PostRequest> {
         const pid = decode(id);
         let error;
-        let data: Optional<supabase_post>;
+        let data: unknown;
 
         const x = (pub: boolean) => supabase.from(pub ? 'posts_hearts_tags' : 'drafts')
             .select('*, author!inner(*)').eq('id', pid).single();
@@ -28,7 +37,8 @@ export const supabase_post_read_adapter = {
                 console.error(error);
             }
         }
-        return { data: data ? supabase_to_post(data) : undefined, error: error?.message };
+
+        return { data: data ? supabase_to_post(data as supabase_post) : undefined, error: error?.message };
     },
 
     async getUsernameFromId(uid: string): Promise<UsernameRequest> {
@@ -45,7 +55,7 @@ export const supabase_post_read_adapter = {
         if (error) {
             console.error(error);
         }
-        const p = data ? data?.map((_p: supabase_post) => supabase_to_post(_p)) : null;
+        const p = data ? data?.map((_p) => supabase_to_post(_p as supabase_post)) : null;
         return { data: p, error: error?.message };
     },
 
@@ -83,7 +93,7 @@ export const supabase_post_read_adapter = {
 
         const error = null;
         let count = null;
-        let data = null;
+        let data: unknown = null;
 
         let q;
 
@@ -124,8 +134,8 @@ export const supabase_post_read_adapter = {
         if (count && count > 0) {
 
             // translate results
-            data = data?.map((_p: supabase_post) => supabase_to_post(_p));
+            data = (data as supabase_post[])?.map((_p) => supabase_to_post(_p as supabase_post));
         }
-        return { error, data, count };
+        return { error, data: (data as Optional<Post[]>), count };
     }
 };

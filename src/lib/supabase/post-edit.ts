@@ -66,7 +66,7 @@ export const supabase_post_edit_adapter = {
                 console.error(_e);
             }
         }
-        return { error: error?.message, data: {..._d, id: encode(_d.id) } };
+        return { error: error?.message, data: {..._d, id: encode(_d?.id) } as Post };
     },
 
     /**

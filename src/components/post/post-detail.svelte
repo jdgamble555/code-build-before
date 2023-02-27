@@ -13,6 +13,8 @@
 	import { auth } from '$lib/database';
 	import { postDetail } from '$lib/post-store';
 	import Share from './actions/share.svelte';
+	import PostDetail from './post-detail.svelte';
+	import { page } from '$app/stores';
 
 	const { user } = auth;
 
@@ -20,6 +22,7 @@
 	export let details = false;
 	export let preview = false;
 	export let isDraft = false;
+	export let related = false;
 
 	const navigate = (edit = false) => {
 		// navigate to edit or form page
@@ -33,11 +36,11 @@
 <svelte:head />
 <div class="post">
 	<Card variant="outlined" padded>
-		{#if post.image}
+		{#if post.image && !related}
 			<img class="image" src={post.image} alt={post.title} width="1250" height="650" />
 		{/if}
 		<Content>
-			<div on:click={() => navigate()} on:keypress={() => navigate()}>
+			<div on:click={() => navigate()} on:keypress={() => navigate()} class={related ? 'no-margin' : ''}>
 				<h2 class="ng-link">
 					<span class="blue material-icons card-icon">library_books</span>
 					{post.title}
@@ -90,9 +93,9 @@
 		<Actions class="flex-container">
 			{#if $user.data && !$user.loading && !preview}
 				<div>
-					<Share {post} />
 					<Save postId={post.id} userId={$user.data.id} />
 					<Like count={post.heartsCount} postId={post.id} userId={$user.data.id} />
+					<Share {post} />
 				</div>
 				{#if post.author.id === $user.data.id}
 					<IconButton class="material-icons" on:click={() => navigate(true)} title="Edit">
@@ -101,17 +104,30 @@
 				{/if}
 			{:else}
 				<div>
-					<Share {post} />
 					<Save postId={post.id} />
 					<Like count={post.heartsCount} postId={post.id} />
+					<Share {post} />
 				</div>
 			{/if}
 		</Actions>
 	</Card>
 </div>
 <br />
+{#if details}
+	<h2>Related Posts</h2>
+	{#if $page.data.related?.length}
+		{#each $page.data.related as post}
+			<PostDetail {post} related />
+		{/each}
+	{:else}
+		<p>There are no posts here yet.</p>
+	{/if}
+{/if}
 
 <style>
+	.no-margin {
+		margin: -20px 0;
+	}
 	.tag-set {
 		margin-top: 20px;
 		margin-left: -20px;

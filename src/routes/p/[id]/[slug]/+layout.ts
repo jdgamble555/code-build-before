@@ -3,7 +3,7 @@ import { read_post } from '$lib/database';
 import type { LayoutLoad } from './$types';
 import type { Optional, Post } from '$lib/post.model';
 
-const { getPostById } = read_post;
+const { getPostById, getRelated } = read_post;
 
 export const load = (async ({ params, setHeaders }) => {
 
@@ -35,8 +35,15 @@ export const load = (async ({ params, setHeaders }) => {
             redirect(301, `/p/${id}/${slug}`);
             return;
         }
+
+        // get related posts
+        const { data, error: r_error } = await getRelated(id);
+        if (r_error) {
+            console.error(r_error);
+        }
         return {
-            post
+            post,
+            related: data
         };
     }
 }) satisfies LayoutLoad;
