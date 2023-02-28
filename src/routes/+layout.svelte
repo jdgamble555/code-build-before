@@ -20,6 +20,11 @@
 
 <svelte:head>
 	<link rel="stylesheet" id="theme" href="/smui{$darkMode ? '-dark' : ''}.css" />
+	<script
+		async
+		src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6532644608556126"
+		crossorigin="anonymous"
+	></script>
 </svelte:head>
 
 {#if browser}
