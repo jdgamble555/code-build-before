@@ -8,12 +8,15 @@
 	import { browser } from '$app/environment';
 	import type { LayoutData } from './$types';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
+	import Analytics from '$lib/analytics.svelte';
 
 	export let data: LayoutData;
 
 	beforeNavigate(() => loading.set(true));
 	afterNavigate(() => loading.set(false));
 </script>
+
+<Analytics />
 
 <svelte:head>
 	<link rel="stylesheet" id="theme" href="/smui{$darkMode ? '-dark' : ''}.css" />
