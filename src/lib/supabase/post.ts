@@ -14,6 +14,15 @@ export const supabase_post_read_adapter = {
         return { data: data ? data?.map((_p: supabase_post) => supabase_to_post(_p)) : null, error: error?.message };
     },
 
+    async getRedirect(id: string): Promise<PostRequest> {
+        const pid = decode(id);
+        const { data, error } = await supabase.from('posts_redirect').select('*, new_id!inner(*)').eq('id', pid).single();
+        if (error) {
+            console.error(error);
+        }
+        return { data: data ? supabase_to_post(data as supabase_post) : undefined, error: error?.message };
+    },
+
     async getPostById(id: string, published = true): Promise<PostRequest> {
         const pid = decode(id);
         let error;

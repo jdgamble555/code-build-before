@@ -3,7 +3,7 @@ import { read_post } from '$lib/database';
 import type { LayoutLoad } from './$types';
 import type { Optional, Post } from '$lib/post.model';
 
-const { getPostById, getRelated } = read_post;
+const { getPostById, getRelated, getRedirect } = read_post;
 
 export const load = (async ({ params, setHeaders }) => {
 
@@ -22,17 +22,25 @@ export const load = (async ({ params, setHeaders }) => {
         if (!post) {
             // otherwise grab post info
             const { data, error: e } = await getPostById(id);
-            if (e) {
-                throw error(404, e);
+            if (e || !data) {
+                const { data: r_data, error: r_error } = await getRedirect(id);
+                if (r_error) {
+                    console.error(r_error);
+                }
+                if (e) {
+                    console.error(e);
+                }
+                if (r_data) {
+                    redirect(301, `/p/${r_data.id}/${r_data.slug}`);
+                    return;
+                }
+                throw error(404, 'Not found');
             }
             post = data;
         }
-        if (!post) {
-            throw error(404, 'Not found');
-        }
         // redirect if slug is changed
         if (post.slug !== slug) {
-            redirect(301, `/p/${id}/${slug}`);
+            redirect(301, `/p/${id}/${post.slug}`);
             return;
         }
 
