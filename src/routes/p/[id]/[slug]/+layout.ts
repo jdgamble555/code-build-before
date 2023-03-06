@@ -23,16 +23,9 @@ export const load = (async ({ params, setHeaders }) => {
             // otherwise grab post info
             const { data, error: e } = await getPostById(id);
             if (e || !data) {
-                const { data: r_data, error: r_error } = await getRedirect(id);
-                if (r_error) {
-                    console.error(r_error);
-                }
-                if (e) {
-                    console.error(e);
-                }
+                const { data: r_data } = await getRedirect(id);
                 if (r_data) {
-                    redirect(301, `/p/${r_data.id}/${r_data.slug}`);
-                    return;
+                    throw redirect(301, `/p/${r_data.id}/${r_data.slug}`);
                 }
                 throw error(404, 'Not found');
             }
@@ -40,8 +33,7 @@ export const load = (async ({ params, setHeaders }) => {
         }
         // redirect if slug is changed
         if (post.slug !== slug) {
-            redirect(301, `/p/${id}/${post.slug}`);
-            return;
+            throw redirect(301, `/p/${id}/${post.slug}`);
         }
 
         // get related posts

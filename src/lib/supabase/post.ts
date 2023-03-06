@@ -16,17 +16,19 @@ export const supabase_post_read_adapter = {
 
     async getRedirect(id: string): Promise<PostRequest> {
         const pid = decode(id);
-        const { data, error } = await supabase.from('posts_redirect').select('*, new_id!inner(*)').eq('id', pid).single();
+        const { data, error } = await supabase.from('posts_redirect').select('*, new_id!inner(*, author!inner(*))').eq('id', pid).single();
         if (error) {
             console.error(error);
         }
-        return { data: data ? supabase_to_post(data as supabase_post) : undefined, error: error?.message };
+        const new_data = data ? data.new_id : undefined;
+        return { data: new_data ? supabase_to_post(new_data as supabase_post) : undefined, error: error?.message };
     },
 
     async getPostById(id: string, published = true): Promise<PostRequest> {
         const pid = decode(id);
         let error;
-        let data: unknown;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let data: any;
 
         const x = (pub: boolean) => supabase.from(pub ? 'posts_hearts_tags' : 'drafts')
             .select('*, author!inner(*)').eq('id', pid).single();

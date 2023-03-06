@@ -33,7 +33,7 @@ export const load: PageLoad = async ({ params, setHeaders }) => {
         } else {
             // redirect if slug is changed
             if (post.slug !== slug) {
-                redirect(301, `/p/${id}/${slug}`);
+                throw redirect(301, `/p/${id}/${slug}`);
             } else {
                 return {
                     post
