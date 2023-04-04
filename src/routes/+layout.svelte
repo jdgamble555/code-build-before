@@ -5,7 +5,6 @@
 	import Leftnav from '@components/nav/leftnav.svelte';
 	import Footer from '@components/nav/footer.svelte';
 	import Message from '@components/message.svelte';
-	import { browser } from '$app/environment';
 	import type { LayoutData } from './$types';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import Analytics from '$lib/analytics.svelte';
@@ -27,9 +26,7 @@
 	></script>
 </svelte:head>
 
-{#if browser}
-	<Message />
-{/if}
+<Message />
 <main class="{$darkMode ? 'dark' : 'light'}-theme">
 	<Header />
 	<div class="content-container">
