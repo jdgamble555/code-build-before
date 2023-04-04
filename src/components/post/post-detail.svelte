@@ -42,7 +42,7 @@
 				on:keypress={() => navigate()}
 				class={related ? 'no-margin' : ''}
 			>
-				<img class="image" src={post.image} alt={post.title} width="1250" height="650" />
+				<img class="image ng-link" src={post.image} alt={post.title} width="1250" height="650" />
 			</div>
 		{/if}
 		<Content>
