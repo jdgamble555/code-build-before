@@ -37,10 +37,20 @@
 <div class="post">
 	<Card variant="outlined" padded>
 		{#if post.image && !related}
-			<img class="image" src={post.image} alt={post.title} width="1250" height="650" />
+			<div
+				on:click={() => navigate()}
+				on:keypress={() => navigate()}
+				class={related ? 'no-margin' : ''}
+			>
+				<img class="image" src={post.image} alt={post.title} width="1250" height="650" />
+			</div>
 		{/if}
 		<Content>
-			<div on:click={() => navigate()} on:keypress={() => navigate()} class={related ? 'no-margin' : ''}>
+			<div
+				on:click={() => navigate()}
+				on:keypress={() => navigate()}
+				class={related ? 'no-margin' : ''}
+			>
 				<h2 class="ng-link">
 					<span class="blue material-icons card-icon">library_books</span>
 					{post.title}
