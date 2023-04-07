@@ -70,11 +70,11 @@
 	{/if}
 </div>
 
-<style global>
+<style>
 	.image-box {
 		margin-bottom: 20px;
 	}
-	.account-icon {
+	:global(.account-icon) {
 		transform: scale(4);
 		margin-left: 30px;
 		margin-top: 30px;

@@ -75,7 +75,7 @@
 	</Menu>
 </div>
 
-<style global>
+<style>
 	.avatar {
 		width: 35px !important;
 		height: 35px !important;
@@ -84,7 +84,7 @@
 	.back {
 		color: #1e88e5;
 	}
-	.account-icon-main {
+	:global(.account-icon-main) {
 		transform: scale(2);
 		margin-left: 30px;
 		margin-top: 30px;

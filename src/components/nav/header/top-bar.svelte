@@ -47,8 +47,8 @@
 	</div>
 </TopAppBar>
 
-<style global>
-	.top-color {
+<style>
+	:global(.top-color) {
 		background-color: #1e88e5 !important;
 		color: #fff !important;
 		margin: 0 !important;

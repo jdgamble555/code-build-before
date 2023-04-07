@@ -71,8 +71,8 @@
 	</Button>
 </form>
 
-<style global>
-	.text-size {
+<style>
+	:global(.text-size) {
 		width: 250px;
 	}
 </style>

@@ -218,11 +218,17 @@
 </Card>
 <br />
 
-<style lang="scss" global>
-	.text-size {
+<style lang="scss">
+	:global(.text-size) {
 		width: 100% !important;
 	}
-	.space {
+	:global(.space) {
 		margin: 0 5px 0 5px;
+	}
+	:global(.pointer) {
+		cursor: pointer !important;
+	}
+	:global(.text-height) {
+		height: 50px;
 	}
 </style>

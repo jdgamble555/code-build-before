@@ -13,6 +13,4 @@
 	/>
 </center>
 
-<style lang="scss" global>
-	@import './loader.scss';
-</style>
+

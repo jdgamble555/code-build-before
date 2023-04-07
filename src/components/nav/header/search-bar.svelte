@@ -84,14 +84,14 @@
 	</div>
 </TopAppBar>
 
-<style global>
-	.search-bar-button {
+<style>
+	:global(.search-bar-button) {
 		color: #000 !important;
 	}
-	.search-bar-button-dark {
+	:global(.search-bar-button-dark) {
 		color: #fff !important;
 	}
-	.text-height {
+	:global(.text-height) {
 		margin-top: 10px !important;
 	}
 	.top-search-color {
@@ -100,17 +100,17 @@
 	.top-search-color-dark {
 		background-color: #424242 !important;
 	}
-	.search-button {
+	:global(.search-button) {
 		max-width: 50px;
 	}
-	.auto-complete {
+	:global(.auto-complete) {
 		width: 100% !important;
 		margin-bottom: 30px !important;
 	}
 	.row {
 		margin: 0;
 	}
-	.mdc-text-field {
+	:global(.mdc-text-field) {
 		width: 100% !important;
 	}
 </style>

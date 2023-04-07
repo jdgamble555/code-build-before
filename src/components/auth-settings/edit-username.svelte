@@ -74,11 +74,11 @@
 	</form>
 </div>
 
-<style global>
-	.text-size {
+<style>
+	:global(.text-size) {
 		width: 100% !important;
 	}
-	.item-space {
+	:global(.item-space) {
 		margin: 20px 0 20px 0;
 	}
 	.error {

@@ -56,20 +56,20 @@
 	</Card>
 </div>
 
-<style global>
-	.error {
+<style>
+	:global(.error) {
 		color: red;
 	}
-	.helper {
+	:global(.helper) {
 		margin: auto;
 		width: 50%;
 	}
-	.g-button {
+	:global(.g-button) {
 		background-color: rgb(219, 14, 14) !important;
 		color: white !important;
 		font-weight: bold;
 	}
-	.a-button {
+	:global(.a-button) {
 		background-color: #a2babd !important;
 		color: white !important;
 		font-weight: bold;
@@ -77,10 +77,10 @@
 	.margin-spacer {
 		margin: 20px;
 	}
-	.button-size {
+	:global(.button-size) {
 		width: 250px;
 	}
-	.icon-color {
+	:global(.icon-color) {
 		color: #1e88e5 !important;
 	}
 	.login-container {

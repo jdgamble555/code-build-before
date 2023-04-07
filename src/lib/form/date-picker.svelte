@@ -40,18 +40,3 @@
 >
 	<Icon class="material-icons" slot="leadingIcon">event</Icon>
 </Textfield>
-
-<style lang="scss" global>
-	.pointer {
-		cursor: pointer !important;
-	}
-	.text-size {
-		width: 100% !important;
-	}
-	.space {
-		margin: 0 5px 0 5px;
-	}
-	.text-height {
-		height: 50px;
-	}
-</style>

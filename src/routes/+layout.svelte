@@ -47,7 +47,7 @@
 	</div>
 </main>
 
-<style global lang="scss">
+<style lang="scss">
 	.content-container {
 		display: flex;
 		justify-content: center;
@@ -84,7 +84,7 @@
 	}
 
 	@media (max-width: 699px) {
-		.tag_list > li {
+		:global(.tag_list > li) {
 			display: inline-block;
 			margin-left: 5px;
 		}
@@ -116,7 +116,7 @@
 				'footer footer';
 		}
 
-		nav ul {
+		:global(nav ul) {
 			flex-direction: column;
 		}
 	}

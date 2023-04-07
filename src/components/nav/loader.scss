@@ -1,7 +1,0 @@
-@use '@material/circular-progress/index' as circular-progress;
-@use '@material/theme/index' as theme;
-
-.white-circle {
-    @include circular-progress.color(white);
-    @include circular-progress.track-color(white);
-}

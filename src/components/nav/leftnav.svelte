@@ -16,8 +16,8 @@
 	</Set>
 </Card>
 
-<style global>
-	.center {
+<style>
+	:global(.center) {
 		text-align: center;
 	}
 </style>
