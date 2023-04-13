@@ -6,6 +6,7 @@ import { generateAtomFeed } from '$lib/seo/generate-feed';
 import { encodeXML } from '$lib/seo/xml-utils';
 import { marked } from 'marked';
 
+
 export const GET: RequestHandler = async ({ url }) => {
 
     const feed = new generateAtomFeed({
