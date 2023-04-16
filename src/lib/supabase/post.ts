@@ -114,11 +114,14 @@ export const supabase_post_read_adapter = {
         let q;
 
         if (type === 'bookmarks') {
-            q = supabase.rpc('post_bookmarks', undefined, { count: 'exact' })
-                .select('*, author!inner(*)')
+            q = supabase.rpc('post_bookmarks', undefined, { count: 'exact' });
         } else {
-            q = supabase.from(type === 'drafts' ? 'drafts' : 'posts_hearts_tags')
+            if (type === 'drafts') {
+                q = supabase.from('drafts')
                 .select('*, author!inner(*)', { count: 'exact' });
+            } else {
+                q = supabase.rpc('get_posts_hearts_tags', undefined, { count: 'exact' });
+            }              
 
             if (type === 'unpublished') {
                 q = q.gt('published_at', new Date().toISOString());
@@ -144,7 +147,8 @@ export const supabase_post_read_adapter = {
         const { to, from } = range({ page, size });
 
         // get results
-        ({ data, count } = await q.order(sortField, { ascending: false }).range(from, to));
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ({ data, count } = await q.order(sortField, { ascending: false } as any).range(from, to));
 
 
         if (count && count > 0) {
