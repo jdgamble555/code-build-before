@@ -67,7 +67,7 @@ export const GET: RequestHandler = async ({ url }) => {
   }
 
   // tag pages
-  const { data: d2, error: e2 } = await supabase.from('tags_latest').select('*');
+  const { data: d2, error: e2 } = await supabase.rpc('get_tags_latest').select('*');
   if (e2) {
     console.error(e2);
   }

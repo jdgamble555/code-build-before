@@ -11,6 +11,8 @@
 			});
 		}
 	}
+
+	// TODO - add partytown - https://partytown.builder.io/sveltekit
 </script>
 
 <svelte:head>

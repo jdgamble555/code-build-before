@@ -30,8 +30,13 @@ export const supabase_post_read_adapter = {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let data: any;
 
-        const x = (pub: boolean) => supabase.from(pub ? 'posts_hearts_tags' : 'drafts')
-            .select('*, author!inner(*)').eq('id', pid).single();
+        const x = (pub: boolean) => {
+            if (!pub) {
+                return supabase.from('drafts')
+                    .select('*, author!inner(*)').eq('id', pid).single();
+            }
+            return supabase.rpc('get_posts_hearts_tags').eq('id', pid).single();
+        }
 
         // draft
         if (!published) {
