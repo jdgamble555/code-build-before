@@ -23,7 +23,7 @@
 	<Icon class="material-icons">share</Icon>
 	<Label class="no-bold">Share</Label>
 </Button>
-<Menu bind:this={menu}>
+<Menu bind:this={menu} anchorCorner="BOTTOM_LEFT">
 	<List>
 		<button
 			use:copy={url}
