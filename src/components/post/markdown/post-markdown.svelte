@@ -8,6 +8,7 @@
 	import { CopyButtonPlugin } from '$lib/highlight-copy';
 	import ImageMarkdown from './image-markdown.svelte';
 	import LinkMarkdown from './link-markdown.svelte';
+	import CodespanMarkdown from './codespan-markdown.svelte';
 
 	export let source: string;
 
@@ -26,4 +27,4 @@
 	});
 </script>
 
-<SvelteMarkdown renderers={{ image: ImageMarkdown, link: LinkMarkdown }} {source} options={{ breaks: true }} />
+<SvelteMarkdown renderers={{ image: ImageMarkdown, link: LinkMarkdown, codespan: CodespanMarkdown }} {source} options={{ breaks: true }} />
