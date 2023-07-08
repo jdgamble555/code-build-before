@@ -56,12 +56,3 @@ export const dialogStore = (() => {
         toggle: () => update(v => ({ ...v, show: !v.show }))
     }
 })();
-
-/*
-export const test = new (class {
-    private me: boolean;
-    constructor() {
-        this.me = true;
-    }
-})();
-*/

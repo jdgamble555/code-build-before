@@ -101,9 +101,6 @@ const oAuth = async (provider: 'google' | 'apple'): Promise<AuthError | null> =>
     });
     if (error) {
         console.error(error);
-    }
-    if (error) {
-        console.error(error);
         return error;
     }
     return null;
