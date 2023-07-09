@@ -121,7 +121,8 @@ export const supabase_post_read_adapter = {
                 .select('*, author!inner(*)', { count: 'exact' });
             } else {
                 q = supabase.rpc('get_posts_hearts_tags', undefined, { count: 'exact' });
-            }              
+            }
+
 
             if (type === 'unpublished') {
                 q = q.gt('published_at', new Date().toISOString());
@@ -139,7 +140,7 @@ export const supabase_post_read_adapter = {
                 } else if (type === 'author') {
 
                     // author query
-                    q = q.eq('author.id', decode(filter));
+                    //q = q.eq('author.id', decode(filter));
                 }
             }
         }

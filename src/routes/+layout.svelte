@@ -8,6 +8,7 @@
 	import type { LayoutData } from './$types';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import Analytics from '$lib/analytics.svelte';
+	import { dev } from '$app/environment';
 
 	export let data: LayoutData;
 
@@ -19,11 +20,13 @@
 
 <svelte:head>
 	<link rel="stylesheet" id="theme" href="/smui{$darkMode ? '-dark' : ''}.css" />
-	<script
-		async
-		src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6532644608556126"
-		crossorigin="anonymous"
-	></script>
+	{#if !dev}
+		<script
+			async
+			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6532644608556126"
+			crossorigin="anonymous"
+		></script>
+	{/if}
 </svelte:head>
 
 <Message />
